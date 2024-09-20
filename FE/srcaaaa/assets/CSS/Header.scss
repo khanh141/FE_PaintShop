@@ -1,0 +1,25 @@
+.navbar {
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  z-index: 1000;
+  font-family: "Poppins Regular", sans-serif;
+
+  .logo {
+    height: 70px;
+  }
+  li {
+    a {
+      &:hover {
+        background-color: rgb(134, 216, 227);
+      }
+    }
+    a,
+    i {
+      &:hover {
+        color: white !important;
+      }
+    }
+  }
+}
