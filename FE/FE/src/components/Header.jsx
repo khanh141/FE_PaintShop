@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import "../CSS/Header.scss"
+import "C:/Users/DELL/OneDrive/Desktop/FE_PaintShop/FE/FE/src/assets/CSS/Header.scss"
 export default function Header() {
   return (<div >
     <nav className="navbar navbar-expand-lg BG" >

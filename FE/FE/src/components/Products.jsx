@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import testDataInFile from "../../testData.json";
+import testDataInFile from '../testData.json';
 import Card from '../components/Card';
 import FilterBar from './FilterBar.jsx';
-import 'C:/Users/DELL/OneDrive/Desktop/Nien_Luan_NganhKTPM/FE/FE/src/assets/CSS/Body.scss';
+import 'C:/Users/DELL/OneDrive/Desktop/FE_PaintShop/FE/FE/src/assets/CSS/Body.scss';
 import PaintType from './PaintType.jsx';
 
 function Products() {

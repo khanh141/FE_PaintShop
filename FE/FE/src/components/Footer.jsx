@@ -1,4 +1,4 @@
-import "../CSS/Footer.scss"
+import 'C:/Users/DELL/OneDrive/Desktop/FE_PaintShop/FE/FE/src/assets/CSS/Footer.scss'
 
 export default function Footer() {
   return (
