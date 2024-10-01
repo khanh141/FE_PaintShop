@@ -30,7 +30,7 @@ export default function Header() {
               <a
                 className="nav-link text-black fs-5 rounded-pill px-3 my-2"
                 aria-current="page"
-                href="./index.html"
+                href="./index"
               >Trang Chủ</a
               >
             </li>
@@ -51,14 +51,14 @@ export default function Header() {
             <li className="nav-item px-2">
               <a
                 className="nav-link text-black fs-5 rounded-pill px-3 my-2"
-                href="#"
+                href="signup"
               >Đăng Ký</a
               >
             </li>
             <li className="nav-item px-2">
               <a
                 className="nav-link text-black fs-5 rounded-pill px-3 my-2"
-                href="#"
+                href="login"
               >Đăng Nhập</a
               >
             </li>
