@@ -1,9 +1,8 @@
-import "../CSS/Footer.scss"
 
 export default function Footer() {
   return (
     <div >
-      <footer className="footer row">
+      <footer className="footer row mt-5">
         <div className="container-fluid">
           <div
             className="row p-5 d-flex justify-content-center text-xxl-start text-center"
@@ -16,7 +15,6 @@ export default function Footer() {
             {/* <div className="col-md-3">
           </div> */}
             <div className="contact col-md-3">
-              <h6>Mã số thuế : 1801629377</h6>
               <h6>Điện thoại: 0917 72 72 69 (Mr. Bằng)</h6>
               <h6>Email: tungdungcantho@gmail.com</h6>
             </div>

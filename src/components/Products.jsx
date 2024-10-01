@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import testDataInFile from '../testData.json';
 import Card from '../components/Card';
 import FilterBar from './FilterBar.jsx';
-import 'C:/Users/DELL/OneDrive/Desktop/FE_PaintShop/FE/FE/src/assets/CSS/Body.scss';
 import PaintType from './PaintType.jsx';
 
 function Products() {
@@ -21,7 +20,7 @@ function Products() {
   return (
     <div className="productList">
       <FilterBar products={testData} onFilterChange={handleFilterChange} />
-      <PaintType className="" type={"Nước sơn"}/>
+      <PaintType className="" type={"Nước sơn"} />
       <hr />
       <div className="row">
         {testData.slice(0, displayedCards).map((product, index) => (
@@ -48,7 +47,7 @@ function Products() {
       </div>
     </div>
   );
-  
+
 }
 
 export default Products;

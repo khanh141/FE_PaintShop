@@ -1,11 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import "../CSS/Header.scss"
 export default function Header() {
   return (<div >
     <nav className="navbar navbar-expand-lg BG" >
       <div className="container-fluid" >
-        <a className="navbar-brand text-black" href="./index.html"
+        <a className="navbar-brand text-black fs-3" href="./index.html"
         >
           {/* TODO: can dua hinh anh qua noi khac luu tru */}
           <img
@@ -23,7 +22,6 @@ export default function Header() {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          {/* <span className="text-black"><i className="fa-solid fa-bars"></i></span> */}
           <span className="text-black"><FontAwesomeIcon icon={faBars} /></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -36,20 +34,13 @@ export default function Header() {
               >Trang Chủ</a
               >
             </li>
-            <li className="nav-item px-2">
+            {/* <li className="nav-item px-2">
               <a
                 className="nav-link text-black fs-5 rounded-pill px-3 my-2"
                 href="#"
               >Sản Phẩm</a
               >
-            </li>
-            {/* <li className="nav-item px-2">
-                <a
-                  className="nav-link text-black fs-5 rounded-pill px-3 my-2"
-                  href="#"
-                  >Dịch Vụ</a
-                >
-              </li> */}
+            </li> */}
             <li className="nav-item px-2">
               <a
                 className="nav-link text-black fs-5 rounded-pill px-3 my-2"
