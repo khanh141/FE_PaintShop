@@ -12,6 +12,7 @@ import Login from './pages/Login.jsx';
 import './assets/CSS/Body.scss'
 import './assets/CSS/Header.scss'
 import './assets/CSS/Footer.scss'
+import ProductDetail from './pages/ProductDetail.jsx';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
+          {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
+          <Route path='/productDetail' element={<ProductDetail />}></Route>
         </Routes>
       </BrowserRouter>
       < Footer />

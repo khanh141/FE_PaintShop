@@ -1,27 +1,37 @@
 body {
-    background: linear-gradient(to right bottom, white, white, rgb(141, 243, 243), rgba(150, 231, 242, 0.5));
-    .card {
-        position: relative;
-        .card-img-top {
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            display: block;
-        }
-        &:hover .card-img-top {
-            transform: scale(1.1);
-        }
+  a {
+    text-decoration: none;
+  }
+  background: linear-gradient(
+    to right bottom,
+    white,
+    white,
+    rgb(141, 243, 243),
+    rgba(150, 231, 242, 0.5)
+  );
+  .card {
+    position: relative;
+    overflow: hidden;
+    .card-img-top {
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      display: block;
     }
-    .PaintType {
-        .type {
-            // width: 100%;
-            background-color: burlywood;
-            font-weight: bold;
-            border: none;
-            padding: 0;
-            margin: 0;
-        }
-        &:hover .type {
-            background-color: aqua;
-        }
+    &:hover .card-img-top {
+      transform: scale(1.1);
     }
+  }
+  .PaintType {
+    .type {
+      // width: 100%;
+      background-color: burlywood;
+      font-weight: bold;
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+    &:hover .type {
+      background-color: aqua;
+    }
+  }
 }
