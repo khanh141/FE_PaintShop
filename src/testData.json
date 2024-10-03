@@ -1,7 +1,8 @@
 [
-    {
+    {   
+        "id": "0ea10c9e-6752-5f0a-b8e7-5f91652f05fb",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Ruth Clarke",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -10,8 +11,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "b124509c-dc09-5460-bf11-edbdec62b053",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Connor Allison",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -20,8 +22,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "4d632f53-61e6-575f-b2f3-9085d9547f10",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Leah Vaughn",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -30,8 +33,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "4bbf0438-9d5c-5e3c-84a3-c3de31606e82",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Lina Flowers",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -40,8 +44,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "4b13dabf-d265-5187-aad4-bc159d32d00c",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Bobby Foster",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -50,8 +55,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "42e018e6-5b05-57e7-b76c-d11d0bb3aa3a",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Melvin Peters",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -60,8 +66,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "afc96a6b-daa8-55c1-88ec-54a829d8d549",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Arthur Boone",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -70,8 +77,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "7dad9a4e-7b4f-5b1b-9807-d790a8029d07",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Nettie Perez",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -80,8 +88,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "48b807f1-7c29-5862-87ae-0b57414b565b",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Jennie Drake",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -90,8 +99,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "38f249ef-7942-59ea-acf1-13db5ae0b3a8",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Dylan Perry",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -100,8 +110,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "c4fa1394-1daf-5897-8add-d89c01910b17",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Ada Abbott",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -110,8 +121,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "365b65ef-88a9-553a-8bf0-216d884fee9f",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Bryan Thomas",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -120,8 +132,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "9dea1d55-3af6-5c31-b441-0c643db53f50",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Billy Mullins",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -130,8 +143,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "f40937b9-09de-5872-a938-c24ffcd95b8e",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Ellen Russell",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -140,8 +154,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "8371bfa1-1f6e-5164-9de4-2f109a394c63",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Dominic Nguyen",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
@@ -150,6 +165,7 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "124128ac-a36c-5dd4-821c-a50162986bd1",
         "image": "https://picsum.photos/200/200",
         "name": "Iphone Z Flip6 5G 12GB/256GB",
         "price": "26.990.000đ",
@@ -160,8 +176,9 @@
         "offer": "2.000.000đ"
     },
     {
+        "id": "a1e02a29-b025-5fb4-9775-457ec7f99a7b",
         "image": "https://picsum.photos/200/200",
-        "name": "Samsung Galaxy Z Flip6 5G 12GB/256GB",
+        "name": "Nicholas Morales",
         "price": "26.990.000đ",
         "oldPrice": "28.500.000đ",
         "promotion": "6%",
