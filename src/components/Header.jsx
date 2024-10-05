@@ -4,7 +4,7 @@ export default function Header() {
   return (<div >
     <nav className="navbar navbar-expand-lg BG" >
       <div className="container-fluid" >
-        <a className="navbar-brand text-black fs-3" href="./index.html"
+        <a className="navbar-brand text-black fs-3" href="./"
         >
           {/* TODO: can dua hinh anh qua noi khac luu tru */}
           <img
@@ -30,22 +30,8 @@ export default function Header() {
               <a
                 className="nav-link text-black fs-5 rounded-pill px-3 my-2"
                 aria-current="page"
-                href="./index"
+                href="./"
               >Trang Chủ</a
-              >
-            </li>
-            {/* <li className="nav-item px-2">
-              <a
-                className="nav-link text-black fs-5 rounded-pill px-3 my-2"
-                href="#"
-              >Sản Phẩm</a
-              >
-            </li> */}
-            <li className="nav-item px-2">
-              <a
-                className="nav-link text-black fs-5 rounded-pill px-3 my-2"
-                href="#"
-              >Liên Hệ</a
               >
             </li>
             <li className="nav-item px-2">

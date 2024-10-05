@@ -11,7 +11,6 @@ import Dashboard from "./pages/Dashboard.jsx";
 import AdminProduct from "./pages/AdminProduct.jsx";
 import AdminImpExp from "./pages/AdminImpExp.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
-
 import ProductDetail from './pages/ProductDetail.jsx';
 import "./assets/CSS/Body.scss";
 import "./assets/CSS/Header.scss";
