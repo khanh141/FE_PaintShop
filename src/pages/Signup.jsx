@@ -13,7 +13,7 @@ import {
 }
 from 'mdb-react-ui-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faEnvelope, faLock, faKey } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhone, faLock, faKey, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 export default function Signup(){
     return (
@@ -25,23 +25,24 @@ export default function Signup(){
                   <h1 classNAme="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Đăng ký</h1>
                   <div className="d-flex flex-row align-items-center mb-4 ">
                     <FontAwesomeIcon className='iconSignup' icon={faUser} fas size='lg' style={{ paddingRight: '10px' }}/>
-                    <MDBInput placeholder='Your Name' id='form1' type='text' className='w-100'/>
+                    <MDBInput placeholder='Họ và tên' id='form1' type='text' className='w-100'/>
                   </div>
                   <div className="d-flex flex-row align-items-center mb-4">
-                    <FontAwesomeIcon className='iconSignup' icon={faEnvelope} fas size='lg' style={{ paddingRight: '10px' }}/>
-                    <MDBInput placeholder='Your Email' id='form2' type='email'/>
+                    <FontAwesomeIcon className='iconSignup' icon={faPhone} fas size='lg' style={{ paddingRight: '10px' }}/>
+                    <MDBInput placeholder='Số điện thoại' id='form2' type='text'/>
+                  </div>
+                  <div className="d-flex flex-row align-items-center mb-4">
+                    <FontAwesomeIcon className='iconSignup' icon={faLocationDot} fas size='lg' style={{ paddingRight: '10px' }}/>
+                    <MDBInput placeholder='Địa chỉ' id='form2' type='text'/>
                   </div>
                   <div className="d-flex flex-row align-items-center mb-4">
                     <FontAwesomeIcon className='iconSignup' icon={faLock} size='lg' style={{ paddingRight: '10px' }}/>
-                    <MDBInput placeholder='Password' id='form3' type='password'/>
+                    <MDBInput placeholder='Mật khẩu' id='form3' type='password'/>
                   </div>
                   <div className="d-flex flex-row align-items-center mb-4">
                     <FontAwesomeIcon className='iconSignup' icon={faKey} size='lg' style={{ paddingRight: '10px' }}/>
-                    <MDBInput placeholder='Repeat your password' id='form4' type='password'/>
+                    <MDBInput placeholder='Nhập lại mật khẩu' id='form4' type='password'/>
                   </div>
-                  {/* <div className='mb-4'>
-                    <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Subscribe to our newsletter' />
-                  </div> */}
                   <MDBBtn className='mb-4' size='lg'>Đăng Ký</MDBBtn>
                 </MDBCol>
                 <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
