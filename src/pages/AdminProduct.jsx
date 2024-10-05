@@ -2,6 +2,8 @@ import { useState } from "react";
 import Table from "react-bootstrap/Table";
 import data from "../testData.json";
 import ModalAddProduct from "../components/ModalAddProduct";
+import { Col } from "react-bootstrap";
+import Button from 'react-bootstrap/Button';
 
 function AdminProduct() {
   const [products, setProducts] = useState(data);
@@ -21,18 +23,19 @@ function AdminProduct() {
         id: new Date().toDateString(),
         rating: 0,
       },
-      ...prev,
+      ...prev,c
     ]);
   };
   return (
-    <div>
-      <button onClick={() => setIsShowModalAddProduct(true)}>
+    <Col sm={12} md={12} lg={10} xl={10}>
+    <div >
+      <Button className="mt-4 rounded" onClick={() => setIsShowModalAddProduct(true)}>
         Add product
-      </button>
+      </Button>
       <Table>
         <thead>
           <tr>
-            <th>#</th>
+            <th>Stt</th>
             <th>Name</th>
             <th>Price</th>
             <th>Rating</th>
@@ -47,7 +50,7 @@ function AdminProduct() {
               <td>{prod.price}</td>
               <td>{prod.rating}</td>
               <td>
-                <button onClick={() => deleteClick(prod)}>Delete</button>
+                <Button className="rounded" variant="info" onClick={() => deleteClick(prod)}>Delete</Button>
               </td>
             </tr>
           ))}
@@ -59,6 +62,7 @@ function AdminProduct() {
         onSubmit={handleAddProduct}
       />
     </div>
+    </Col>
   );
 }
 

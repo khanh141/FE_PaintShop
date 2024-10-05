@@ -1,14 +1,12 @@
-import React from "react";
-import Products from "../components/Products";
-import Info from "../components/Info";
+import React from 'react'
+import ProductsContainer from '../components/Products';
+import Info from '../components/Info'
 
-function Home() {
-  return (
-    <div className="homePage container">
-      <Info />
-      <Products />
-    </div>
-  );
+export default function Home() {
+    return (
+      <div className="homePage container">
+        <Info />
+          <ProductsContainer />
+      </div>
+    );
 }
-
-export default Home;
