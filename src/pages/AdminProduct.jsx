@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Table from "react-bootstrap/Table";
+// import Table from "react-bootstrap/Table";
 import data from "../testData.json";
 import ModalAddProduct from "../components/ModalAddProduct";
-import { Col } from "react-bootstrap";
-import Button from 'react-bootstrap/Button';
+import { Col,Button,Table } from "react-bootstrap";
+// import Button from 'react-bootstrap/Button';
 
 function AdminProduct() {
   const [products, setProducts] = useState(data);
