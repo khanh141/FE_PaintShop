@@ -68,31 +68,27 @@ const ProductDetail = () => {
     return (
         <Container className="productDetail">
             <Row className="firstRow">
-                <Col className="productImagesContainer">
+                <Col className="productImagesContainer ps-0" >
                     <ImageSlides></ImageSlides>
                 </Col>
                 <Col className="productInformation">
-                    <Row className="productName" id="name">
+                    <Row className="productName my-2" id="name" style={{ fontWeight: 600, fontSize: '30px', width: '400px' }}>
                         Xe winnerX v3
                     </Row>
-                    <Row className="productPrice" id="price">
+                    <Row className="productPrice my-2" id="price" style={{ fontWeight: 600, fontSize: '30px', color: 'red', width: '400px' }}>
                         45.000 - 65.000
                     </Row>
-                    <Row
-                        className="saleFigures"
-                        id="saleFigures"
-                        style={{ display: "flex" }}
-                    >
+                    <Row className="saleFigures my-2" id="saleFigures" style={{ display: 'flex', width: '400px' }}>
                         <Col>
                             <span>Đã bán: 200</span>
                             <span>Đánh giá: 100</span>
                         </Col>
                     </Row>
-                    <Row className="productDetailDropdown" id="baoBiDropdown">
+                    <Row className="productDetailDropdown mb-2" id="baoBiDropdown" style={{ backgroundColor: 'rgb(245, 123, 123)', borderRadius: '8px', width: '400px', height: '50px', display: 'flex', alignItems: 'center' }}>
                         <Col>
-                            <span>Bao bì</span>
-                            <Dropdown className="dropdownBtn" onSelect={handleSelectBaoBi}>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <span style={{ width: '100px', display: 'inline-block' }}>Bao bì</span>
+                            <Dropdown className="dropdownBtn" onSelect={handleSelectBaoBi} style={{ display: 'inline', flexGrow: 1 }}>
+                                <Dropdown.Toggle variant="success" id="dropdown-basic" style={{ width: '250px' }}>
                                     {baoBi ? baoBi : "Chọn loại bao bì"}
                                 </Dropdown.Toggle>
 
@@ -104,51 +100,43 @@ const ProductDetail = () => {
                             </Dropdown>
                         </Col>
                     </Row>
-                    <Row className="productDetailDropdown" id="mauDropdown">
+                    <Row className="productDetailDropdown mb-2" id="mauDropdown" style={{ backgroundColor: 'rgb(245, 123, 123)', borderRadius: '8px', width: '400px', height: '50px', display: 'flex', alignItems: 'center' }} >
                         <Col>
-                            <span>Màu</span>
-                            <Dropdown className="dropdownBtn">
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <span style={{ width: '100px', display: 'inline-block' }}>Màu</span>
+                            <Dropdown className="dropdownBtn" style={{ display: 'inline', flexGrow: 1 }}>
+                                <Dropdown.Toggle variant="success" id="dropdown-basic" style={{ width: '250px' }}>
                                     Chọn màu
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
                                     <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">
-                                        Another action
-                                    </Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">
-                                        Something else
-                                    </Dropdown.Item>
+                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Col>
                     </Row>
-                    <Row className="productDetailDropdown" id="dinhMucDropdown">
+                    <Row className="productDetailDropdown mb-2" id="dinhMucDropdown" style={{ backgroundColor: 'rgb(245, 123, 123)', borderRadius: '8px', width: '400px', height: '50px', display: 'flex', alignItems: 'center' }}>
                         <Col>
-                            <span>Định mức</span>
-                            <Dropdown className="dropdownBtn">
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <span style={{ width: '100px', display: 'inline-block' }}>Định mức</span>
+                            <Dropdown className="dropdownBtn" style={{ display: 'inline', flexGrow: 1 }}>
+                                <Dropdown.Toggle variant="success" id="dropdown-basic" style={{ width: '250px' }}>
                                     Chọn định mức
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
                                     <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">
-                                        Another action
-                                    </Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">
-                                        Something else
-                                    </Dropdown.Item>
+                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row style={{ width: '400px' }}>
                         <span>Giá tiền: chưa chọn các lựa chọn sản phẩm</span>
                     </Row>
-                    <Row className="productQuantity">
-                        <Col>
+                    <Row className="productQuantity my-2" style={{ width: '400px' }}>
+                        <Col style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <span>Số lượng: </span>
                             <ButtonGroup aria-label="Basic example">
                                 <Button variant="secondary">-</Button>
@@ -158,18 +146,19 @@ const ProductDetail = () => {
                             <span>Trong kho: 1000</span>
                         </Col>
                     </Row>
-                    <Row className="buttonGroup">
-                        <Col>
-                            <Button variant="secondary">
+                    <Row className="buttonGroup my-2" style={{ width: '400px' }}>
+                        <Col style={{ display: 'flex', justifyContent: 'center' }}>
+                            <Button variant="secondary" style={{ margin: '0 4px' }}>
                                 <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
                             </Button>
-                            <Button variant="secondary">Mua hàng</Button>
+                            <Button variant="secondary" style={{ margin: '0 4px' }}>Mua hàng</Button>
                         </Col>
                     </Row>
                 </Col>
+
             </Row>
-            <Row className="secondRow productDetailInfor">
-                <Table striped bordered hover>
+            <Row className="secondRow productDetailInfor my-4 ">
+                <Table striped bordered hover className="m-0 rounded">
                     <thead>
                         <tr>
                             <th colSpan={2}>Thông tin chi tiết</th>
@@ -195,11 +184,15 @@ const ProductDetail = () => {
                     </tbody>
                 </Table>
             </Row>
-            <Row className={`thirdRow commentContainer hasScrollBar`}>
+            <hr />
+
+            <Row className="thirdRow commentContainer hasScrollBar p-3 rounded" style={{ backgroundColor: 'white', maxHeight: '400px', overflowY: 'scroll', transition: 'max-height 0.3s ease-in-out', boxShadow: '1px 1px 10px rgb(142, 142, 142)' }}>
                 {comments.map((comment) => (
-                    <div key={comment.id} className="comment">
-                        <h6 className="username">{comment.username}</h6>
-                        <p className="content">{comment.content}</p>
+                    <div key={comment.id} className="comment mb-2 p-2 rounded" style={{ backgroundColor: 'wheat' }}>
+                        <h6 className="username font-weight-bold">{comment.username}</h6>
+                        <p className="content text-justify" style={{ textIndent: '10px', fontSize: '14px', lineHeight: '1.6' }}>
+                            {comment.content}
+                        </p>
                     </div>
                 ))}
             </Row>
