@@ -1,6 +1,6 @@
 import Home from "./pages/Home.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Signup from "./pages/Signup.jsx";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +15,7 @@ import ProductDetail from './pages/ProductDetail.jsx';
 import "./assets/CSS/Body.scss";
 import "./assets/CSS/Header.scss";
 import "./assets/CSS/Footer.scss";
+import WarehousePage from "./pages/WarehousePage.jsx";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             <Route path="" element={<Dashboard />} />
             <Route path="products" element={<AdminProduct />} />
             <Route path="import-export" element={<AdminImpExp />} />
+            <Route path="warehouse" element={<WarehousePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

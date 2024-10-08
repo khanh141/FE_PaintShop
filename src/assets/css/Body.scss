@@ -1,156 +1,149 @@
 body {
-  a {
-    text-decoration: none;
-  }
-  background: linear-gradient(
-    to right bottom,
-    white,
-    white,
-    rgb(141, 243, 243),
-    rgba(150, 231, 242, 0.5)
-  );
-  .hasScrollBar {
-    &::-webkit-scrollbar {
-      width: 10px; // Set width of the scrollbar
+    a {
+        text-decoration: none;
     }
-
-    &::-webkit-scrollbar-track {
-      background-color: #f1f1f1; // Background color of the scrollbar track
-      border-radius: 10px; // Optional, adds rounded corners
+    background: linear-gradient( to right bottom, white, white, rgb(141, 243, 243), rgba(150, 231, 242, 0.5));
+    background-repeat: no-repeat;
+    background-size: cover;
+    .hasScrollBar {
+        &::-webkit-scrollbar {
+            width: 10px; // Set width of the scrollbar
+        }
+        &::-webkit-scrollbar-track {
+            background-color: #f1f1f1; // Background color of the scrollbar track
+            border-radius: 10px; // Optional, adds rounded corners
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #888; // Color of the scrollbar thumb
+            border-radius: 10px; // Optional, adds rounded corners to the thumb
+            border: 2px solid #f1f1f1; // Border around the scrollbar thumb
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: #555; // Darken the scrollbar thumb on hover
+        }
     }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #888; // Color of the scrollbar thumb
-      border-radius: 10px; // Optional, adds rounded corners to the thumb
-      border: 2px solid #f1f1f1; // Border around the scrollbar thumb
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: #555; // Darken the scrollbar thumb on hover
-    }
-  }
-  .card {
-    position: relative;
-    overflow: hidden;
-    .card-img-top {
-      overflow: hidden;
-      transition: transform 0.3s ease;
-      display: block;
-    }
-    &:hover .card-img-top {
-      transform: scale(1.1);
-    }
-  }
-  .PaintType {
-    .type {
-      // width: 100%;
-      background-color: burlywood;
-      font-weight: bold;
-      border: none;
-      padding: 0;
-      margin: 0;
-    }
-    &:hover .type {
-      background-color: aqua;
-    }
-  }
-  .productDetail {
-    .firstRow {
-      height: 500px;
-      box-shadow: 1px 1px 10px rgb(142, 142, 142);
-      .productImagesContainer {
-        height: 100%;
+    .card {
+        position: relative;
         overflow: hidden;
-      }
-      .productInformation {
-        .row {
-          margin: 10px 0;
-          width: 400px;
+        .card-img-top {
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            display: block;
         }
-        .productName {
-          font-weight: 600;
-          font-size: 30px;
+        &:hover .card-img-top {
+            transform: scale(1.1);
         }
-        .productPrice {
-          font-weight: 600;
-          font-size: 30px;
-          color: red;
+    }
+    .PaintType {
+        .type {
+            // width: 100%;
+            background-color: burlywood;
+            font-weight: bold;
+            border: none;
+            padding: 0;
+            margin: 0;
         }
-        .saleFigures {
-          display: flex;
+        &:hover .type {
+            background-color: aqua;
         }
-        .productDetailDropdown {
-          background-color: rgb(245, 123, 123);
-          margin-bottom: 4px;
-          border-radius: 8px;
-          width: 400px;
-          height: 50px;
-          display: flex;
-          align-items: center;
-          span {
-            width: 100px;
-            display: inline-block;
-          }
-          .dropdownBtn {
-            display: inline;
-            flex-grow: 1;
-            #dropdown-basic {
-              width: 250px;
+    }
+    .productDetail {
+        .firstRow {
+            height: 500px;
+            box-shadow: 1px 1px 10px rgb(142, 142, 142);
+            .productImagesContainer {
+                height: 100%;
+                overflow: hidden;
             }
-            margin-bottom: 10px;
-          }
-        }
-        .productQuantity {
-          .col {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          }
-        }
-        .buttonGroup {
-          .col {
-            display: flex;
-            justify-content: center;
-            .btn {
-              margin: 0 4px;
+            .productInformation {
+                .row {
+                    margin: 10px 0;
+                    width: 400px;
+                }
+                .productName {
+                    font-weight: 600;
+                    font-size: 30px;
+                }
+                .productPrice {
+                    font-weight: 600;
+                    font-size: 30px;
+                    color: red;
+                }
+                .saleFigures {
+                    display: flex;
+                }
+                .productDetailDropdown {
+                    background-color: rgb(245, 123, 123);
+                    margin-bottom: 4px;
+                    border-radius: 8px;
+                    width: 400px;
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+                    span {
+                        width: 100px;
+                        display: inline-block;
+                    }
+                    .dropdownBtn {
+                        display: inline;
+                        flex-grow: 1;
+                        #dropdown-basic {
+                            width: 250px;
+                        }
+                        margin-bottom: 10px;
+                    }
+                }
+                .productQuantity {
+                    .col {
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    }
+                }
+                .buttonGroup {
+                    .col {
+                        display: flex;
+                        justify-content: center;
+                        .btn {
+                            margin: 0 4px;
+                        }
+                    }
+                }
             }
-          }
         }
-      }
-    }
-    .commentContainer {
-      background-color: white;
-      padding: 20px 20px 10px;
-      max-height: 400px;
-      overflow-y: scroll;
-      transition: max-height 0.3s ease-in-out;
-      box-shadow: 1px 1px 10px rgb(142, 142, 142);
-      .comment {
-        background-color: wheat;
-        padding: 10px 20px;
-        height: max-content;
-        .username {
-          font-weight: bold;
+        .commentContainer {
+            background-color: white;
+            padding: 20px 20px 10px;
+            max-height: 400px;
+            overflow-y: scroll;
+            transition: max-height 0.3s ease-in-out;
+            box-shadow: 1px 1px 10px rgb(142, 142, 142);
+            .comment {
+                background-color: wheat;
+                padding: 10px 20px;
+                height: max-content;
+                .username {
+                    font-weight: bold;
+                }
+                .content {
+                    text-indent: 10px;
+                    text-align: justify;
+                    font-size: 14px;
+                    line-height: 1.6;
+                }
+                margin-bottom: 10px;
+            }
         }
-        .content {
-          text-indent: 10px;
-          text-align: justify;
-          font-size: 14px;
-          line-height: 1.6;
+    }
+    #imageSlides {
+        height: 100%;
+        .imageSlideItem {
+            img {
+                width: 100%;
+                object-fit: cover;
+                object-position: center !important;
+            }
         }
-        margin-bottom: 10px;
-      }
     }
-  }
-  #imageSlides {
-    height: 100%;
-    .imageSlideItem {
-      img {
-        width: 100%;
-        object-fit: cover;
-        object-position: center !important;
-      }
-    }
-  }
 }
