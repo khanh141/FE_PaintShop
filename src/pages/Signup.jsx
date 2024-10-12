@@ -8,14 +8,13 @@ import {
   MDBCardBody,
   MDBCardImage,
   MDBInput,
-  MDBIcon,
-  MDBCheckbox
 }
 from 'mdb-react-ui-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhone, faLock, faKey, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 
 export default function Signup(){
   const [tenDangNhap, setUsername] = useState('');
