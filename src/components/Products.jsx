@@ -11,7 +11,7 @@ const ProductsContainer = () => {
     const products = useSelector((state) => state.products.filteredProducts);
     const displayedCards = useSelector((state) => state.products.displayedCards);
     const showAll = useSelector((state) => state.products.showAll);
-    const [searchTerm,setSearchTerm]=useState("");
+    const [Searchreq,setSearchTerm]=useState("");
     
     // useEffect(() => {
     //     fetch('/testData.json')
@@ -25,9 +25,11 @@ const ProductsContainer = () => {
     useEffect(() => {
       const loadProducts = async () => {
         try {
-          const response = await axios.get("http://localhost:8080/sanPham/layTatCa"); // Gọi API lấy dữ liệu sản phẩm từ backend
+          const response = await axios.get(
+            "http://localhost:8080/sanPham/layTatCa"
+          ); // Gọi API lấy dữ liệu sản phẩm từ backend
           console.log("Dữ liệu sản phẩm từ API:", response.data);
-          dispatch(setFilter(response.data));  // Cập nhật lại Redux với dữ liệu nhận được
+          dispatch(setFilter(response.data)); // Cập nhật lại Redux với dữ liệu nhận được
         } catch (error) {
           console.error("Error loading products:", error);
         }
@@ -36,14 +38,17 @@ const ProductsContainer = () => {
     }, [dispatch]);
 
     const handleSearch = async () => {
-    const searchTerm = document.querySelector('input').value;  // Lấy từ khóa tìm kiếm từ ô input
-    try {
-      const response = await axios.get(`http://localhost:8080/sanPham/timKiem?keyword=${searchTerm}`);  // Gọi API tìm kiếm với từ khóa
-      dispatch(setFilter(response.data));  // Cập nhật lại Redux với dữ liệu tìm kiếm
-    } catch (error) {
-      console.error("Error searching products:", error);
-    }
-  };
+      if (!Searchreq.trim()) return; // Kiểm tra nếu từ khóa tìm kiếm rỗng
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/sanPham/timKiem?Searchreq=${Searchreq}`
+        );  
+        console.log("Dữ liệu sản phẩm: "+ response.data);
+        dispatch(setFilter(response.data));  // Cập nhật lại Redux với dữ liệu tìm kiếm
+      } catch (error) {
+        console.error("Error searching products:", error);
+      }
+    };
   const displayedProducts = products.slice(0, displayedCards);
 
     return (
@@ -56,14 +61,14 @@ const ProductsContainer = () => {
                   type="text"
                   className="form-control mb-2"
                   placeholder="Tìm kiếm theo tên"
-                  // value={searchTerm}
+                  // value={ten}
                 />
               </div>
               <div className="col-12 col-md-3 mb-3">
                 <button className="btn btn-primary w-100">Tìm kiếm</button>
               </div>
             </div>
-            {searchTerm && (
+            {ten && (
               <button className="btn btn-secondary w-100">Xóa tìm kiếm</button>
             )}
           </div>
@@ -76,7 +81,7 @@ const ProductsContainer = () => {
                 type="text"
                 className="form-control mb-2"
                 placeholder="Tìm kiếm theo tên"
-                value={searchTerm}
+                value={Searchreq}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
@@ -87,28 +92,8 @@ const ProductsContainer = () => {
             </div>
           </div>
         </div>
+        <Row>
 
-        {/* <PaintType className="" type={"Nước sơn"} /> */}
-        <hr />
-        {/* <Row>
-          {displayedProducts.map((product) => (
-            <Col sm={6} md={4} lg={3} xl={3} key={product.id} className="mb-4">
-              <Card
-                image={product.image}
-                name={product.ten}
-                tinhnang={product.tinhNang}
-                mota={product.moTa}
-                giatien={product.
-                  chiTietSanPhamResList[0]?.giaTien
-                  }
-                promotion={product.promotion}
-                rating={product.rating}
-                reviews={product.reviews}
-                offer={product.offer}
-              />
-            </Col>
-          ))}
-        </Row> */}
         {products.map((product) =>
           // Lặp qua từng chi tiết sản phẩm của mỗi sản phẩm
           product.chiTietSanPhamResList.map((chiTiet, index) => (
@@ -132,6 +117,7 @@ const ProductsContainer = () => {
             </Col>
           ))
         )}
+        </Row>
 
         {!showAll && (
           <div className="d-flex justify-content-center">
