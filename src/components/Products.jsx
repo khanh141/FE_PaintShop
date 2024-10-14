@@ -13,38 +13,29 @@ const ProductsContainer = () => {
     const showAll = useSelector((state) => state.products.showAll);
     const [Searchreq,setSearchTerm]=useState("");
     
-    // useEffect(() => {
-    //     fetch('/testData.json')
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             dispatch(setFilter(data));
-    //         })
-    //         .catch((error) => console.error('Error loading JSON:', error));
-    // }, [dispatch]);
-
     useEffect(() => {
       const loadProducts = async () => {
         try {
           const response = await axios.get(
             "http://localhost:8080/sanPham/layTatCa"
-          ); // Gọi API lấy dữ liệu sản phẩm từ backend
+          ); 
           console.log("Dữ liệu sản phẩm từ API:", response.data);
-          dispatch(setFilter(response.data)); // Cập nhật lại Redux với dữ liệu nhận được
+          dispatch(setFilter(response.data));
         } catch (error) {
           console.error("Error loading products:", error);
         }
       };
-      loadProducts();  // Gọi hàm để tải dữ liệu ngay khi component mount
+      loadProducts();  
     }, [dispatch]);
 
     const handleSearch = async () => {
-      if (!Searchreq.trim()) return; // Kiểm tra nếu từ khóa tìm kiếm rỗng
+      if (!Searchreq.trim()) return; 
       try {
         const response = await axios.get(
           `http://localhost:8080/sanPham/timKiem?Searchreq=${Searchreq}`
         );  
         console.log("Dữ liệu sản phẩm: "+ response.data);
-        dispatch(setFilter(response.data));  // Cập nhật lại Redux với dữ liệu tìm kiếm
+        dispatch(setFilter(response.data));
       } catch (error) {
         console.error("Error searching products:", error);
       }
@@ -89,12 +80,36 @@ const ProductsContainer = () => {
               <button className="btn btn-primary w-100" onClick={handleSearch}>
                 Tìm kiếm
               </button>
-            </div>
+            </div>  
           </div>
         </div>
         <Row>
+          {products.map((product) => (
+            <Col sm={6} md={4} lg={3} xl={3}>
+              {/* <Card 
+              image={product.hinhAnh} // Giữ nguyên hình ảnh sản phẩm
+                name={product.ten} // Tên sản phẩm giống nhau cho tất cả card
+                type={product.loai}
+                tinhnang={product.tinhNang} // Tính năng của từng chi tiết sản phẩm
+                mota={product.moTa} // Mô tả riêng cho mỗi chi tiết sản phẩm
+                giatien={product. chiTietSanPhamResList[0]?.giaTien} // Giá tiền của từng chi tiết sản phẩm
+                soluong={product. chiTietSanPhamResList[0]?soLuong}
+                /> */}
 
-        {products.map((product) =>
+                <Card 
+                id={product.maSanPham}
+                image={product.hinhAnh}
+                name={product.ten}
+                type={product.loai}
+                tinhnang={product.tinhNang}
+                mota={product.moTa}
+                giatien={product.chiTietSanPhamResList[0]?.giaTien}
+                soluong={product.chiTietSanPhamResList[0]?.soLuong}
+                />
+            </Col>
+          ))}
+
+          {/* {products.map((product) =>
           // Lặp qua từng chi tiết sản phẩm của mỗi sản phẩm
           product.chiTietSanPhamResList.map((chiTiet, index) => (
             <Col
@@ -113,10 +128,11 @@ const ProductsContainer = () => {
                 mota={product.moTa} // Mô tả riêng cho mỗi chi tiết sản phẩm
                 giatien={chiTiet.giaTien} // Giá tiền của từng chi tiết sản phẩm
                 soluong={chiTiet.soLuong}
+                mausac={chiTiet.mau}
               />
             </Col>
           ))
-        )}
+        )} */}
         </Row>
 
         {!showAll && (
