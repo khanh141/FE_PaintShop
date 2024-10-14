@@ -31,7 +31,7 @@ function App() {
             {/* localhost/login */}
             <Route path="login" element={<Login />} />
             {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
-            <Route path='/productDetail' element={<ProductDetail />}></Route>
+            <Route path='/productDetail/:maSanPham' element={<ProductDetail />}></Route>
           </Route>
 
           {/* localhost/admin */}
