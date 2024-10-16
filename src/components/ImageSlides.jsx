@@ -1,16 +1,44 @@
 import Carousel from 'react-bootstrap/Carousel';
 
-function ImageSlides() {
+function ImageSlides({ height = '100%', width = '100%', interval = 3000, imgStyles = {} }) {
+    const styles = {
+        imageSlides: {
+            height: height,
+            overflow: 'hidden',
+        },
+        imageSlideItem: {
+            img: {
+                width: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+                ...imgStyles,  // Allows additional custom styles to be passed from parent
+            },
+        },
+    };
+
     return (
-        <Carousel id='imageSlides' interval={null}>
-            <Carousel.Item className='imageSlideItem'>
-                <img className='rounded' src="images/winx.jpg" alt="" />
+        <Carousel id="imageSlides" style={styles.imageSlides} interval={interval}>
+            <Carousel.Item className="imageSlideItem">
+                <img
+                    className="rounded"
+                    style={styles.imageSlideItem.img}
+                    src="images/winx.jpg"
+                    alt="slide 1"
+                />
             </Carousel.Item>
-            <Carousel.Item className='imageSlideItem'>
-                <img src="images/winx.jpg" alt="" />
+            <Carousel.Item className="imageSlideItem">
+                <img
+                    style={styles.imageSlideItem.img}
+                    src="images/winx.jpg"
+                    alt="slide 2"
+                />
             </Carousel.Item>
-            <Carousel.Item className='imageSlideItem'>
-                <img src="images/winx.jpg" alt="" />
+            <Carousel.Item className="imageSlideItem">
+                <img
+                    style={styles.imageSlideItem.img}
+                    src="images/winx.jpg"
+                    alt="slide 3"
+                />
             </Carousel.Item>
         </Carousel>
     );
