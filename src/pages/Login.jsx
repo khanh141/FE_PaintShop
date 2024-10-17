@@ -1,155 +1,98 @@
 import React, { useState } from 'react';
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBInput,
-  MDBIcon,
-  MDBCheckbox
-}
-from 'mdb-react-ui-kit';
+import { Container, Row, Col, Form, FloatingLabel, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
-export default function Login(){
+export default function Login() {
   const [tenDangNhap, setUsername] = useState('');
   const [matKhau, setPassword] = useState('');
-  const navigate = useNavigate(); // Dùng để điều hướng người dùng
+  const [showPassword, setShowPassword] = useState(false); // Toggle password visibility
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/taiKhoan/dangNhap",
-        {
-          tenDangNhap,
-          matKhau,
-        }
+        'http://localhost:8080/taiKhoan/dangNhap',
+        { tenDangNhap, matKhau }
       );
 
-      // Lưu token vào localStorage
-      localStorage.setItem("token", response.data.token);
-
-      // Điều hướng đến trang chính sau khi đăng nhập thành công
-      navigate("/");
+      localStorage.setItem('token', response.data.token);
+      navigate('/');
     } catch (error) {
-      console.error("Login failed:", error);
-      alert("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
+      console.error('Login failed:', error);
+      alert('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
     }
   };
-  
-    return (
-      // <div>
-      //   <MDBContainer fluid>
-      //     <MDBCard className='text-black m-5' style={{borderRadius: '25px', borderStyle: 'none'}}>
-      //       <MDBCardBody>
-      //         <MDBRow>
-      //           <MDBCol md='10' lg='6' className='order-2 order-lg-1 d-flex flex-column align-items-center'>
-      //             <h1 classNAme="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Đăng nhập</h1>
-      //             <div className="d-flex flex-row align-items-center mb-4 mt-4">
-      //               <FontAwesomeIcon  icon={faUser} fas size='lg' style={{ paddingRight: '10px' }}/>
-      //               <MDBInput placeholder='Your Name' id='form1' type='text' className='w-100'/>
-      //             </div>
-      //             <div className="d-flex flex-row align-items-center mb-4">
-      //               <FontAwesomeIcon  icon={faLock} size='lg' style={{ paddingRight: '10px' }}/>
-      //               <MDBInput placeholder='Password' id='form3' type='password'/>
-      //             </div>
-      //             <div className='mb-4 d-flex align-items-start'>
-      //               <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Nhớ mật khẩu' />
-      //             </div>
-      //             <MDBBtn className='mb-4' size='lg' onClick={handleLogin}>Đăng Nhập</MDBBtn>
-      //           </MDBCol>
-      //           <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
-      //             <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp' fluid/>
-      //           </MDBCol>
-      //         </MDBRow>
-      //       </MDBCardBody>
-      //     </MDBCard>
-      //   </MDBContainer>
-      // </div>
-      <div>
-        <MDBContainer fluid>
-          <MDBCard
-            className="text-black m-5"
-            style={{ borderRadius: "25px", borderStyle: "none" }}
-          >
-            <MDBCardBody>
-              <MDBRow>
-                <MDBCol
-                  md="10"
-                  lg="6"
-                  className="order-2 order-lg-1 d-flex flex-column align-items-center"
-                >
-                  <h1 className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                    Đăng nhập
-                  </h1>
 
-                  <div className="d-flex flex-row align-items-center mb-4 mt-4">
-                    <FontAwesomeIcon
-                      icon={faUser}
-                      fas
-                      size="lg"
-                      style={{ paddingRight: "10px" }}
-                    />
-                    <MDBInput
-                      placeholder="Tên đăng nhập"
-                      id="form1"
-                      type="text"
-                      className="w-100"
-                      value={tenDangNhap}
-                      onChange={(e) => setUsername(e.target.value)} // Cập nhật state khi nhập
-                    />
-                  </div>
+  return (
+    <Container fluid className="loginForm">
+      <Row className="d-flex align-items-center justify-content-center">
+        <Col md={6}>
+          <div className="p-4 border rounded-3 shadow-sm">
+            <h1 className="text-center fw-bold mb-4">Đăng Nhập</h1>
 
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <FontAwesomeIcon
-                      icon={faLock}
-                      size="lg"
-                      style={{ paddingRight: "10px" }}
-                    />
-                    <MDBInput
-                      placeholder="Mật khẩu"
-                      id="form3"
-                      type="password"
-                      value={matKhau}
-                      onChange={(e) => setPassword(e.target.value)} // Cập nhật state khi nhập
-                    />
-                  </div>
+            <div className="mb-4">
+              <FloatingLabel label="Tên đăng nhập">
+                <Form.Control
+                  type="text"
+                  placeholder="Tên đăng nhập"
+                  value={tenDangNhap}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="position-absolute top-50 translate-middle-y end-0 pe-3"
+                />
+              </FloatingLabel>
+            </div>
 
-                  <div className="mb-4 d-flex align-items-start">
-                    <MDBCheckbox
-                      name="flexCheck"
-                      value=""
-                      id="flexCheckDefault"
-                      label="Nhớ mật khẩu"
-                    />
-                  </div>
+            {/* Password Field with Show/Hide Icon */}
+            <div className="position-relative mb-4">
+              <FloatingLabel label="Mật khẩu">
+                <Form.Control
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Mật khẩu"
+                  value={matKhau}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </FloatingLabel>
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                className="position-absolute top-50 translate-middle-y end-0 pe-3 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            </div>
 
-                  <MDBBtn className="mb-4" size="lg" noRipple onClick={handleLogin}>
-                    Đăng Nhập
-                  </MDBBtn>
-                </MDBCol>
+            <Form.Check
+              type="checkbox"
+              label="Nhớ mật khẩu"
+              className="mb-4"
+            />
 
-                <MDBCol
-                  md="10"
-                  lg="6"
-                  className="order-1 order-lg-2 d-flex align-items-center"
-                >
-                  <MDBCardImage
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                    fluid
-                  />
-                </MDBCol>
-              </MDBRow>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBContainer>
-      </div>
-    );
+            {/* Horizontal Button Alignment */}
+            <div className="d-flex mb-3">
+              <Button
+                variant="primary"
+                className="me-2"
+                style={{ flex: 7 }} // 70% width equivalent
+                onClick={handleLogin}
+              >
+                Đăng Nhập
+              </Button>
+
+              <Button
+                variant="secondary"
+                style={{ flex: 3 }} // 30% width equivalent
+                onClick={() => navigate('/SignUp')}
+              >
+                Đăng Ký
+              </Button>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  );
 }
