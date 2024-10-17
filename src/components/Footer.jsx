@@ -2,7 +2,7 @@
 export default function Footer() {
   return (
     <div >
-      <footer className="footer row mt-5">
+      <div className="footer row mt-5">
         <div className="container-fluid">
           <div
             className="row p-5 d-flex justify-content-center text-xxl-start text-center"
@@ -26,7 +26,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-      </footer>
+      </div>
     </div>
   )
 }

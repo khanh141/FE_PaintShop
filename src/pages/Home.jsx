@@ -1,18 +1,21 @@
 import React from 'react'
 import ProductsContainer from '../components/Products';
 import ImageSlides from '../components/ImageSlides';
+import Info from '../components/Info';
 
 export default function Home() {
-  const slideImgStyles = {
-    borderRadius: '10px',
-  };
-
+  const imagesForHomePage = [
+    { src: 'images/banner2.jpg', alt: 'Banner 2' },
+    { src: 'images/banner3.jpg', alt: 'Banner 3' },
+  ];
   return (
-    <div className="homePage container">
+    <div className="homePage">
       <ImageSlides
-        height="400px" width='100%' interval={null} imgStyles={slideImgStyles}
+        images={imagesForHomePage}
+        height="400px" width='100%' interval={null}
       />
       <ProductsContainer />
+      <Info />
     </div>
   );
 }
