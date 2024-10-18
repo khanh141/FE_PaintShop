@@ -5,6 +5,7 @@ axios.interceptors.request.use(
     function (config) {
         const token = localStorage.getItem(KEYS.TOKEN);
         config.headers.Authorization = `Bearer ${token}`;
+        console.log(token);
         return config;
     },
     function (error) {

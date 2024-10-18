@@ -1,24 +1,23 @@
-import Home from './pages/Home.jsx'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Signup from './pages/Signup.jsx'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-library.add(fas)
-import Login from './pages/Login.jsx'
-import DefaultLayout from './layouts/DefaultLayout.jsx'
-import Dashboard from './pages/Dashboard.jsx'
-import AdminProduct from './pages/AdminProduct.jsx'
-import AdminImpExp from './pages/AdminImpExp.jsx'
-import AdminLayout from './layouts/AdminLayout.jsx'
-import ProductDetail from './pages/ProductDetail.jsx'
-import './assets/CSS/Body.scss'
-import './assets/CSS/Header.scss'
-import './assets/CSS/Footer.scss'
-import WarehousePage from './pages/WarehousePage.jsx'
+import Home from './pages/Home.jsx';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Signup from './pages/Signup.jsx';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+library.add(fas);
+import Login from './pages/Login.jsx';
+import DefaultLayout from './layouts/DefaultLayout.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import AdminProduct from './pages/AdminProduct.jsx';
+import AdminImpExp from './pages/AdminImpExp.jsx';
+import AdminLayout from './layouts/AdminLayout.jsx';
+import ProductDetail from './pages/ProductDetail.jsx';
+import './assets/CSS/Body.scss';
+import './assets/CSS/Header.scss';
+import './assets/CSS/Footer.scss';
+import WarehousePage from './pages/WarehousePage.jsx';
 
 function App() {
-<<<<<<< HEAD
     return (
         <div className="App">
             <BrowserRouter>
@@ -36,22 +35,6 @@ function App() {
                             element={<ProductDetail />}
                         ></Route>
                     </Route>
-=======
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          {/* localhost/ */}
-          <Route path="/" element={<DefaultLayout />}>
-            <Route path="/" element={<Home />} />
-            {/* localhostsignup */}
-            <Route path="signup" element={<Signup />} />
-            {/* localhost/login */}
-            <Route path="login" element={<Login />} />
-            {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
-            <Route path='/productDetail/:maSanPham' element={<ProductDetail />}/>
-          </Route>
->>>>>>> 87a3c72fcf17a081973b0b1d6718a52b16ca7d7a
 
                     {/* localhost/admin */}
                     <Route path="/admin" element={<AdminLayout />}>
@@ -63,7 +46,7 @@ function App() {
                 </Routes>
             </BrowserRouter>
         </div>
-    )
+    );
 }
 
-export default App
+export default App;
