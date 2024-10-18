@@ -1,14 +1,10 @@
+:root {
+  --hover-gray-color: rgb(215, 215, 215);
+}
 body {
   a {
     text-decoration: none;
   }
-  background: linear-gradient(
-    to right bottom,
-    white,
-    white,
-    rgb(141, 243, 243),
-    rgba(150, 231, 242, 0.5)
-  );
   background-repeat: no-repeat;
   background-size: cover;
   .hasScrollBar {
@@ -62,5 +58,73 @@ body {
       height: 100%;
       overflow: hidden;
     }
+  }
+}
+
+#imageSlides {
+  .imageSlideItem {
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+.navbar {
+  .px-2 {
+    transition: background-color 0.5s ease;
+    &:hover {
+      background-color: var(--hover-gray-color);
+    }
+  }
+}
+
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 1.2rem;
+  z-index: 2;
+  &:hover {
+    color: #000;
+  }
+}
+
+.info-container {
+  margin-top: 20px;
+
+  .info-row {
+    border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 0;
+
+    display: flex; // Ensure consistent row alignment
+
+    .info-col-left {
+      font-weight: bold;
+      width: 20%;
+      max-width: 20%;
+      flex: 0 0 20%; // Exact 20% width
+      display: flex;
+      align-items: center;
+      gap: 8px; // Spacing between icon and text
+      svg {
+        font-size: 1.2rem;
+        min-width: 1.2rem; // Prevent icons from shrinking
+        min-height: 1.2rem;
+      }
+    }
+
+    .info-col {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .companyName {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
   }
 }
