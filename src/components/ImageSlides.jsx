@@ -22,21 +22,21 @@ function ImageSlides({ height = '100%', width = '100%', interval = 3000, imgStyl
                 <img
                     className="rounded"
                     style={styles.imageSlideItem.img}
-                    src="images/winx.jpg"
+                    src="https://picsum.photos/200/200"
                     alt="slide 1"
                 />
             </Carousel.Item>
             <Carousel.Item className="imageSlideItem">
                 <img
                     style={styles.imageSlideItem.img}
-                    src="images/winx.jpg"
+                    src="https://picsum.photos/200/200"
                     alt="slide 2"
                 />
             </Carousel.Item>
             <Carousel.Item className="imageSlideItem">
                 <img
                     style={styles.imageSlideItem.img}
-                    src="images/winx.jpg"
+                    src="https://picsum.photos/200/200"
                     alt="slide 3"
                 />
             </Carousel.Item>
