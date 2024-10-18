@@ -1,12 +1,21 @@
 import React from 'react'
 import ProductsContainer from '../components/Products';
-import Info from '../components/Info'
+import ImageSlides from '../components/ImageSlides';
+import Info from '../components/Info';
 
 export default function Home() {
-    return (
-      <div className="homePage container">
-        <Info />
-          <ProductsContainer />
-      </div>
-    );
+  const imagesForHomePage = [
+    { src: 'images/banner2.jpg', alt: 'Banner 2' },
+    { src: 'images/banner3.jpg', alt: 'Banner 3' },
+  ];
+  return (
+    <div className="homePage">
+      <ImageSlides
+        images={imagesForHomePage}
+        height="400px" width='100%' interval={null}
+      />
+      <ProductsContainer />
+      <Info />
+    </div>
+  );
 }

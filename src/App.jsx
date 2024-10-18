@@ -18,6 +18,7 @@ import './assets/CSS/Footer.scss'
 import WarehousePage from './pages/WarehousePage.jsx'
 
 function App() {
+<<<<<<< HEAD
     return (
         <div className="App">
             <BrowserRouter>
@@ -35,6 +36,22 @@ function App() {
                             element={<ProductDetail />}
                         ></Route>
                     </Route>
+=======
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          {/* localhost/ */}
+          <Route path="/" element={<DefaultLayout />}>
+            <Route path="/" element={<Home />} />
+            {/* localhostsignup */}
+            <Route path="signup" element={<Signup />} />
+            {/* localhost/login */}
+            <Route path="login" element={<Login />} />
+            {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
+            <Route path='/productDetail/:maSanPham' element={<ProductDetail />}/>
+          </Route>
+>>>>>>> 87a3c72fcf17a081973b0b1d6718a52b16ca7d7a
 
                     {/* localhost/admin */}
                     <Route path="/admin" element={<AdminLayout />}>

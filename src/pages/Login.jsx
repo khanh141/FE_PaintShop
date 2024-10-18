@@ -8,10 +8,16 @@ import {
     MDBCardBody,
     MDBCardImage,
     MDBInput,
+    MDBIcon,
     MDBCheckbox,
 } from 'mdb-react-ui-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUser,
+    faLock,
+    faEye,
+    faEyeSlash,
+} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { KEYS } from '~/constants/keys';
@@ -24,13 +30,16 @@ export default function Login() {
 
     const handleLogin = async () => {
         try {
-            const response = await login({
-                matkhau,
-                tenDangNhap,
-            });
+            const response = await axios.post(
+                'http://localhost:8080/taiKhoan/dangNhap',
+                {
+                    tenDangNhap,
+                    matKhau,
+                }
+            );
 
             // Lưu token vào localStorage
-            localStorage.setItem(KEYS.TOKEN, response.data.token);
+            localStorage.setItem('token', response.data.token);
 
             // Điều hướng đến trang chính sau khi đăng nhập thành công
             navigate('/');
