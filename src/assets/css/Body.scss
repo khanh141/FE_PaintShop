@@ -128,3 +128,14 @@ body {
     text-align: center;
   }
 }
+
+.productImagesContainer {
+  #imageManifier {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    width: 400px;
+    height: auto;
+    overflow: hidden;
+  }
+}
