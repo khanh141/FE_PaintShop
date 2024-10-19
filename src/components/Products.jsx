@@ -8,44 +8,46 @@ import axios from 'axios';
 import testDataInFile from '../testData.json';
 
 const ProductsContainer = () => {
-  const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.filteredProducts);
-  const displayedCards = useSelector((state) => state.products.displayedCards);
-  const showAll = useSelector((state) => state.products.showAll);
-  const [Searchreq, setSearchTerm] = useState("");
+    const dispatch = useDispatch();
+    const products = useSelector((state) => state.products.filteredProducts);
+    const displayedCards = useSelector(
+        (state) => state.products.displayedCards
+    );
+    const showAll = useSelector((state) => state.products.showAll);
+    const [Searchreq, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/sanPham/layTatCa"
-        );
-        console.log("Dữ liệu sản phẩm từ API:", response.data);
-        dispatch(setFilter(response.data));
-      } catch (error) {
-        console.error("Error loading products:", error);
-      }
+    useEffect(() => {
+        const loadProducts = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:8080/sanPham/layTatCa'
+                );
+                console.log('Dữ liệu sản phẩm từ API:', response.data);
+                dispatch(setFilter(response.data));
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        };
+        loadProducts();
+    }, [dispatch]);
+
+    const handleSearch = async () => {
+        if (!Searchreq.trim()) return;
+        try {
+            const response = await axios.get(
+                `http://localhost:8080/sanPham/timKiem?Searchreq=${Searchreq}`
+            );
+            console.log('Dữ liệu sản phẩm: ' + response.data);
+            dispatch(setFilter(response.data));
+        } catch (error) {
+            console.error('Error searching products:', error);
+        }
     };
-    loadProducts();
-  }, [dispatch]);
+    const displayedProducts = products.slice(0, displayedCards);
 
-  const handleSearch = async () => {
-    if (!Searchreq.trim()) return;
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/sanPham/timKiem?Searchreq=${Searchreq}`
-      );
-      console.log("Dữ liệu sản phẩm: " + response.data);
-      dispatch(setFilter(response.data));
-    } catch (error) {
-      console.error("Error searching products:", error);
-    }
-  };
-  const displayedProducts = products.slice(0, displayedCards);
-
-  return (
-    <div className='container'>
-      {/* <div className="filter-bar">
+    return (
+        <div className="container">
+            {/* <div className="filter-bar">
           <div className="mb-3 w-50 mx-auto align-items-center">
             <div className="row mb-3">
               <div className="col-12 col-md-9">
@@ -66,28 +68,31 @@ const ProductsContainer = () => {
           </div>
         </div> */}
 
-      <div className="my-3 w-50 mx-auto align-items-center searchInput">
-        <div className="row mb-3">
-          <div className="col-12 col-md-9">
-            <input
-              type="text"
-              className="form-control mb-2"
-              placeholder="Tìm kiếm theo tên"
-              value={Searchreq}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <div className="col-12 col-md-3 mb-3">
-            <button className="btn btn-primary w-100" onClick={handleSearch}>
-              Tìm kiếm
-            </button>
-          </div>
-        </div>
-      </div>
-      <Row>
-        {products.map((product) => (
-          <Col sm={6} md={4} lg={3} xl={3}>
-            {/* <Card 
+            <div className="my-3 w-50 mx-auto align-items-center searchInput">
+                <div className="row mb-3">
+                    <div className="col-12 col-md-9">
+                        <input
+                            type="text"
+                            className="form-control mb-2"
+                            placeholder="Tìm kiếm theo tên"
+                            value={Searchreq}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <div className="col-12 col-md-3 mb-3">
+                        <button
+                            className="btn btn-primary w-100"
+                            onClick={handleSearch}
+                        >
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <Row>
+                {products.map((product) => (
+                    <Col sm={6} md={4} lg={3} xl={3}>
+                        {/* <Card 
               image={product.hinhAnh} // Giữ nguyên hình ảnh sản phẩm
                 name={product.ten} // Tên sản phẩm giống nhau cho tất cả card
                 type={product.loai}
@@ -97,20 +102,20 @@ const ProductsContainer = () => {
                 soluong={product. chiTietSanPhamResList[0]?soLuong}
                 /> */}
 
-            <Card
-              id={product.maSanPham}
-              image={product.hinhAnh}
-              name={product.ten}
-              type={product.loai}
-              tinhnang={product.tinhNang}
-              mota={product.moTa}
-              giatien={product.chiTietSanPhamResList[0]?.giaTien}
-              soluong={product.chiTietSanPhamResList[0]?.soLuong}
-            />
-          </Col>
-        ))}
+                        <Card
+                            id={product.maSanPham}
+                            image={product.hinhAnh}
+                            name={product.ten}
+                            type={product.loai}
+                            tinhnang={product.tinhNang}
+                            mota={product.moTa}
+                            giatien={product.chiTietSanPhamResList[0]?.giaTien}
+                            soluong={product.chiTietSanPhamResList[0]?.soLuong}
+                        />
+                    </Col>
+                ))}
 
-        {/* {products.map((product) =>
+                {/* {products.map((product) =>
           // Lặp qua từng chi tiết sản phẩm của mỗi sản phẩm
           product.chiTietSanPhamResList.map((chiTiet, index) => (
             <Col
@@ -134,15 +139,17 @@ const ProductsContainer = () => {
             </Col>
           ))
         )} */}
-      </Row>
+            </Row>
 
-      {!showAll && (
-        <div className="d-flex justify-content-center">
-          <Button onClick={() => dispatch(setShowAll())}>Xem tất cả</Button>
+            {!showAll && (
+                <div className="d-flex justify-content-center">
+                    <Button onClick={() => dispatch(setShowAll())}>
+                        Xem tất cả
+                    </Button>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 // function ProductsContainer() {
