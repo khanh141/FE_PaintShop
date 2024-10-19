@@ -16,6 +16,7 @@ import "./assets/CSS/Body.scss";
 import "./assets/CSS/Header.scss";
 import "./assets/CSS/Footer.scss";
 import WarehousePage from "./pages/WarehousePage.jsx";
+import ChangePassword from "./pages/ChangePassword.jsx";
 
 
 function App() {
@@ -26,10 +27,12 @@ function App() {
           {/* localhost/ */}
           <Route path="/" element={<DefaultLayout />}>
             <Route path="/" element={<Home />} />
-            {/* localhostsignup */}
+            {/* localhost/signup */}
             <Route path="signup" element={<Signup />} />
             {/* localhost/login */}
             <Route path="login" element={<Login />} />
+            {/* localhost/changePassword */}
+            <Route path="changePassword" element={<ChangePassword />} />
             {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
             <Route path='/productDetail/:maSanPham' element={<ProductDetail />} />
           </Route>
