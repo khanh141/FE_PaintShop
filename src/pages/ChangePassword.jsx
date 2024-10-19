@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
 import { Container, Row, Col, Form, FloatingLabel, Button, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function ChangePassword() {
   const [tenDangNhap, setUsername] = useState('');
-  const [matKhau, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // Toggle password visibility
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const navigate = useNavigate();
   const [errors, setErrors] = useState('');
 
-  const handleLogin = async () => {
+  // todo: CHUA XONG
+  const handleChangPassword = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8080/taiKhoan/dangNhap',
-        { tenDangNhap, matKhau }
+        'http://localhost:8080/taiKhoan/doiMatKhau',
+        { tenDangNhap, matKhauCu, matKhauMoi }
       );
       localStorage.setItem('token', response.data.token);
-      navigate('/');
+      navigate('/Login');
     } catch (error) {
       setErrors(error.response.data)
     }
@@ -31,7 +33,7 @@ export default function Login() {
       <Row className="d-flex align-items-center justify-content-center">
         <Col md={6}>
           <div className="p-4 border rounded-3 shadow-sm">
-            <h1 className="text-center fw-bold mb-4">Đăng Nhập</h1>
+            <h1 className="text-center fw-bold mb-4">Đổi mật khẩu</h1>
 
             <div className="mb-4">
               <FloatingLabel label="Tên đăng nhập">
@@ -49,18 +51,33 @@ export default function Login() {
             </div>
 
             <div className="position-relative mb-4">
-              <FloatingLabel label="Mật khẩu">
+              <FloatingLabel label="Mật khẩu cũ">
                 <Form.Control
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Mật khẩu"
-                  value={matKhau}
-                  onChange={(e) => setPassword(e.target.value)}
+                  type={showOldPassword ? 'text' : 'password'}
+                  placeholder="Mật khẩu cũ"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
                 />
               </FloatingLabel>
               <FontAwesomeIcon
-                icon={showPassword ? faEyeSlash : faEye}
+                icon={showOldPassword ? faEyeSlash : faEye}
                 className="position-absolute top-50 translate-middle-y end-0 pe-3 cursor-pointer"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowOldPassword(!showOldPassword)}
+              />
+            </div>
+            <div className="position-relative mb-4">
+              <FloatingLabel label="Mật khẩu mới">
+                <Form.Control
+                  type={showNewPassword ? 'text' : 'password'}
+                  placeholder="Mật khẩu mới"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </FloatingLabel>
+              <FontAwesomeIcon
+                icon={showNewPassword ? faEyeSlash : faEye}
+                className="position-absolute top-50 translate-middle-y end-0 pe-3 cursor-pointer"
+                onClick={() => setShowNewPassword(!showNewPassword)}
               />
             </div>
 
@@ -68,44 +85,14 @@ export default function Login() {
               <Alert className='mt-1' variant="danger">{errors}</Alert>
             )}
 
-            <Row className="align-items-center pb-4">
-              <Col xs={12} md={6} className="d-flex align-items-center mb-2 mb-md-0">
-                <Form.Check
-                  type="checkbox"
-                  label="Nhớ mật khẩu"
-                  className="mb-0"
-                />
-              </Col>
-
-              {/* <Col xs={12} md={6} className="d-flex justify-content-md-end justify-content-start">
-                <Link
-                  className="nav-link fs-6"
-                  to="/changePassword"
-                  style={{ color: 'blue', textDecoration: 'underline' }}
-                >
-                  Bạn quên mật khẩu?
-                </Link>
-              </Col> */}
-            </Row>
-
-
-            {/* Horizontal Button Alignment */}
             <div className="d-flex mb-3">
               <Button
                 variant="primary"
                 className="me-2"
-                style={{ flex: 7 }} // 70% width equivalent
-                onClick={handleLogin}
+                style={{ flex: 7 }}
+                onClick={handleChangPassword}
               >
-                Đăng Nhập
-              </Button>
-
-              <Button
-                variant="secondary"
-                style={{ flex: 3 }} // 30% width equivalent
-                onClick={() => navigate('/SignUp')}
-              >
-                Đăng Ký
+                Đổi mật khẩu
               </Button>
             </div>
           </div>
