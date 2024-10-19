@@ -9,41 +9,44 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ImageSlides from "../components/ImageSlides";
 import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from 'react-bootstrap/Image';
 import axios from 'axios';
+import ReactImageMagnify from 'react-image-magnify';
 
 const ProductDetail = () => {
 
-    const { maSanPham } = useParams();
-    const [baoBi, setBaoBi] = useState("");
-    const [mau, setMau] = useState("");
-    const [dinhMuc, setDinhMuc] = useState("");
-    const [giaTien, setGiaTien] = useState(0);
-    const [product, setProduct] = useState({});
-    
+  const { maSanPham } = useParams();
+  const [baoBi, setBaoBi] = useState("");
+  const [mau, setMau] = useState("");
+  const [dinhMuc, setDinhMuc] = useState("");
+  const [giaTien, setGiaTien] = useState(0);
+  const [product, setProduct] = useState({});
+  const imageUrl = "/images/product.jpg"
 
-    const handleSelectBaoBi = (eventKey) => {
-      setBaoBi(eventKey);
-    };
 
-    const handleSelectMau = (eventKey) => {
-      setMau(eventKey); 
-    };
+  const handleSelectBaoBi = (eventKey) => {
+    setBaoBi(eventKey);
+  };
 
-    const handleSelectDinhMuc = (eventKey) => {
-      setDinhMuc(eventKey); 
-    }; 
+  const handleSelectMau = (eventKey) => {
+    setMau(eventKey);
+  };
 
-    const viewDetail = async () =>{
-        try{
-            const response = await axios.get(
-                `http://localhost:8080/sanPham/${maSanPham}`
-              );
-            console.log(JSON.stringify(response.data, null, 2));
-            setProduct(response.data);
-        }
-        catch (error) {
-            console.error("Error searching products:", error);
-          }
+  const handleSelectDinhMuc = (eventKey) => {
+    setDinhMuc(eventKey);
+  };
+
+  const viewDetail = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/sanPham/${maSanPham}`
+      );
+      console.log(JSON.stringify(response.data, null, 2));
+      setProduct(response.data);
+    }
+    catch (error) {
+      console.error("Error searching products:", error);
+    }
   }
 
   useEffect(() => {
@@ -51,6 +54,7 @@ const ProductDetail = () => {
       viewDetail();
     }
   }, [maSanPham]);
+
 
   const comments = [
     {
@@ -97,186 +101,209 @@ const ProductDetail = () => {
     },
   ];
 
-// <<<<<<< Updated upstream
-//   return (
-//     <Container className="productDetail">
-//       <Row className="firstRow">
-//         <Col className="productImagesContainer ps-0">
-//           <ImageSlides height="400px" width="100%" interval={null} imgStyles={slideImgStyles}></ImageSlides>
-//         </Col>
-//         <Col className="productInformation">
-//           <Row
-//             className="productName my-2"
-//             id="name"
-//             style={{ fontWeight: 600, fontSize: "30px", width: "400px" }}
-//           >
-//             {product.ten}
-//           </Row>
-//           <Row
-//             className="productPrice my-2"
-//             id="price"
-//             style={{
-//               fontWeight: 600,
-//               fontSize: "30px",
-//               color: "red",
-//               width: "400px",
-//             }}
-//           >
-//             45.000 - 65.000
-//           </Row>
-//           <Row
-//             className="saleFigures my-2"
-//             id="saleFigures"
-//             style={{ display: "flex", width: "400px" }}
-//           >
-//             <Col>
-//               <span>Đã bán: 200</span>
-//               <span>Đánh giá: 100</span>
-//             </Col>
-//           </Row>
-//           <Row
-//             className="productDetailDropdown mb-2"
-//             id="baoBiDropdown"
-//             style={{
-//               backgroundColor: "rgb(245, 123, 123)",
-//               borderRadius: "8px",
-//               width: "400px",
-//               height: "50px",
-//               display: "flex",
-//               alignItems: "center",
-//             }}
-//           >
-//             <Col>
-//               <span style={{ width: "100px", display: "inline-block" }}>
-//                 Bao bì
-//               </span>
-//               <Dropdown
-//                 className="dropdownBtn"
-//                 onSelect={handleSelectBaoBi}
-//                 style={{ display: "inline", flexGrow: 1 }}
-    return (
-      <Container className="productDetail">
-        <Row className="firstRow">
-          <Col className="productImagesContainer ps-0">
-            <ImageSlides></ImageSlides>
-          </Col>
-          <Col className="productInformation">
-            <Row
-              className="productName my-2"
-              id="name"
-              style={{ fontWeight: 600, fontSize: "30px", width: "400px" }}
-            >
-              {product.ten}
-            </Row>
-            <Row
-              className="productPrice my-2"
-              id="price"
-              style={{
-                fontWeight: 600,
-                fontSize: "30px",
-                color: "red",
-                width: "400px",
-              }}
-            >
-              45.000 - 65.000
-            </Row>
-            <Row
-              className="saleFigures my-2"
-              id="saleFigures"
-              style={{ display: "flex", width: "400px" }}
-            >
-              <Col>
-                <span>Đã bán: 200 </span>
-                <span> Đánh giá: 100</span>
-              </Col>
-            </Row>
-            <Row
-            // className="productDetailDropdown mb-2"
-            // id="baoBiDropdown"
-            // style={{
-            //   backgroundColor: "rgb(245, 123, 123)",
-            //   borderRadius: "8px",
-            //   width: "400px",
-            //   height: "50px",
-            //   display: "flex",
-            //   alignItems: "center",
-            // }}
-            >
-              <Col>
-                <Row className="mb-3">
-                  <span style={{ width: "100px", display: "inline-block" }}>
-                    Bao bì
-                  </span>
-                  {product.chiTietSanPhamResList &&
+  // <<<<<<< Updated upstream
+  //   return (
+  //     <Container className="productDetail">
+  //       <Row className="firstRow">
+  //         <Col className="productImagesContainer ps-0">
+  //           <ImageSlides height="400px" width="100%" interval={null} imgStyles={slideImgStyles}></ImageSlides>
+  //         </Col>
+  //         <Col className="productInformation">
+  //           <Row
+  //             className="productName my-2"
+  //             id="name"
+  //             style={{ fontWeight: 600, fontSize: "30px", width: "400px" }}
+  //           >
+  //             {product.ten}
+  //           </Row>
+  //           <Row
+  //             className="productPrice my-2"
+  //             id="price"
+  //             style={{
+  //               fontWeight: 600,
+  //               fontSize: "30px",
+  //               color: "red",
+  //               width: "400px",
+  //             }}
+  //           >
+  //             45.000 - 65.000
+  //           </Row>
+  //           <Row
+  //             className="saleFigures my-2"
+  //             id="saleFigures"
+  //             style={{ display: "flex", width: "400px" }}
+  //           >
+  //             <Col>
+  //               <span>Đã bán: 200</span>
+  //               <span>Đánh giá: 100</span>
+  //             </Col>
+  //           </Row>
+  //           <Row
+  //             className="productDetailDropdown mb-2"
+  //             id="baoBiDropdown"
+  //             style={{
+  //               backgroundColor: "rgb(245, 123, 123)",
+  //               borderRadius: "8px",
+  //               width: "400px",
+  //               height: "50px",
+  //               display: "flex",
+  //               alignItems: "center",
+  //             }}
+  //           >
+  //             <Col>
+  //               <span style={{ width: "100px", display: "inline-block" }}>
+  //                 Bao bì
+  //               </span>
+  //               <Dropdown
+  //                 className="dropdownBtn"
+  //                 onSelect={handleSelectBaoBi}
+  //                 style={{ display: "inline", flexGrow: 1 }}
+  return (
+    <Container className="productDetail">
+      <Row className="firstRow">
+        <Col className="productImagesContainer ps-0">
+          <div id="imageManifier">
+            <ReactImageMagnify {...{
+              smallImage: {
+                alt: 'Wristwatch by Ted Baker London',
+                isFluidWidth: true,
+                src: imageUrl
+              },
+              largeImage: {
+                src: imageUrl,
+                width: 1200,
+                height: 800
+              },
+              enlargedImageContainerDimensions: {
+                width: '110%',
+                height: '110%',
+              },
+              enlargedImageContainerStyle: {
+                position: 'absolute',
+                top: '0',
+                left: '-10',
+                zIndex: 100,
+              },
+            }} />
+          </div>
+        </Col>
+        <Col className="productInformation">
+          <Row
+            className="productName my-2"
+            id="name"
+            style={{ fontWeight: 600, fontSize: "30px", width: "400px" }}
+          >
+            {product.ten}
+          </Row>
+          <Row
+            className="productPrice my-2"
+            id="price"
+            style={{
+              fontWeight: 600,
+              fontSize: "30px",
+              color: "red",
+              width: "400px",
+            }}
+          >
+            45.000 - 65.000
+          </Row>
+          <Row
+            className="saleFigures my-2"
+            id="saleFigures"
+            style={{ display: "flex", width: "400px" }}
+          >
+            <Col>
+              <span>Đã bán: 200 </span>
+              <span> Đánh giá: 100</span>
+            </Col>
+          </Row>
+          <Row
+          // className="productDetailDropdown mb-2"
+          // id="baoBiDropdown"
+          // style={{
+          //   backgroundColor: "rgb(245, 123, 123)",
+          //   borderRadius: "8px",
+          //   width: "400px",
+          //   height: "50px",
+          //   display: "flex",
+          //   alignItems: "center",
+          // }}
+          >
+            <Col>
+              <Row className="mb-3">
+                <span style={{ width: "100px", display: "inline-block" }}>
+                  Bao bì
+                </span>
+                {product.chiTietSanPhamResList &&
                   product.chiTietSanPhamResList.length > 0 ? (
-                    product.chiTietSanPhamResList.map((chitiet, index) => (
-                      <button
-                        className="w-25 rounded"
-                        key={index}
-                        eventKey={chitiet.loaiBaoBi}
-                      >
-                        {chitiet.loaiBaoBi}
-                      </button>
-                    ))
-                  ) : (
-                    <p>Không có dữ liệu</p>
-                  )}
-                </Row>
-              </Col>
-            </Row>
-            <Row
-            // className="productDetailDropdown mb-2"
-            // id="mauDropdown"
-            // style={{
-            //   backgroundColor: "rgb(245, 123, 123)",
-            //   borderRadius: "8px",
-            //   width: "400px",
-            //   height: "50px",
-            //   display: "flex",
-            //   alignItems: "center",
-            // }}
-            >
-              <Col>
-                <Row className="mb-3">
-                  <span style={{ width: "100px", display: "inline-block" }}>
-                    Màu
-                  </span>
-                  {product.chiTietSanPhamResList &&
+                  product.chiTietSanPhamResList.map((chitiet, index) => (
+                    <button
+                      className="w-25 rounded"
+                      key={index}
+                      eventKey={chitiet.loaiBaoBi}
+                    >
+                      {chitiet.loaiBaoBi}
+                    </button>
+                  ))
+                ) : (
+                  <p>Không có dữ liệu</p>
+                )}
+              </Row>
+            </Col>
+          </Row>
+          <Row
+          // className="productDetailDropdown mb-2"
+          // id="mauDropdown"
+          // style={{
+          //   backgroundColor: "rgb(245, 123, 123)",
+          //   borderRadius: "8px",
+          //   width: "400px",
+          //   height: "50px",
+          //   display: "flex",
+          //   alignItems: "center",
+          // }}
+          >
+            <Col>
+              <Row className="mb-3">
+                <span style={{ width: "100px", display: "inline-block" }}>
+                  Màu
+                </span>
+                {product.chiTietSanPhamResList &&
                   product.chiTietSanPhamResList.length > 0 ? (
-                    product.chiTietSanPhamResList.map((chitiet, index) => (
-                      <button
-                        className="w-25 rounded"
-                        key={index}
-                        eventKey={chitiet.mau}
-                      >
-                        {chitiet.mau}
-                      </button>
-                    ))
-                  ) : (
-                    <p disabled>Không có dữ liệu</p>
-                  )}
-                </Row>
-              </Col>
-            </Row>
-            <Row
-              // className="productDetailDropdown mb-2"
-              // id="dinhMucDropdown"
-              // style={{
-              //   backgroundColor: "rgb(245, 123, 123)",
-              //   borderRadius: "8px",
-              //   width: "400px",
-              //   height: "50px",
-              //   display: "flex",
-              //   alignItems: "center",
-              // }}
-            >
-              <Col>
-                <Row className="mb-3">
+                  product.chiTietSanPhamResList.map((chitiet, index) => (
+                    <button
+                      className="w-25 rounded"
+                      key={index}
+                      eventKey={chitiet.mau}
+                    >
+                      {chitiet.mau}
+                    </button>
+                  ))
+                ) : (
+                  <p disabled>Không có dữ liệu</p>
+                )}
+              </Row>
+            </Col>
+          </Row>
+          <Row
+          // className="productDetailDropdown mb-2"
+          // id="dinhMucDropdown"
+          // style={{
+          //   backgroundColor: "rgb(245, 123, 123)",
+          //   borderRadius: "8px",
+          //   width: "400px",
+          //   height: "50px",
+          //   display: "flex",
+          //   alignItems: "center",
+          // }}
+          >
+            <Col>
+              <Row className="mb-3">
                 <span style={{ width: "100px", display: "inline-block" }}>
                   Định mức
                 </span>
-                
-                    {/* <Dropdown.Toggle
+
+                {/* <Dropdown.Toggle
                       variant="success"
                       id="dropdown-basic"
                       style={{ width: "250px" }}
@@ -284,27 +311,27 @@ const ProductDetail = () => {
                       {dinhMuc ? dinhMuc : "Chọn định mức"}
                     </Dropdown.Toggle> */}
 
-                    {product.chiTietSanPhamResList &&
-                    product.chiTietSanPhamResList.length > 0 ? (
-                      product.chiTietSanPhamResList.map((chitiet, index) => (
-                        <button
-                        className="w-25 rounded"
-                          key={index}
-                          eventKey={chitiet.loaiDinhMucLyThuyet}
-                        >
-                          {chitiet.loaiDinhMucLyThuyet}
-                        </button>
-                      ))
-                    ) : (
-                      <p>Không có dữ liệu</p>
-                    )}
-                  </Row>
-              </Col>
-            </Row>
-            <Row style={{ width: "400px" }}>
-              <span>Giá tiền: chưa chọn các lựa chọn sản phẩm</span>
-            </Row>
-            <Row className="buttonGroup my-2" style={{ width: "400px" }}>
+                {product.chiTietSanPhamResList &&
+                  product.chiTietSanPhamResList.length > 0 ? (
+                  product.chiTietSanPhamResList.map((chitiet, index) => (
+                    <button
+                      className="w-25 rounded"
+                      key={index}
+                      eventKey={chitiet.loaiDinhMucLyThuyet}
+                    >
+                      {chitiet.loaiDinhMucLyThuyet}
+                    </button>
+                  ))
+                ) : (
+                  <p>Không có dữ liệu</p>
+                )}
+              </Row>
+            </Col>
+          </Row>
+          <Row style={{ width: "400px" }}>
+            <span>Giá tiền: chưa chọn các lựa chọn sản phẩm</span>
+          </Row>
+          <Row className="buttonGroup my-2" style={{ width: "400px" }}>
             <Col style={{ display: "flex", justifyContent: "center" }}>
               <Button variant="secondary" style={{ margin: "0 4px" }}>
                 <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
@@ -314,43 +341,43 @@ const ProductDetail = () => {
               </Button>
             </Col>
           </Row>
-          </Col>
-        </Row>
-        
-        <hr />
+        </Col>
+      </Row>
 
-        <Row
-          className="thirdRow commentContainer hasScrollBar p-3 rounded"
-          style={{
-            backgroundColor: "white",
-            maxHeight: "400px",
-            overflowY: "scroll",
-            transition: "max-height 0.3s ease-in-out",
-            boxShadow: "1px 1px 10px rgb(142, 142, 142)",
-          }}
-        >
-          {comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="comment mb-2 p-2 rounded"
-              style={{ backgroundColor: "wheat" }}
+      <hr />
+
+      <Row
+        className="thirdRow commentContainer hasScrollBar p-3 rounded"
+        style={{
+          backgroundColor: "white",
+          maxHeight: "400px",
+          overflowY: "scroll",
+          transition: "max-height 0.3s ease-in-out",
+          boxShadow: "1px 1px 10px rgb(142, 142, 142)",
+        }}
+      >
+        {comments.map((comment) => (
+          <div
+            key={comment.id}
+            className="comment mb-2 p-2 rounded"
+            style={{ backgroundColor: "wheat" }}
+          >
+            <h6 className="username font-weight-bold">{comment.username}</h6>
+            <p
+              className="content text-justify"
+              style={{
+                textIndent: "10px",
+                fontSize: "14px",
+                lineHeight: "1.6",
+              }}
             >
-              <h6 className="username font-weight-bold">{comment.username}</h6>
-              <p
-                className="content text-justify"
-                style={{
-                  textIndent: "10px",
-                  fontSize: "14px",
-                  lineHeight: "1.6",
-                }}
-              >
-                {comment.content}
-              </p>
-            </div>
-          ))}
-        </Row>
-      </Container>
-    );
+              {comment.content}
+            </p>
+          </div>
+        ))}
+      </Row>
+    </Container>
+  );
 };
 
 export default ProductDetail;
