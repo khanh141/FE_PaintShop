@@ -3,15 +3,10 @@ import { useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import ImageSlides from "../components/ImageSlides";
-import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from 'react-bootstrap/Image';
 import axios from 'axios';
-import ReactImageMagnify from 'react-image-magnify';
+import ReactImageMagnify from "react-image-magnify";
 
 const ProductDetail = () => {
 
@@ -302,15 +297,6 @@ const ProductDetail = () => {
                 <span style={{ width: "100px", display: "inline-block" }}>
                   Định mức
                 </span>
-
-                {/* <Dropdown.Toggle
-                      variant="success"
-                      id="dropdown-basic"
-                      style={{ width: "250px" }}
-                    >
-                      {dinhMuc ? dinhMuc : "Chọn định mức"}
-                    </Dropdown.Toggle> */}
-
                 {product.chiTietSanPhamResList &&
                   product.chiTietSanPhamResList.length > 0 ? (
                   product.chiTietSanPhamResList.map((chitiet, index) => (
