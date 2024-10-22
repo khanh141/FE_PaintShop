@@ -60,7 +60,6 @@ const ProductsContainer = () => {
     return items;
   };
 
-  // Get the products to display based on the current page
   const currentProducts = products.slice(
     (currentPage - 1) * PRODUCTS_PER_PAGE,
     currentPage * PRODUCTS_PER_PAGE
@@ -109,8 +108,6 @@ const ProductsContainer = () => {
           <Button onClick={() => dispatch(setShowAll())}>Xem tất cả</Button>
         </div>
       )}
-
-      {/* React-Bootstrap Pagination */}
       <Row className="justify-content-center mt-4">
         <Pagination className="justify-content-center">
           <Pagination.Prev
