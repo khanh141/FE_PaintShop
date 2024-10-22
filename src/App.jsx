@@ -17,6 +17,7 @@ import "./assets/CSS/Header.scss";
 import "./assets/CSS/Footer.scss";
 import WarehousePage from "./pages/WarehousePage.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
+import ShoppingCart from "./pages/ShoppingCart.jsx";
 
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
             <Route path="signup" element={<Signup />} />
             {/* localhost/login */}
             <Route path="login" element={<Login />} />
+            {/* localhost/cart */}
+            <Route path="cart" element={<ShoppingCart />}/>
             {/* localhost/changePassword */}
             <Route path="changePassword" element={<ChangePassword />} />
             {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}

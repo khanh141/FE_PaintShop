@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Row, Col, Button, Container } from 'react-bootstrap';
 import Card from './Card';
 import axios from 'axios';
+
 import Pagination from "react-bootstrap/Pagination";
 const ProductsContainer = () => {
 
@@ -68,6 +69,7 @@ const ProductsContainer = () => {
 
   return (
     <Container className='productList'>
+
       <div className="my-3 w-50 mx-auto align-items-center searchInput">
         <div className="row mb-3">
           <div className="col-12 col-md-9">
@@ -86,6 +88,7 @@ const ProductsContainer = () => {
           </div>
         </div>
       </div>
+
       <Row>
         {currentProducts.map((product, index) => (
           <Col xs={6} sm={4} md={3} lg={2} key={index} className="cardCol p-1">
@@ -99,7 +102,12 @@ const ProductsContainer = () => {
           </Col>
         ))}
       </Row>
-      {/* React-Bootstrap Pagination */}
+
+      {!showAll && (
+        <div className="d-flex justify-content-center">
+          <Button onClick={() => dispatch(setShowAll())}>Xem tất cả</Button>
+        </div>
+      )}
       <Row className="justify-content-center mt-4">
         <Pagination className="justify-content-center">
           <Pagination.Prev
@@ -113,7 +121,7 @@ const ProductsContainer = () => {
           />
         </Pagination>
       </Row>
-    </Container>
+    </div>
   );
 };
 

@@ -21,6 +21,7 @@ export default function Login() {
       );
       localStorage.setItem('token', response.data.token);
       navigate('/');
+      window.location.reload()
     } catch (error) {
       setErrors(error.response.data)
     }
