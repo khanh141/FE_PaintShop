@@ -7,25 +7,18 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/CardReducer';
 
 export default function Card({ id, image, name, type, tinhnang, mota, giatien, soluong }) {
-  const dispatch = useDispatch();
-
+  if (!id) {
+    console.error("Product ID is undefined or invalid.");
+  }
   return (
-    <div className="mt-3">
-      <div className="card h-100 d-flex flex-column border-warning">
-        <Link to={`/productDetail/${id}`}>
-          <img
-            src={image || "https://picsum.photos/200/200"}
-            className="card-img-top"
-            alt={name}
-          />
-        </Link>
-        <div className="card-body d-flex flex-column">
-          <Link to={`/productDetail/${id}`}>
-            <h5 className="card-title">{name}</h5>
-            <p>Giá tiền: {giatien} VND</p>
-            <p>Số lượng tồn kho: {soluong}</p>
-          </Link>
-          <div className="d-flex justify-content-center w-100">
+    <div className="mt-3 cardContainer">
+      <Link to={`/productDetail/${id}`}>
+        <div className="card">
+          <img src="https://picsum.photos/200/200" />
+          <div className="card-body p-2">
+            <span className="card-title h-30">{name}</span>
+            <span className="price my-2">{giatien} <small className="vnd">VND</small></span>
+            <span className="card-text">{type}</span>
           </div>
         </div>
       </div>
