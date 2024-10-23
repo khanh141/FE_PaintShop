@@ -7,7 +7,7 @@ import Card from './Card';
 import axios from 'axios';
 import Pagination from "react-bootstrap/Pagination";
 const ProductsContainer = () => {
-  const PRODUCTS_PER_PAGE = 12;
+  const PRODUCTS_PER_PAGE = 15;
 
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.filteredProducts);
@@ -67,7 +67,7 @@ const ProductsContainer = () => {
     currentPage * PRODUCTS_PER_PAGE
   );
   return (
-    <div className='container'>
+    <Container className='productList'>
       <Row>
         {currentProducts.map((product, index) => (
           <Col xs={6} sm={4} md={3} lg={2} key={index} className="cardCol p-1">
@@ -94,7 +94,7 @@ const ProductsContainer = () => {
           />
         </Pagination>
       </Row>
-    </div>
+    </Container>
   );
 };
 
