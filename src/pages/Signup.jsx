@@ -176,7 +176,7 @@ export default function Signup() {
               <Form.Control
                 type="text"
                 placeholder="Email"
-                value={diaChi}
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </FloatingLabel>
