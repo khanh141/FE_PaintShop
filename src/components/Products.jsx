@@ -5,11 +5,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Row, Col, Button, Container } from 'react-bootstrap';
 import Card from './Card';
 import axios from 'axios';
-import Pagination from 'react-bootstrap/Pagination';
 
-const PRODUCTS_PER_PAGE = 8;
-
+import Pagination from "react-bootstrap/Pagination";
 const ProductsContainer = () => {
+
+  const PRODUCTS_PER_PAGE = 15;
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.filteredProducts);
   const displayedCards = useSelector((state) => state.products.displayedCards);
@@ -63,26 +63,46 @@ const ProductsContainer = () => {
     }
     return items;
   };
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/sanPham/layTatCa"
+        );
+        console.log("Dữ liệu sản phẩm từ API:", response.data);
+        dispatch(setFilter(response.data));
+      } catch (error) {
+        console.error("Error loading products:", error);
+      }
+    };
+    loadProducts();
+  }, [dispatch]);
 
-  const currentProducts = products.slice(
-    (currentPage - 1) * PRODUCTS_PER_PAGE,
-    currentPage * PRODUCTS_PER_PAGE
-  );
+  const handleSearch = async () => {
+    if (!Searchreq.trim()) return;
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/sanPham/timKiem?Searchreq=${Searchreq}`
+      );
+      console.log("Dữ liệu sản phẩm: " + response.data);
+      dispatch(setFilter(response.data));
+    } catch (error) {
+      console.error("Error searching products:", error);
+    }
+  };
+  const displayedProducts = products.slice(0, displayedCards);
 
   return (
     <div className='container'>
       <Row>
         {currentProducts.map((product, index) => (
-          <Col key={index} sm={6} md={4} lg={3} xl={3}>
+          <Col xs={6} sm={4} md={3} lg={2} key={index} className="cardCol p-1">
             <Card
               id={product.maSanPham}
               image={product.hinhAnh}
               name={product.ten}
               type={product.loai}
-              tinhnang={product.tinhNang}
-              mota={product.moTa}
               giatien={product.chiTietSanPhamResList[0]?.giaTien}
-              soluong={product.chiTietSanPhamResList[0]?.soLuong}
             />
           </Col>
         ))}
@@ -103,5 +123,6 @@ const ProductsContainer = () => {
     </div>
   );
 };
+
 
 export default ProductsContainer;

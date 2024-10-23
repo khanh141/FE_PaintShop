@@ -1,42 +1,82 @@
 :root {
-    --hover-gray-color: rgb(215, 215, 215);
+
+  --hover-gray-color: rgb(215, 215, 215);
+  --primary-color: rgb(255, 106, 0);
 }
 
 body {
-    a {
-        text-decoration: none;
+
+  background-color: #f5f5f5;
+  a {
+    text-decoration: none;
+  }
+  background-repeat: no-repeat;
+  background-size: cover;
+  .hasScrollBar {
+    &::-webkit-scrollbar {
+      width: 10px; // Set width of the scrollbar
     }
-    background-repeat: no-repeat;
-    background-size: cover;
-    .hasScrollBar {
-        &::-webkit-scrollbar {
-            width: 10px; // Set width of the scrollbar
-        }
-        &::-webkit-scrollbar-track {
-            background-color: #f1f1f1; // Background color of the scrollbar track
-            border-radius: 10px; // Optional, adds rounded corners
-        }
-        &::-webkit-scrollbar-thumb {
-            background-color: #888; // Color of the scrollbar thumb
-            border-radius: 10px; // Optional, adds rounded corners to the thumb
-            border: 2px solid #f1f1f1; // Border around the scrollbar thumb
-        }
-        &::-webkit-scrollbar-thumb:hover {
-            background-color: #555; // Darken the scrollbar thumb on hover
-        }
+    &::-webkit-scrollbar-track {
+      background-color: #f1f1f1; // Background color of the scrollbar track
+      border-radius: 10px; // Optional, adds rounded corners
     }
-    .card {
-        position: relative;
-        overflow: hidden;
-        .card-img-top {
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            display: block;
-            will-change: transform;
+    &::-webkit-scrollbar-thumb {
+      background-color: #888; // Color of the scrollbar thumb
+      border-radius: 10px; // Optional, adds rounded corners to the thumb
+      border: 2px solid #f1f1f1; // Border around the scrollbar thumb
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #555; // Darken the scrollbar thumb on hover
+    }
+  }
+  .productList {
+    .cardCol {
+      flex: 0 0 20%; // Each column takes 20% of the row
+      max-width: 20%;
+      .cardContainer {
+        .card {
+          border: none;
+          border-radius: 2px;
+          box-shadow: 1px 1px 2px var(--hover-gray-color),
+            -1px 1px 2px var(--hover-gray-color),
+            1px -1px 2px var(--hover-gray-color),
+            -1px -1px 2px var(--hover-gray-color);
+          .card-body {
+            display: flex;
+            flex-direction: column;
+            span {
+              font-size: 14px;
+            }
+            .card-title {
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              height: 2.5rem;
+            }
+            .price {
+              color: var(--primary-color);
+              font-size: 15px;
+              .vnd {
+                font-size: 12px;
+              }
+            }
+          }
         }
-        &:hover .card-img-top {
-            transform: scale(1.1);
+        &:hover {
+          transform: translateY(-1px);
         }
+      }
+      @media (max-width: 768px) {
+        flex: 0 0 33.33%; // Adjust for smaller screens
+        max-width: 33.33%;
+      }
+
+      @media (max-width: 576px) {
+        flex: 0 0 50%; // Adjust for extra small screens
+        max-width: 50%;
+      }
         .clamp-2-lines {
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -102,38 +142,6 @@ body {
     }
 }
 
-.info-container {
-    margin-top: 20px;
-    .info-row {
-        border-top: 1px solid #dee2e6;
-        border-bottom: 1px solid #dee2e6;
-        padding: 10px 0;
-        display: flex; // Ensure consistent row alignment
-        .info-col-left {
-            font-weight: bold;
-            width: 20%;
-            max-width: 20%;
-            flex: 0 0 20%; // Exact 20% width
-            display: flex;
-            align-items: center;
-            gap: 8px; // Spacing between icon and text
-            svg {
-                font-size: 1.2rem;
-                min-width: 1.2rem; // Prevent icons from shrinking
-                min-height: 1.2rem;
-            }
-        }
-        .info-col {
-            display: flex;
-            align-items: center;
-        }
-    }
-    .companyName {
-        font-size: 1.5rem;
-        font-weight: bold;
-        text-align: center;
-    }
-}
 
 .productImagesContainer {
     #imageManifier {
@@ -144,4 +152,5 @@ body {
         height: auto;
         overflow: hidden;
     }
+}
 }
