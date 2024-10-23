@@ -24,8 +24,11 @@ const productsSlice = createSlice({
             state.showAll = !state.showAll;
             state.displayedCards = state.showAll ? state.products.length : 8;
         },
+        setSearchTerm: (state, action) => {
+            state.searchTerm = action.payload; 
+        },
     },
 });
 
-export const { setFilter, setShowAll } = productsSlice.actions;
+export const { setFilter, setShowAll,setSearchTerm } = productsSlice.actions;
 export default productsSlice.reducer;

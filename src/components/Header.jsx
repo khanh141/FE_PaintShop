@@ -1,6 +1,8 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Navbar, Container, Nav, Row,Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch } from "react-redux";
+import { setSearchTerm } from "../redux/ProductReducer";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FaSearch, FaUser, FaShoppingCart } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
@@ -10,12 +12,22 @@ export default function NavigationBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchTerm, setSearchTermInput] = useState('');
+  const dispatch = useDispatch();
+
+
+  const handleSearch = () => {
+    if (!searchTerm.trim()) return;
+    dispatch(setSearchTerm(searchTerm)); // Cập nhật searchTerm vào Redux
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
   }, []);
 
+  
+  
   const handleLogout = async () => {
     try {
       await axios.post('http://localhost:8080/taiKhoan/dangXuat', {
@@ -33,31 +45,32 @@ export default function NavigationBar() {
     <Navbar bg="light" expand="lg">
       <Container fluid>
         <Col xs={2}>
-        <Link className="navbar-brand text-black" to="/">
-          <img src="/images/Logo.png" alt="Logo" className="img-fluid logo" />
-        </Link>
+          <Link className="navbar-brand text-black" to="/">
+            <img src="/images/Logo.png" alt="Logo" className="img-fluid logo" />
+          </Link>
         </Col>
         <Navbar.Toggle aria-controls="navbarSupportedContent">
           <FontAwesomeIcon id="navbarToggerIcon" icon={faBars} />
         </Navbar.Toggle>
         <Navbar.Collapse id="navbarSupportedContent">
           <Row className="align-items-center w-100">
-            <Col xs={6} className="d-flex justify-content-center">            
+            <Col xs={6} className="d-flex justify-content-center">
               <div className="input-group">
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Tìm kiếm theo tên"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTermInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleSearch();
+                    }
+                  }}
                 />
-                <span className="input-group-text">
-                  <FaSearch />
-                </span>
-                <button className="btn btn-primary">Tìm kiếm</button>
+                <button className="btn btn-primary" onClick={handleSearch}>Tìm kiếm</button>
               </div>
-            
             </Col>
-
-            {/* Right side - Buttons */}
             <Col xs={6} className="d-flex justify-content-end">
               <Nav>
                 <Nav.Item>

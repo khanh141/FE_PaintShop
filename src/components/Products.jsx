@@ -5,22 +5,45 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Row, Col, Button, Container } from 'react-bootstrap';
 import Card from './Card';
 import axios from 'axios';
-
 import Pagination from "react-bootstrap/Pagination";
 const ProductsContainer = () => {
+  const PRODUCTS_PER_PAGE = 12;
 
-  const PRODUCTS_PER_PAGE = 15;
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.filteredProducts);
-  const displayedCards = useSelector((state) => state.products.displayedCards);
-  const [Searchreq, setSearchTerm] = useState("");
+  const searchTerm = useSelector((state) => state.products.searchTerm); // Lấy searchTerm từ Redux
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
 
-  const currentProducts = products.slice(
-    (currentPage - 1) * PRODUCTS_PER_PAGE,
-    currentPage * PRODUCTS_PER_PAGE
-  );
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/sanPham/layTatCa');
+        console.log('Dữ liệu sản phẩm từ API:', response.data);
+        dispatch(setFilter(response.data));
+      } catch (error) {
+        console.error('Error loading products:', error);
+      }
+    };
+    loadProducts();
+  }, [dispatch]);
+
+  useEffect(() => {
+    const searchProducts = async () => {
+      if (!searchTerm.trim()) return;
+      try {
+        const response = await axios.get(`http://localhost:8080/sanPham/timKiem?Searchreq=${searchTerm}`);
+        console.log('Dữ liệu sản phẩm tìm kiếm:', response.data);
+        dispatch(setFilter(response.data));
+      } catch (error) {
+        console.error('Error searching products:', error);
+      }
+    };
+    if (searchTerm) {
+      searchProducts(); // Gọi API tìm kiếm khi searchTerm thay đổi
+    }
+  }, [searchTerm, dispatch]);
+
   const handlePageChange = (page) => setCurrentPage(page);
 
   const renderPaginationItems = () => {
@@ -38,57 +61,13 @@ const ProductsContainer = () => {
     }
     return items;
   };
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/sanPham/layTatCa"
-        );
-        console.log("Dữ liệu sản phẩm từ API:", response.data);
-        dispatch(setFilter(response.data));
-      } catch (error) {
-        console.error("Error loading products:", error);
-      }
-    };
-    loadProducts();
-  }, [dispatch]);
 
-  const handleSearch = async () => {
-    if (!Searchreq.trim()) return;
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/sanPham/timKiem?Searchreq=${Searchreq}`
-      );
-      console.log("Dữ liệu sản phẩm: " + response.data);
-      dispatch(setFilter(response.data));
-    } catch (error) {
-      console.error("Error searching products:", error);
-    }
-  };
-  const displayedProducts = products.slice(0, displayedCards);
-
+  const currentProducts = products.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE
+  );
   return (
-    <Container className='productList'>
-
-      <div className="my-3 w-50 mx-auto align-items-center searchInput">
-        <div className="row mb-3">
-          <div className="col-12 col-md-9">
-            <input
-              type="text"
-              className="form-control mb-2"
-              placeholder="Tìm kiếm theo tên"
-              value={Searchreq}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <div className="col-12 col-md-3 mb-3">
-            <button className="btn btn-primary w-100" onClick={handleSearch}>
-              Tìm kiếm
-            </button>
-          </div>
-        </div>
-      </div>
-
+    <div className='container'>
       <Row>
         {currentProducts.map((product, index) => (
           <Col xs={6} sm={4} md={3} lg={2} key={index} className="cardCol p-1">
@@ -102,12 +81,6 @@ const ProductsContainer = () => {
           </Col>
         ))}
       </Row>
-
-      {!showAll && (
-        <div className="d-flex justify-content-center">
-          <Button onClick={() => dispatch(setShowAll())}>Xem tất cả</Button>
-        </div>
-      )}
       <Row className="justify-content-center mt-4">
         <Pagination className="justify-content-center">
           <Pagination.Prev
@@ -124,6 +97,7 @@ const ProductsContainer = () => {
     </div>
   );
 };
+
 
 
 export default ProductsContainer;

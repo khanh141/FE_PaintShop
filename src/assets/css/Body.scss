@@ -2,6 +2,9 @@
 
   --hover-gray-color: rgb(215, 215, 215);
   --primary-color: rgb(255, 106, 0);
+
+  --hover-gray-color: rgb(215, 215, 215);
+  --primary-color: rgb(255, 106, 0);
 }
 
 body {
@@ -77,6 +80,15 @@ body {
         flex: 0 0 50%; // Adjust for extra small screens
         max-width: 50%;
       }
+        .clamp-2-lines {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            height: 3rem;
+        }
     }
     .PaintType {
         .type {
@@ -143,4 +155,5 @@ body {
         height: auto;
         overflow: hidden;
     }
+}
 }
