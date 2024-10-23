@@ -28,10 +28,10 @@ export default function Login() {
   };
 
   return (
-    <Container fluid className="loginForm">
-      <Row className="d-flex align-items-center justify-content-center">
-        <Col md={6}>
-          <div className="p-4 border rounded-3 shadow-sm">
+    <Container fluid className="loginForm ">
+      <Row className="mt-2 d-flex align-items-center justify-content-center ">
+        <Col md={6} >
+          <div className="p-4 border rounded-3 shadow-sm authForm">
             <h1 className="text-center fw-bold mb-4">Đăng Nhập</h1>
 
             <div className="mb-4">
@@ -70,23 +70,15 @@ export default function Login() {
             )}
 
             <Row className="align-items-center pb-4">
-              <Col xs={12} md={6} className="d-flex align-items-center mb-2 mb-md-0">
-                <Form.Check
-                  type="checkbox"
-                  label="Nhớ mật khẩu"
-                  className="mb-0"
-                />
-              </Col>
-
-              {/* <Col xs={12} md={6} className="d-flex justify-content-md-end justify-content-start">
+              <Col xs={12} md={6} className="justify-content-end">
                 <Link
                   className="nav-link fs-6"
-                  to="/changePassword"
+                  to="/enterEmail"
                   style={{ color: 'blue', textDecoration: 'underline' }}
                 >
                   Bạn quên mật khẩu?
                 </Link>
-              </Col> */}
+              </Col>
             </Row>
 
 

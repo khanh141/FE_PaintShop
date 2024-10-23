@@ -15,6 +15,7 @@ export default function Signup() {
   const [sdt, setsdt] = useState('');
   const [hoTen, sethoTen] = useState('');
   const [diaChi, setdiaChi] = useState('');
+  const [email, setEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
@@ -60,6 +61,8 @@ export default function Signup() {
         "Mật khẩu phải chứa ít nhất 1 chữ số.",
       "Password must contain 1 or more special characters.":
         "Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt.",
+      "Email khong dung dinh dang":
+        "Email không đúng định dạng",
       "So dien thoai da duoc su dung":
         "Số điện thoại đã được sử dụng.",
       "Ten nguoi dung da ton tai":
@@ -72,9 +75,9 @@ export default function Signup() {
 
   return (
     <Container fluid className="signUpForm ">
-      <Row className="d-flex align-items-center justify-content-center">
+      <Row className="mt-2 d-flex align-items-center justify-content-center">
         <Col md={6}>
-          <div className="p-4 border rounded-3 shadow-sm">  {/* Border wrapper */}
+          <div className="p-4 border rounded-3 shadow-sm authForm">  {/* Border wrapper */}
             <h1 className="text-center fw-bold mb-3">Đăng Ký</h1>
             <FloatingLabel label="Tên đăng nhập" className="mt-4">
               <Form.Control
@@ -169,6 +172,21 @@ export default function Signup() {
               </Col>
             </Row>
 
+            <FloatingLabel label="Email" className="mt-4">
+              <Form.Control
+                type="text"
+                placeholder="Email"
+                value={diaChi}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </FloatingLabel>
+            {errors.diaChi && (
+              <Alert className='mt-1' variant="danger">
+                {errors.sdt.includes('dang') && 'Email phải có định dạng `ten@gmail.com`'}
+                {errors.sdt.includes('trong') && 'Email không được để trống'}
+                {!errors.sdt.includes('10') && !errors.sdt.includes('trong') && errors.sdt}
+              </Alert>
+            )}
             <FloatingLabel label="Địa chỉ" className="mt-4">
               <Form.Control
                 type="text"

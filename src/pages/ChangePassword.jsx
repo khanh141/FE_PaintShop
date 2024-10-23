@@ -29,7 +29,7 @@ export default function ChangePassword() {
   };
 
   return (
-    <Container fluid className="loginForm">
+    <Container fluid className="loginForm authForm">
       <Row className="d-flex align-items-center justify-content-center">
         <Col md={6}>
           <div className="p-4 border rounded-3 shadow-sm">

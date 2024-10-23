@@ -18,6 +18,9 @@ import "./assets/CSS/Footer.scss";
 import WarehousePage from "./pages/WarehousePage.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
+import Authentication from "./pages/Authentication";
+import EnterEmail from "./components/EnterEmail.jsx";
+import ResetPassword from "./components/ResetPassword.jsx";
 
 
 function App() {
@@ -33,9 +36,21 @@ function App() {
             {/* localhost/login */}
             <Route path="login" element={<Login />} />
             {/* localhost/cart */}
-            <Route path="cart" element={<ShoppingCart />}/>
+            <Route path="cart" element={<ShoppingCart />} />
             {/* localhost/changePassword */}
             <Route path="changePassword" element={<ChangePassword />} />
+            <Route path="enterEmail"
+              element={
+                <Authentication>
+                  <EnterEmail />
+                </Authentication>
+              } />
+            <Route path="resetPassword"
+              element={
+                <Authentication>
+                  <ResetPassword />
+                </Authentication>
+              } />
             {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
             <Route path='/productDetail/:maSanPham' element={<ProductDetail />} />
           </Route>
