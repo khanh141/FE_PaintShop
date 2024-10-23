@@ -5,19 +5,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Row, Col, Button, Container } from 'react-bootstrap';
 import Card from './Card';
 import axios from 'axios';
-
 import Pagination from "react-bootstrap/Pagination";
 const ProductsContainer = () => {
+  const PRODUCTS_PER_PAGE = 12;
 
-  const PRODUCTS_PER_PAGE = 15;
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.filteredProducts);
-  const displayedCards = useSelector((state) => state.products.displayedCards);
-  const showAll = useSelector((state) => state.products.showAll);
-  const searchTerm = useSelector((state) => state.products.searchTerm);
+  const searchTerm = useSelector((state) => state.products.searchTerm); // Lấy searchTerm từ Redux
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
-  
+
   useEffect(() => {
     const loadProducts = async () => {
       try {
@@ -43,9 +40,10 @@ const ProductsContainer = () => {
       }
     };
     if (searchTerm) {
-      searchProducts(); 
+      searchProducts(); // Gọi API tìm kiếm khi searchTerm thay đổi
     }
   }, [searchTerm, dispatch]);
+
   const handlePageChange = (page) => setCurrentPage(page);
 
   const renderPaginationItems = () => {
@@ -63,35 +61,11 @@ const ProductsContainer = () => {
     }
     return items;
   };
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/sanPham/layTatCa"
-        );
-        console.log("Dữ liệu sản phẩm từ API:", response.data);
-        dispatch(setFilter(response.data));
-      } catch (error) {
-        console.error("Error loading products:", error);
-      }
-    };
-    loadProducts();
-  }, [dispatch]);
 
-  const handleSearch = async () => {
-    if (!Searchreq.trim()) return;
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/sanPham/timKiem?Searchreq=${Searchreq}`
-      );
-      console.log("Dữ liệu sản phẩm: " + response.data);
-      dispatch(setFilter(response.data));
-    } catch (error) {
-      console.error("Error searching products:", error);
-    }
-  };
-  const displayedProducts = products.slice(0, displayedCards);
-
+  const currentProducts = products.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE
+  );
   return (
     <div className='container'>
       <Row>
@@ -123,6 +97,7 @@ const ProductsContainer = () => {
     </div>
   );
 };
+
 
 
 export default ProductsContainer;
