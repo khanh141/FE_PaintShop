@@ -30,6 +30,7 @@ export default function Signup() {
         sdt,
         hoTen,
         diaChi,
+        email,
       });
       navigate('/Login');
     } catch (error) {
