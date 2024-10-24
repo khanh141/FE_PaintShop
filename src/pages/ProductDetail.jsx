@@ -4,9 +4,9 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios';
 import ReactImageMagnify from "react-image-magnify";
+// import {decode} from "jwt-decode";
 
 const ProductDetail = () => {
   const { maSanPham } = useParams();
@@ -14,23 +14,87 @@ const ProductDetail = () => {
   const [selectedBaoBi, setSelectedBaoBi] = useState(null);
   const [selectedMau, setSelectedMau] = useState(null);
   const [price, setPrice] = useState("Chưa chọn màu và bao bì");
-
+  const [loaiDinhMuc,setDinhMuc] = useState("");
+  const [tenDangNhap,setTenDangNhap] = useState("");
   const imageUrl = "/images/product.jpg";
+
+  const decode = (token) => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      return JSON.parse(jsonPayload);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  };
+  
 
   const handleSelectBaoBi = (eventKey) => {
     setSelectedBaoBi(eventKey);
+    console.log(eventKey);
   };
 
   const handleSelectMau = (eventKey) => {
     setSelectedMau(eventKey);
+    console.log(eventKey);
   };
+  const handleAddToCart = async () => {
+    if (!selectedBaoBi || !selectedMau) {
+      alert("Vui lòng chọn màu và bao bì.");
+      return;
+    }
+    const token = localStorage.getItem('token');
+    console.log(token);
+    if (token) {
+      const decodedToken = decode(token);
+      const username = (decodedToken?.sub || "");
+      setTenDangNhap(username); 
+      console.log(tenDangNhap);
+  } else {
+      console.log("Token không tồn tại.");
+  }
+  console.log(selectedBaoBi);
+  console.log(loaiDinhMuc);
+  console.log(selectedMau);
+  console.log(product.maSanPham); 
+    try {
+      const response = await axios.post('http://localhost:8080/gioHang/themSanPham', {
+        BaoBi: selectedBaoBi,
+        DinhMucLyThuyet: loaiDinhMuc,
+        maSanPham: product.maSanPham,
+        Mau: selectedMau,
+        tenDangNhap: tenDangNhap,
+        soLuong: 1
+      },{
+        headers: {
+            Authorization: `Bearer ${token}` 
+        }
+    });
+  
+      if (response.status === 200) {
+        alert('Sản phẩm đã được thêm vào giỏ hàng');
+      }
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng');
+    }
+  };
+  
 
   useEffect(() => {
     const selectedDetail = product.chiTietSanPhamResList?.find(
       (detail) => detail.loaiBaoBi === selectedBaoBi && detail.mau === selectedMau
     );
     if (selectedDetail) {
-      setPrice(selectedDetail.giaTien.toLocaleString());
+      setPrice(selectedDetail.giaTien);
+      setDinhMuc(selectedDetail.loaiDinhMucLyThuyet);      
     } else {
       setPrice("Chưa chọn màu và bao bì");
     }
@@ -44,6 +108,20 @@ const ProductDetail = () => {
       console.error("Error searching products:", error);
     }
   };
+
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+
+  useEffect(() => {
+    if (product.chiTietSanPhamResList && product.chiTietSanPhamResList.length > 0) {
+      const prices = product.chiTietSanPhamResList.map(chitiet => Number(chitiet.giaTien)); 
+      const uniquePrices = Array.from(new Set(prices)); 
+      if (uniquePrices.length > 0) {
+        setMinPrice(Math.min(...uniquePrices));
+        setMaxPrice(Math.max(...uniquePrices));
+      }
+    }
+  }, [product]);
 
   useEffect(() => {
     if (maSanPham) {
@@ -141,13 +219,30 @@ const ProductDetail = () => {
           </div>
         </Col>
         <Col className="productInformation">
-          <Row className="productName my-2" style={{ fontWeight: 600, fontSize: "30px", width: "400px" }}>
+          <Row
+            className="productName my-2"
+            style={{ fontWeight: 600, fontSize: "30px", width: "400px" }}
+          >
             {product.ten}
           </Row>
-          <Row className="productPrice my-2" style={{ fontWeight: 600, fontSize: "30px", color: "red", width: "400px" }}>
-            {price}
+          <Row
+            className="productPrice my-2"
+            style={{
+              fontWeight: 600,
+              fontSize: "30px",
+              color: "red",
+              width: "400px",
+            }}
+          >
+            {/* {minPrice.toLocaleString()} - {maxPrice.toLocaleString()} */}
+            {selectedMau && selectedBaoBi
+              ? `${price} VND`
+              : `${minPrice.toLocaleString()} - ${maxPrice.toLocaleString()} VND`}
           </Row>
-          <Row className="saleFigures my-2" style={{ display: "flex", width: "400px" }}>
+          <Row
+            className="saleFigures my-2"
+            style={{ display: "flex", width: "400px" }}
+          >
             <Col>
               <span>Đã bán: 200 </span>
               <span> Đánh giá: 100</span>
@@ -157,28 +252,37 @@ const ProductDetail = () => {
           <Row>
             <Col>
               <Row className="mb-3">
-                <span style={{ width: "100px", display: "inline-block" }}>Bao bì</span>
-                {product.chiTietSanPhamResList && product.chiTietSanPhamResList.length > 0 ? (
+                <span style={{ width: "100px", display: "inline-block" }}>
+                  Bao bì
+                </span>
+                {product.chiTietSanPhamResList &&
+                product.chiTietSanPhamResList.length > 0 ? (
                   (() => {
                     const renderedBaoBi = [];
-                    return product.chiTietSanPhamResList.map((chitiet, index) => {
-                      if (!renderedBaoBi.includes(chitiet.loaiBaoBi)) {
-                        renderedBaoBi.push(chitiet.loaiBaoBi);
-                        return (
-                          <button
-                            key={index}
-                            style={{
-                              ...buttonStyle,
-                              ...(selectedBaoBi === chitiet.loaiBaoBi ? selectedStyle : {}),
-                            }}
-                            onClick={() => handleSelectBaoBi(chitiet.loaiBaoBi)}
-                          >
-                            {chitiet.loaiBaoBi}
-                          </button>
-                        );
+                    return product.chiTietSanPhamResList.map(
+                      (chitiet, index) => {
+                        if (!renderedBaoBi.includes(chitiet.loaiBaoBi)) {
+                          renderedBaoBi.push(chitiet.loaiBaoBi);
+                          return (
+                            <button
+                              key={index}
+                              style={{
+                                ...buttonStyle,
+                                ...(selectedBaoBi === chitiet.loaiBaoBi
+                                  ? selectedStyle
+                                  : {}),
+                              }}
+                              onClick={() =>
+                                handleSelectBaoBi(chitiet.loaiBaoBi)
+                              }
+                            >
+                              {chitiet.loaiBaoBi}
+                            </button>
+                          );
+                        }
+                        return null;
                       }
-                      return null;
-                    });
+                    );
                   })()
                 ) : (
                   <p>Không có dữ liệu</p>
@@ -190,28 +294,35 @@ const ProductDetail = () => {
           <Row>
             <Col>
               <Row className="mb-3">
-                <span style={{ width: "100px", display: "inline-block" }}>Màu</span>
-                {product.chiTietSanPhamResList && product.chiTietSanPhamResList.length > 0 ? (
+                <span style={{ width: "100px", display: "inline-block" }}>
+                  Màu
+                </span>
+                {product.chiTietSanPhamResList &&
+                product.chiTietSanPhamResList.length > 0 ? (
                   (() => {
                     const renderedMau = [];
-                    return product.chiTietSanPhamResList.map((chitiet, index) => {
-                      if (!renderedMau.includes(chitiet.mau)) {
-                        renderedMau.push(chitiet.mau);
-                        return (
-                          <button
-                            key={index}
-                            style={{
-                              ...buttonStyle,
-                              ...(selectedMau === chitiet.mau ? selectedStyle : {}),
-                            }}
-                            onClick={() => handleSelectMau(chitiet.mau)}
-                          >
-                            {chitiet.mau}
-                          </button>
-                        );
+                    return product.chiTietSanPhamResList.map(
+                      (chitiet, index) => {
+                        if (!renderedMau.includes(chitiet.mau)) {
+                          renderedMau.push(chitiet.mau);
+                          return (
+                            <button
+                              key={index}
+                              style={{
+                                ...buttonStyle,
+                                ...(selectedMau === chitiet.mau
+                                  ? selectedStyle
+                                  : {}),
+                              }}
+                              onClick={() => handleSelectMau(chitiet.mau)}
+                            >
+                              {chitiet.mau}
+                            </button>
+                          );
+                        }
+                        return null;
                       }
-                      return null;
-                    });
+                    );
                   })()
                 ) : (
                   <p>Không có dữ liệu</p>
@@ -219,13 +330,10 @@ const ProductDetail = () => {
               </Row>
             </Col>
           </Row>
-          <Row style={{ width: "400px" }}>
-            <span>Giá tiền: {price}</span>
-          </Row>
           <Row className="buttonGroup my-2" style={{ width: "400px" }}>
             <Col style={{ display: "flex", justifyContent: "center" }}>
-              <Button variant="secondary" style={{ margin: "0 4px" }}>
-                <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
+              <Button variant="secondary" style={{ margin: "0 4px" }}  onClick={handleAddToCart}>
+                Thêm vào giỏ hàng
               </Button>
               <Button variant="secondary" style={{ margin: "0 4px" }}>
                 Mua hàng
@@ -248,9 +356,20 @@ const ProductDetail = () => {
         }}
       >
         {comments.map((comment) => (
-          <div key={comment.id} className="comment mb-2 p-2 rounded" style={{ backgroundColor: "wheat" }}>
+          <div
+            key={comment.id}
+            className="comment mb-2 p-2 rounded"
+            style={{ backgroundColor: "wheat" }}
+          >
             <h6 className="username font-weight-bold">{comment.username}</h6>
-            <p className="content text-justify" style={{ textIndent: "10px", fontSize: "14px", lineHeight: "1.6" }}>
+            <p
+              className="content text-justify"
+              style={{
+                textIndent: "10px",
+                fontSize: "14px",
+                lineHeight: "1.6",
+              }}
+            >
               {comment.content}
             </p>
           </div>
