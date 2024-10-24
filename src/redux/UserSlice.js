@@ -6,6 +6,7 @@ const userInitialState = {
   soDienThoai: "",
   email: "",
   diaChi: "",
+  isLoggedIn: false,
 };
 
 const userSlice = createSlice({
@@ -18,12 +19,14 @@ const userSlice = createSlice({
           payload: {
             tenDangNhap,
             quyen: quyen || [],
+            isLoggedIn: true,
           },
         };
       },
       reducer(state, action) {
         state.tenDangNhap = action.payload.tenDangNhap;
         state.quyen = action.payload.quyen;
+        state.isLoggedIn = true;
       },
     },
     setProfile: {
@@ -43,7 +46,7 @@ const userSlice = createSlice({
       },
     },
     clearUser(state) {
-      Object.assign(state, initialStateUser);
+      Object.assign(state, userInitialState);
     },
   },
 });

@@ -12,8 +12,8 @@ const ProductDetail = () => {
   const [selectedBaoBi, setSelectedBaoBi] = useState(null);
   const [selectedMau, setSelectedMau] = useState(null);
   const [price, setPrice] = useState("Chưa chọn màu và bao bì");
-  const [loaiDinhMuc,setDinhMuc] = useState("");
-  const [tenDangNhap,setTenDangNhap] = useState("");
+  const [loaiDinhMuc, setDinhMuc] = useState("");
+  const [tenDangNhap, setTenDangNhap] = useState("");
   const imageUrl = "/images/product.jpg";
 
   const decode = (token) => {
@@ -32,7 +32,7 @@ const ProductDetail = () => {
       return null;
     }
   };
-  
+
 
   const handleSelectBaoBi = (eventKey) => {
     setSelectedBaoBi(eventKey);
@@ -53,15 +53,11 @@ const ProductDetail = () => {
     if (token) {
       const decodedToken = decode(token);
       const username = (decodedToken?.sub || "");
-      setTenDangNhap(username); 
+      setTenDangNhap(username);
       console.log(tenDangNhap);
-  } else {
+    } else {
       console.log("Token không tồn tại.");
-  }
-  console.log(selectedBaoBi);
-  console.log(loaiDinhMuc);
-  console.log(selectedMau);
-  console.log(product.maSanPham); 
+    }
     try {
       const response = await axios.post('http://localhost:8080/gioHang/themSanPham', {
         BaoBi: selectedBaoBi,
@@ -70,12 +66,12 @@ const ProductDetail = () => {
         Mau: selectedMau,
         tenDangNhap: tenDangNhap,
         soLuong: 1
-      },{
+      }, {
         headers: {
-            Authorization: `Bearer ${token}` 
+          Authorization: `Bearer ${token}`
         }
-    });
-  
+      });
+
       if (response.status === 200) {
         alert('Sản phẩm đã được thêm vào giỏ hàng');
       }
@@ -84,7 +80,9 @@ const ProductDetail = () => {
       alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng');
     }
   };
-  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const selectedDetail = product.chiTietSanPhamResList?.find(
@@ -92,7 +90,7 @@ const ProductDetail = () => {
     );
     if (selectedDetail) {
       setPrice(selectedDetail.giaTien);
-      setDinhMuc(selectedDetail.loaiDinhMucLyThuyet);      
+      setDinhMuc(selectedDetail.loaiDinhMucLyThuyet);
     } else {
       setPrice("Chưa chọn màu và bao bì");
     }
@@ -112,8 +110,8 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (product.chiTietSanPhamResList && product.chiTietSanPhamResList.length > 0) {
-      const prices = product.chiTietSanPhamResList.map(chitiet => Number(chitiet.giaTien)); 
-      const uniquePrices = Array.from(new Set(prices)); 
+      const prices = product.chiTietSanPhamResList.map(chitiet => Number(chitiet.giaTien));
+      const uniquePrices = Array.from(new Set(prices));
       if (uniquePrices.length > 0) {
         setMinPrice(Math.min(...uniquePrices));
         setMaxPrice(Math.max(...uniquePrices));
@@ -231,7 +229,7 @@ const ProductDetail = () => {
                   Bao bì
                 </span>
                 {product.chiTietSanPhamResList &&
-                product.chiTietSanPhamResList.length > 0 ? (
+                  product.chiTietSanPhamResList.length > 0 ? (
                   (() => {
                     const renderedBaoBi = [];
                     return product.chiTietSanPhamResList.map(
@@ -273,7 +271,7 @@ const ProductDetail = () => {
                   Màu
                 </span>
                 {product.chiTietSanPhamResList &&
-                product.chiTietSanPhamResList.length > 0 ? (
+                  product.chiTietSanPhamResList.length > 0 ? (
                   (() => {
                     const renderedMau = [];
                     return product.chiTietSanPhamResList.map(
@@ -307,7 +305,7 @@ const ProductDetail = () => {
           </Row>
           <Row className="buttonGroup my-2" style={{ width: "400px" }}>
             <Col style={{ display: "flex", justifyContent: "center" }}>
-              <Button variant="secondary" style={{ margin: "0 4px" }}  onClick={handleAddToCart}>
+              <Button variant="secondary" style={{ margin: "0 4px" }} onClick={handleAddToCart}>
                 Thêm vào giỏ hàng
               </Button>
               <Button variant="secondary" style={{ margin: "0 4px" }}>
