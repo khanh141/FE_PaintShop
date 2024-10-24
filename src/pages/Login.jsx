@@ -27,12 +27,7 @@ export default function Login() {
         'http://localhost:8080/taiKhoan/dangNhap',
         { tenDangNhap, matKhau }
       );
-      const token = response.data.token;
-      localStorage.setItem('token', token);
-      const decodedToken = jwtDecode(token);
-
       dispatch(setUser(decodedToken.sub, decodedToken.scope));
-
       navigate('/');
     } catch (error) {
       console.error(error);

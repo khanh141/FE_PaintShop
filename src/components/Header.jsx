@@ -19,7 +19,7 @@ export default function NavigationBar() {
 
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
-    dispatch(setSearchTerm(searchTerm)); // Update Redux state with search term
+    dispatch(setSearchTerm(searchTerm));
   };
 
   useEffect(() => {
