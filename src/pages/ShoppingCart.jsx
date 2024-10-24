@@ -1,159 +1,60 @@
-// // import React, { useState } from 'react';
-// // import { Table, Image, Button } from 'react-bootstrap';
-
-// // export default function ShoppingCart() {
-// //   const [products, setProducts] = useState([
-// //     { id: 1, name: 'Táo', price: 20000, quantity: 2, image: '/images/product.jpg' },
-// //     // ... các sản phẩm khác
-// //   ]);
-
-// //   const handleQuantityChange = (productId, newQuantity) => {
-// //     // Cập nhật số lượng sản phẩm và tính lại tổng tiền
-// //   };
-
-// //   const calculateTotal = () => {
-// //     // Tính tổng tiền của tất cả các sản phẩm
-// //   };
-
-// //   return (
-// //     <div>
-// //       {/* <h1>hello</h1> */}
-// //       <Table striped bordered hover>
-// //         <thead>
-// //           <tr>
-// //             <th>Hình ảnh</th>
-// //             <th>Sản phẩm</th>
-// //             <th>Giá</th>
-// //             <th>Số lượng</th>
-// //             <th>Tổng tiền</th>
-// //           </tr>
-// //         </thead>
-// //         <tbody>
-// //           {products.map(product => (
-// //             <tr key={product.id}>
-// //               <td>
-// //               <Image src={product.image}  />
-// //               </td>
-// //               <td>
-// //                  {product.name}
-// //               </td>
-// //               <td>{product.price}</td>
-// //               <td>
-// //                 <input type="number" value={product.quantity} onChange={(e) => handleQuantityChange(product.id, e.target.value)} />
-// //               </td>
-// //               <td>{product.price * product.quantity}</td>
-// //             </tr>
-// //           ))}
-// //         </tbody>
-// //       </Table>
-// //       <p>Tổng tiền: {calculateTotal()}</p>
-// //       <Button variant="primary">Thanh toán</Button>
-// //     </div>
-// //   );
-// // }
-
-
-// import React, { useState } from 'react';
-// import { Table, Image, Button } from 'react-bootstrap';
-
-// export default function ShoppingCart() {
-//   const [products, setProducts] = useState([
-//     { id: 1, name: 'Táo', price: 20000, quantity: 2, image: '/images/product.jpg' },
-//     // ... các sản phẩm trong giỏ hàng
-//   ]);
-
-//   const allProducts = [
-//     { id: 1, name: 'Táo', price: 20000, image: '/images/product.jpg' },
-//     { id: 2, name: 'Chuối', price: 15000, image: '/images/banana.jpg' },
-//     { id: 3, name: 'Xoài', price: 25000, image: '/images/mango.jpg' },
-//     // ... các sản phẩm có thể mua
-//   ];
-
-//   const handleQuantityChange = (productId, newQuantity) => {
-//     setProducts(products.map(product =>
-//       product.id === productId ? { ...product, quantity: Math.max(newQuantity, 1) } : product
-//     ));
-//   };
-
-//   const handleIncreaseQuantity = (productId) => {
-//     setProducts(products.map(product =>
-//       product.id === productId ? { ...product, quantity: product.quantity + 1 } : product
-//     ));
-//   };
-
-//   const handleDecreaseQuantity = (productId) => {
-//     setProducts(products.map(product =>
-//       product.id === productId && product.quantity > 1 ? { ...product, quantity: product.quantity - 1 } : product
-//     ));
-//   };
-
-//   const calculateTotal = () => {
-//     return products.reduce((total, product) => total + product.price * product.quantity, 0);
-//   };
-
-//   const addToCart = (product) => {
-//     const existingProduct = products.find(p => p.id === product.id);
-//     if (existingProduct) {
-//       // Sản phẩm đã tồn tại trong giỏ hàng, chỉ cần tăng số lượng
-//       setProducts(products.map(p =>
-//         p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
-//       ));
-//     } else {
-//       // Sản phẩm chưa có trong giỏ hàng, thêm vào giỏ hàng với số lượng 1
-//       setProducts([...products, { ...product, quantity: 1 }]);
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <h2>Giỏ hàng</h2>
-//       <Table striped bordered hover>
-//         <thead>
-//           <tr>
-//             <th>Hình ảnh</th>
-//             <th>Sản phẩm</th>
-//             <th>Giá</th>
-//             <th>Số lượng</th>
-//             <th>Tổng tiền</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {products.map(product => (
-//             <tr key={product.id}>
-//               <td>
-//                 <Image src={product.image} width={50} height={50} />
-//               </td>
-//               <td>{product.name}</td>
-//               <td>{product.price.toLocaleString('vi-VN')} đ</td>
-//               <td>
-//                 <Button variant="outline-secondary" onClick={() => handleDecreaseQuantity(product.id)}>-</Button>
-//                 <input
-//                   type="number"
-//                   value={product.quantity}
-//                   onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
-//                   style={{ width: '60px', textAlign: 'center', margin: '0 10px' }}
-//                 />
-//                 <Button variant="outline-secondary" onClick={() => handleIncreaseQuantity(product.id)}>+</Button>
-//               </td>
-//               <td>{(product.price * product.quantity).toLocaleString('vi-VN')} đ</td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </Table>
-//       <p>Tổng tiền: {calculateTotal().toLocaleString('vi-VN')} đ</p>
-//       <Button variant="primary">Thanh toán</Button>
-//     </div>
-//   );
-// }
-
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateQuantity, removeFromCart } from '../redux/CardReducer'; 
 import { Table, Image, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 export default function ShoppingCart() {
-  const products = useSelector((state) => state.cart.items); // Lấy danh sách sản phẩm từ Redux
   const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
+
+  const decode = (token) => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      return JSON.parse(jsonPayload);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  };
+  
+
+  useEffect(() => {
+    const loadProducts = async () => {  
+      try {
+        const token = localStorage.getItem('token');
+        console.log(token);
+        const tenDangNhap = decode(token)?.sub;
+        console.log(tenDangNhap);
+        if (!tenDangNhap) {
+          throw new Error('Không tìm thấy tên đăng nhập từ token');
+        }
+
+        const response = await axios.post(`http://localhost:8080/gioHang/xemChiTiet/${tenDangNhap}`,
+          {},
+          {
+          headers: {
+            Authorization: `Bearer ${token}` 
+        }
+        });
+        console.log('Dữ liệu sản phẩm từ API:', response.data);
+        setProducts(response.data);  
+        dispatch(setFilter(response.data));
+
+      } catch (error) {
+        console.error('Error loading products:', error);
+      }
+    };
+
+    loadProducts(); 
+  }, [dispatch]);
 
   const handleQuantityChange = (productId, newQuantity) => {
     dispatch(updateQuantity({ productId, quantity: Math.max(newQuantity, 1) }));
@@ -161,18 +62,18 @@ export default function ShoppingCart() {
 
   const handleIncreaseQuantity = (productId) => {
     const product = products.find(p => p.id === productId);
-    dispatch(updateQuantity({ productId, quantity: product.quantity + 1 }));
+    dispatch(updateQuantity({ productId, quantity: product.soLuong + 1 }));
   };
 
   const handleDecreaseQuantity = (productId) => {
     const product = products.find(p => p.id === productId);
     if (product.quantity > 1) {
-      dispatch(updateQuantity({ productId, quantity: product.quantity - 1 }));
+      dispatch(updateQuantity({ productId, quantity: product.soLuong - 1 }));
     }
   };
 
   const calculateTotal = () => {
-    return products.reduce((total, product) => total + product.price * product.quantity, 0);
+    return products.reduce((total, product) => total + product.gia * product.soLuong, 0);
   };
 
   return (
@@ -189,24 +90,24 @@ export default function ShoppingCart() {
           </tr>
         </thead>
         <tbody>
-          {products.map(product => (
+          {products.map( product => (
             <tr key={product.id}>
               <td>
                 <Image src={product.image} width={50} height={50} />
               </td>
-              <td>{product.name}</td>
-              <td>{product.price.toLocaleString('vi-VN')} đ</td>
+              <td>{product.ten}</td>
+              <td>{product.gia} đ</td>
               <td>
                 <Button variant="outline-secondary" onClick={() => handleDecreaseQuantity(product.id)}>-</Button>
                 <input
                   type="number"
-                  value={product.quantity}
+                  value={product.soLuong}
                   onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
                   style={{ width: '60px', textAlign: 'center', margin: '0 10px' }}
                 />
                 <Button variant="outline-secondary" onClick={() => handleIncreaseQuantity(product.id)}>+</Button>
               </td>
-              <td>{(product.price * product.quantity).toLocaleString('vi-VN')} đ</td>
+              <td>{(product.gia * product.soLuong)} đ</td>
             </tr>
           ))}
         </tbody>

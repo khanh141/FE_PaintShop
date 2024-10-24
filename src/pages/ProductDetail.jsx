@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const ProductDetail = () => {
   const { maSanPham } = useParams();
@@ -12,29 +13,11 @@ const ProductDetail = () => {
   const [selectedBaoBi, setSelectedBaoBi] = useState(null);
   const [selectedMau, setSelectedMau] = useState(null);
   const [price, setPrice] = useState("Chưa chọn màu và bao bì");
-  const [loaiDinhMuc, setDinhMuc] = useState("");
-  const [tenDangNhap, setTenDangNhap] = useState("");
+  const [loaiDinhMuc,setDinhMuc] = useState("");
+  const { tenDangNhap } = useSelector((state) => state.user);
   const imageUrl = "/images/product.jpg";
 
-  const decode = (token) => {
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
-      );
-      return JSON.parse(jsonPayload);
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return null;
-    }
-  };
-
-
-  const handleSelectBaoBi = (eventKey) => {
+   const handleSelectBaoBi = (eventKey) => {
     setSelectedBaoBi(eventKey);
     console.log(eventKey);
   };
@@ -48,22 +31,14 @@ const ProductDetail = () => {
       alert("Vui lòng chọn màu và bao bì.");
       return;
     }
-    const token = localStorage.getItem('token');
-    console.log(token);
-    if (token) {
-      const decodedToken = decode(token);
-      const username = (decodedToken?.sub || "");
-      setTenDangNhap(username);
-      console.log(tenDangNhap);
-    } else {
-      console.log("Token không tồn tại.");
-    }
+    console.log(tenDangNhap);
+    let token = localStorage.getItem("token");
     try {
       const response = await axios.post('http://localhost:8080/gioHang/themSanPham', {
-        BaoBi: selectedBaoBi,
-        DinhMucLyThuyet: loaiDinhMuc,
+        loaiBaoBi: selectedBaoBi,
+        loaiDinhMucLyThuyet: loaiDinhMuc,
         maSanPham: product.maSanPham,
-        Mau: selectedMau,
+        mau: selectedMau,
         tenDangNhap: tenDangNhap,
         soLuong: 1
       }, {
