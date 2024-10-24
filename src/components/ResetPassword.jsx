@@ -4,32 +4,36 @@ import { Row, Col, Form, FloatingLabel, Button, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function ResetPassword() {
     const [searchParams] = useSearchParams();
     const token = searchParams.get('token');
 
-    const [matKhau, setMatKhau] = useState('');
+    const [matKhauMoi, setMatKhauMoi] = useState('');
     const [nhapLaiMatKhau, setNhapLaiMatKhau] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errors, setErrors] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
-        if (matKhau !== nhapLaiMatKhau) {
+        if (matKhauMoi !== nhapLaiMatKhau) {
             setErrors('Mật khẩu nhập lại không khớp');
             return;
         }
         try {
             const response = await axios.post(
-                'http://localhost:8080/datLaiMatKhau',
-                { password: matKhauMoi, token }
+                'http://localhost:8080/taiKhoan/datLaiMatKhau',
+                { token, matKhauMoi }
             );
             setSuccessMessage(response.data);
+            navigate('/Login');
             setErrors('');
         } catch (error) {
-            setErrors(error.response?.data || 'Có lỗi xảy ra, vui lòng thử lại');
+            setErrors(error.response.data);
+            console.log(error);
             setSuccessMessage('');
         }
     };
@@ -44,8 +48,8 @@ function ResetPassword() {
                             <Form.Control
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder="Mật khẩu mới"
-                                value={matKhau}
-                                onChange={(e) => setMatKhau(e.target.value)}
+                                value={matKhauMoi}
+                                onChange={(e) => setMatKhauMoi(e.target.value)}
                                 autoComplete="new-password" // Disable autofill
                             />
                         </FloatingLabel>
@@ -79,7 +83,7 @@ function ResetPassword() {
                         />
                     </div>
 
-                    {matKhau !== nhapLaiMatKhau && (
+                    {matKhauMoi !== nhapLaiMatKhau && (
                         <Alert className="mt-1" variant="danger">
                             Mật khẩu nhập lại không khớp
                         </Alert>
@@ -87,7 +91,7 @@ function ResetPassword() {
 
                     <Button
                         variant="primary"
-                        className="mt-3"
+                        className="mt-3 sndColor"
                         style={{ width: '100%' }}
                         onClick={handleSubmit}
                     >

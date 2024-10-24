@@ -26,7 +26,7 @@ function EnterEmail() {
             <Row className="mt-4 d-flex align-items-center justify-content-center ">
                 <Col md={6}>
                     <Row className="p-4 border rounded-3 shadow-sm align-items-center justify-content-center flex-column authForm">
-                        <h5 className="text-center fw-bold mb-4">Nhập email để lấy lại mật khẩu</h5>
+                        <h5 className="text-center fw-bold mb-4">Khôi phục mật khẩu</h5>
                         <div className="p-0 mb-2">
                             <FloatingLabel label="Email">
                                 <Form.Control
@@ -52,7 +52,7 @@ function EnterEmail() {
 
                         <Button
                             variant="primary"
-                            className="mt-3"
+                            className="mt-3 sndColor"
                             style={{ width: '100px' }}
                             onClick={handleEnterEmail}
                         >

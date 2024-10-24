@@ -3,9 +3,11 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 function DefaultLayout() {
-    return <div>
+    return <div className="layoutContainer">
         <Header />
-        <Outlet />
+        <div className="content">
+            <Outlet />
+        </div>
         <Footer />
     </div>
 }
