@@ -1,15 +1,15 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSearchTerm } from "../redux/ProductReducer";
+import { clearUser } from "../redux/UserSlice"; // Import the clearUser action
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function NavigationBar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [navbarOpacity, setNavbarOpacity] = useState(1); // Track opacity
   const [searchTerm, setSearchTermInput] = useState('');
   const navigate = useNavigate();
@@ -17,15 +17,12 @@ export default function NavigationBar() {
   const dispatch = useDispatch();
   const navbarHeight = "90px";
 
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn); // Use Redux state
+
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
     dispatch(setSearchTerm(searchTerm));
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
-  }, []);
 
   const handleLogout = async () => {
     try {
@@ -33,7 +30,7 @@ export default function NavigationBar() {
         token: localStorage.getItem('token')
       });
       localStorage.removeItem('token');
-      setIsLoggedIn(false);
+      dispatch(clearUser()); // Dispatch clearUser to update Redux state
       navigate('/login');
     } catch (error) {
       console.error('Logout error:', error);
