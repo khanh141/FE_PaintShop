@@ -18,7 +18,7 @@ export default function NavigationBar() {
 
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
-    dispatch(setSearchTerm(searchTerm)); // Cập nhật searchTerm vào Redux
+    dispatch(setSearchTerm(searchTerm));
   };
 
   useEffect(() => {

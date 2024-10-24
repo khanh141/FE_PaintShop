@@ -19,6 +19,7 @@ export default function Login() {
         'http://localhost:8080/taiKhoan/dangNhap',
         { tenDangNhap, matKhau }
       );
+      // console.log(response.data.token);
       localStorage.setItem('token', response.data.token);
       navigate('/');
       window.location.reload()
