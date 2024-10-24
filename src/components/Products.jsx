@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilter, setShowAll } from '../redux/ProductReducer';
+import { setFilter } from '../redux/ProductReducer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Row, Col, Button, Container } from 'react-bootstrap';
 import Card from './Card';
@@ -19,7 +19,6 @@ const ProductsContainer = () => {
     const loadProducts = async () => {
       try {
         const response = await axios.get('http://localhost:8080/sanPham/layTatCa');
-        console.log('Dữ liệu sản phẩm từ API:', response.data);
         dispatch(setFilter(response.data));
       } catch (error) {
         console.error('Error loading products:', error);
@@ -44,7 +43,11 @@ const ProductsContainer = () => {
     }
   }, [searchTerm, dispatch]);
 
-  const handlePageChange = (page) => setCurrentPage(page);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 400, behavior: 'smooth' }); // Smooth scroll to 400px from the top
+  };
+
 
   const renderPaginationItems = () => {
     let items = [];
