@@ -38,6 +38,31 @@ export default function Login() {
     }
   };
 
+  const setupTokenRefresh = (expiredTime) => {
+    const currentTime = Math.floor(Date.now() / 1000);
+    const remainingTime = expiredTime - currentTime;
+
+    // schedule the token refresh 10 minutes before the access token expires
+    const refreshTime = remainingTime - 600;
+    if (refreshTime > 0) {
+      setTimeout(refreshToken, refreshTime * 1000);
+    }
+  }
+
+  const refreshToken = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        'http://localhost:8080/taiKhoan/taoMoiToken',
+        { token }
+      );
+      localStorage.setItem('token', response.data.token);
+    } catch (error) {
+      localStorage.removeItem('token');
+      dispatch(clearUser());
+    }
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
