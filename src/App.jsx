@@ -17,7 +17,6 @@ import "./assets/CSS/Body.scss";
 import "./assets/CSS/Header.scss";
 import "./assets/CSS/Footer.scss";
 import WarehousePage from "./pages/WarehousePage.jsx";
-import ChangePassword from "./pages/ChangePassword.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
 import Authentication from "./pages/Authentication";
 import EnterEmail from "./components/EnterEmail.jsx";
@@ -25,6 +24,7 @@ import ResetPassword from "./components/ResetPassword.jsx";
 import { useDispatch } from "react-redux";
 import { clearUser, setUser } from './redux/UserSlice';
 import { jwtDecode } from "jwt-decode";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 
 function App() {
@@ -96,8 +96,6 @@ function App() {
             <Route path="login" element={<Login />} />
             {/* localhost/cart */}
             <Route path="cart" element={<ShoppingCart />} />
-            {/* localhost/changePassword */}
-            <Route path="changePassword" element={<ChangePassword />} />
             <Route path="enterEmail"
               element={
                 <Authentication>
@@ -112,6 +110,7 @@ function App() {
               } />
             {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
             <Route path='/productDetail/:maSanPham' element={<ProductDetail />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Route>
                     {/* localhost/admin */}
                     <Route path="/admin" element={<AdminLayout />}>

@@ -1,21 +1,38 @@
 :root {
   --hover-gray-color: rgb(215, 215, 215);
   --primary-color: rgb(255, 106, 0);
+  --primary-light-color: rgb(250, 153, 83);
   --secondary-color: #1b2848;
   --white-color: white;
+  --background-color: #f5f5f5;
 }
 
 body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
+  background-color: var(--background-color);
+  .form-control {
+    &:focus {
+      border-color: var(--white-color);
+      box-shadow: 0 0 0 0.2rem var(--primary-light-color) !important;
+      outline: none; // Optional: remove default outline
+    }
+  }
   .sndColor {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
     &:hover {
       background-color: var(--secondary-color);
       border-color: var(--secondary-color);
+    }
+  }
+  .priColor {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    &:hover {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
     }
   }
   a {
@@ -157,5 +174,38 @@ body {
   min-height: 100vh;
   .content {
     flex: 1;
+  }
+}
+
+.profilePage {
+  .row {
+    .sideBar {
+      background-color: var(--background-color);
+      line-height: 2rem;
+      .profile {
+        color: black;
+        font-size: 20px;
+      }
+      .sideBarList {
+        color: black;
+        list-style: none;
+        background-color: var(--background-color) !important;
+      }
+    }
+    .contentContainer {
+      .doiMatKhau {
+        width: 80%;
+        @media (max-width: 768px) {
+          width: 100%;
+        }
+      }
+      .content {
+        .row {
+          margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
   }
 }
