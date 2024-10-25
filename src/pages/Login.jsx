@@ -1,169 +1,136 @@
-import React, { useState } from 'react';
-import {
-    MDBBtn,
-    MDBContainer,
-    MDBRow,
-    MDBCol,
-    MDBCard,
-    MDBCardBody,
-    MDBCardImage,
-    MDBInput,
-    MDBIcon,
-    MDBCheckbox,
-} from 'mdb-react-ui-kit';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { Container, Row, Col, Form, FloatingLabel, Button, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faUser,
-    faLock,
-    faEye,
-    faEyeSlash,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { KEYS } from '~/constants/keys';
-import { login } from '~/services';
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from '../redux/UserSlice'; // Adjust the import path as needed
 
 export default function Login() {
-    const [tenDangNhap, setUsername] = useState('');
-    const [matKhau, setPassword] = useState('');
-    const navigate = useNavigate(); // Dùng để điều hướng người dùng
+  const [tenDangNhap, setTenDangNhap] = useState('');
+  const [matKhau, setMatKhau] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState('');
+  const navigate = useNavigate();
 
-    const handleLogin = async () => {
-        try {
-            const response = await axios.post(
-                'http://localhost:8080/taiKhoan/dangNhap',
-                {
-                    tenDangNhap,
-                    matKhau,
-                }
-            );
+  const dispatch = useDispatch();
+  const {
+    tenDangNhap: currentTenDangNhap,
+    quyen
+  } = useSelector((store) => store.user);
 
-            // Lưu token vào localStorage
-            localStorage.setItem('token', response.data.token);
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/taiKhoan/dangNhap',
+        { tenDangNhap, matKhau }
+      );
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+      const decodedToken = jwtDecode(token);
+      dispatch(setUser(decodedToken.sub, decodedToken.scope));
 
-            // Điều hướng đến trang chính sau khi đăng nhập thành công
-            navigate('/');
-        } catch (error) {
-            console.error('Login failed:', error);
-            alert('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
-        }
-    };
+      navigate('/');
+    } catch (error) {
+      setErrors(error.response?.data || 'Lỗi không xác định');
+    }
+  };
 
-    return (
-        // <div>
-        //   <MDBContainer fluid>
-        //     <MDBCard className='text-black m-5' style={{borderRadius: '25px', borderStyle: 'none'}}>
-        //       <MDBCardBody>
-        //         <MDBRow>
-        //           <MDBCol md='10' lg='6' className='order-2 order-lg-1 d-flex flex-column align-items-center'>
-        //             <h1 classNAme="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Đăng nhập</h1>
-        //             <div className="d-flex flex-row align-items-center mb-4 mt-4">
-        //               <FontAwesomeIcon  icon={faUser} fas size='lg' style={{ paddingRight: '10px' }}/>
-        //               <MDBInput placeholder='Your Name' id='form1' type='text' className='w-100'/>
-        //             </div>
-        //             <div className="d-flex flex-row align-items-center mb-4">
-        //               <FontAwesomeIcon  icon={faLock} size='lg' style={{ paddingRight: '10px' }}/>
-        //               <MDBInput placeholder='Password' id='form3' type='password'/>
-        //             </div>
-        //             <div className='mb-4 d-flex align-items-start'>
-        //               <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Nhớ mật khẩu' />
-        //             </div>
-        //             <MDBBtn className='mb-4' size='lg' onClick={handleLogin}>Đăng Nhập</MDBBtn>
-        //           </MDBCol>
-        //           <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
-        //             <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp' fluid/>
-        //           </MDBCol>
-        //         </MDBRow>
-        //       </MDBCardBody>
-        //     </MDBCard>
-        //   </MDBContainer>
-        // </div>
-        <div>
-            <MDBContainer fluid>
-                <MDBCard
-                    className="text-black m-5"
-                    style={{ borderRadius: '25px', borderStyle: 'none' }}
-                >
-                    <MDBCardBody>
-                        <MDBRow>
-                            <MDBCol
-                                md="10"
-                                lg="6"
-                                className="order-2 order-lg-1 d-flex flex-column align-items-center"
-                            >
-                                <h1 className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                                    Đăng nhập
-                                </h1>
+  const setupTokenRefresh = (expiredTime) => {
+    const currentTime = Math.floor(Date.now() / 1000);
+    const remainingTime = expiredTime - currentTime;
 
-                                <div className="d-flex flex-row align-items-center mb-4 mt-4">
-                                    <FontAwesomeIcon
-                                        icon={faUser}
-                                        fas
-                                        size="lg"
-                                        style={{ paddingRight: '10px' }}
-                                    />
-                                    <MDBInput
-                                        placeholder="Tên đăng nhập"
-                                        id="form1"
-                                        type="text"
-                                        className="w-100"
-                                        value={tenDangNhap}
-                                        onChange={(e) =>
-                                            setUsername(e.target.value)
-                                        } // Cập nhật state khi nhập
-                                    />
-                                </div>
+    // schedule the token refresh 10 minutes before the access token expires
+    const refreshTime = remainingTime - 600;
+    if (refreshTime > 0) {
+      setTimeout(refreshToken, refreshTime * 1000);
+    }
+  }
 
-                                <div className="d-flex flex-row align-items-center mb-4">
-                                    <FontAwesomeIcon
-                                        icon={faLock}
-                                        size="lg"
-                                        style={{ paddingRight: '10px' }}
-                                    />
-                                    <MDBInput
-                                        placeholder="Mật khẩu"
-                                        id="form3"
-                                        type="password"
-                                        value={matKhau}
-                                        onChange={(e) =>
-                                            setPassword(e.target.value)
-                                        } // Cập nhật state khi nhập
-                                    />
-                                </div>
+  const refreshToken = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        'http://localhost:8080/taiKhoan/taoMoiToken',
+        { token }
+      );
+      localStorage.setItem('token', response.data.token);
+    } catch (error) {
+      localStorage.removeItem('token');
+      dispatch(clearUser());
+    }
+  }
 
-                                <div className="mb-4 d-flex align-items-start">
-                                    <MDBCheckbox
-                                        name="flexCheck"
-                                        value=""
-                                        id="flexCheckDefault"
-                                        label="Nhớ mật khẩu"
-                                    />
-                                </div>
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-                                <MDBBtn
-                                    className="mb-4"
-                                    size="lg"
-                                    noRipple
-                                    onClick={handleLogin}
-                                >
-                                    Đăng Nhập
-                                </MDBBtn>
-                            </MDBCol>
+  const handleEnter = (event) => {
+    if (event.key === 'Enter') {
+      handleLogin();
+    }
+  };
 
-                            <MDBCol
-                                md="10"
-                                lg="6"
-                                className="order-1 order-lg-2 d-flex align-items-center"
-                            >
-                                <MDBCardImage
-                                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                                    fluid
-                                />
-                            </MDBCol>
-                        </MDBRow>
-                    </MDBCardBody>
-                </MDBCard>
-            </MDBContainer>
-        </div>
-    );
+  return (
+    <Container fluid className="loginForm">
+      <Row className="mt-2 d-flex align-items-center justify-content-center">
+        <Col md={6}>
+          <div className="p-4 border rounded-3 shadow-sm authForm">
+            <h1 className="text-center fw-bold mb-4">Đăng Nhập</h1>
+
+            {/* Fake Inputs to Trick Browser Autofill */}
+            <Form.Control type="text" style={{ display: 'none' }} autoComplete="username" />
+            <Form.Control type="password" style={{ display: 'none' }} autoComplete="new-password" />
+
+            <FloatingLabel label="Tên đăng nhập" className="mb-4">
+              <Form.Control
+                type="text"
+                placeholder="Tên đăng nhập"
+                value={tenDangNhap}
+                onChange={(e) => setTenDangNhap(e.target.value)}
+                autoComplete="off"
+              />
+              <FontAwesomeIcon icon={faUser} className="position-absolute top-50 translate-middle-y end-0 pe-3" />
+            </FloatingLabel>
+
+            <div className="position-relative mb-4">
+              <FloatingLabel label="Mật khẩu">
+                <Form.Control
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Mật khẩu"
+                  value={matKhau}
+                  onChange={(e) => setMatKhau(e.target.value)}
+                  autoComplete="off"
+                  onKeyDown={handleEnter}
+                />
+              </FloatingLabel>
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                className="position-absolute top-50 translate-middle-y end-0 pe-3 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            </div>
+
+            {errors && <Alert variant="danger" className="mt-1">{errors}</Alert>}
+
+            <div className="d-flex mb-3">
+              <Button variant="primary" className="sndColor me-2" style={{ flex: 7 }} onClick={handleLogin}>
+                Đăng Nhập
+              </Button>
+              <Button variant="secondary" style={{ flex: 3 }} onClick={() => navigate('/SignUp')}>
+                Đăng Ký
+              </Button>
+            </div>
+            <Row className="align-items-center pb-4">
+              <Link to="/enterEmail" className="text-center nav-link fs-6" style={{ color: 'blue' }}>
+                Bạn quên mật khẩu?
+              </Link>
+            </Row>
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  );
 }

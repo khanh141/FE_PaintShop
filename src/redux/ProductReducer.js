@@ -2,10 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import testDataInFile from '../testData.json';
 
 const initialState = {
-    // products: testDataInFile,
-    // filteredProducts: testDataInFile,
-    // displayedCards: 8,
-    // showAll: false,
     products: [],
     filteredProducts: [],
     displayedCards: 8,
@@ -17,15 +13,17 @@ const productsSlice = createSlice({
     initialState,
     reducers: {
         setFilter: (state, action) => {
-            // state.filteredProducts = action.payload.filteredData;
             state.filteredProducts = action.payload;
         },
         setShowAll: (state) => {
             state.showAll = !state.showAll;
             state.displayedCards = state.showAll ? state.products.length : 8;
         },
+        setSearchTerm: (state, action) => {
+            state.searchTerm = action.payload; 
+        },
     },
 });
 
-export const { setFilter, setShowAll } = productsSlice.actions;
+export const { setFilter, setShowAll,setSearchTerm } = productsSlice.actions;
 export default productsSlice.reducer;

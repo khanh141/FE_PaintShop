@@ -1,24 +1,20 @@
 .navbar {
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 10px;
-    z-index: 1000;
-    font-family: "Poppins Regular", sans-serif;
-    .logo {
-        height: 70px;
+  position: fixed; // Makes the navbar fixed to the top
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  z-index: 1000;
+  font-family: "Poppins Regular", sans-serif;
+
+  .logo {
+    height: 70px;
+  }
+
+  #input {
+    opacity: 1 !important;
+    &:focus {
+      box-shadow: none;
     }
-    li {
-        a {
-            &:hover {
-                background-color: rgb(134, 216, 227);
-            }
-        }
-        a,
-        i {
-            &:hover {
-                color: white !important;
-            }
-        }
-    }
+  }
 }

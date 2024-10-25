@@ -12,8 +12,6 @@ export default function Footer() {
               <h6>Địa chỉ trụ sở: Số 57, đường số 4, KTDC Thới Nhựt 2, KV1, P. An Khánh, Q. Ninh Kiều, TPCT</h6>
               <h6>Địa chỉ nhận thư: Hồ bơi Nam Long, Đ. Vũ Đình Liệu, KDC Nam Long,P. Hưng Thạnh, Q. Cái Răng, TPCT</h6>
             </div>
-            {/* <div className="col-md-3">
-          </div> */}
             <div className="contact col-md-3">
               <h6>Điện thoại: 0917 72 72 69 (Mr. Bằng)</h6>
               <h6>Email: tungdungcantho@gmail.com</h6>
