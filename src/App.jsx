@@ -113,18 +113,17 @@ function App() {
             {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
             <Route path='/productDetail/:maSanPham' element={<ProductDetail />} />
           </Route>
-
-          {/* localhost/admin */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="" element={<Dashboard />} />
-            <Route path="products" element={<AdminProduct />} />
-            <Route path="import-export" element={<AdminImpExp />} />
-            <Route path="warehouse" element={<WarehousePage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+                    {/* localhost/admin */}
+                    <Route path="/admin" element={<AdminLayout />}>
+                        <Route path="" element={<Dashboard />} />
+                        <Route path="products" element={<AdminProduct />} />
+                        <Route path="import-export" element={<AdminImpExp />} />
+                        <Route path="warehouse" element={<WarehousePage />} />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
