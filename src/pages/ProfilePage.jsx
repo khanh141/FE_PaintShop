@@ -5,6 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { setProfile } from "../redux/UserSlice"
+import { setLoading, setSuccess, resetStatus } from "../redux/AppSlice"
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -12,7 +13,6 @@ import { FaPen } from 'react-icons/fa';
 function ProfilePage() {
 
     const dispatch = useDispatch();
-    const [userName, setUsername] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [showOldPassword, setShowOldPassword] = useState(false);
@@ -21,6 +21,7 @@ function ProfilePage() {
     const [errors, setErrors] = useState('');
     const [isEditing, setIsEditing] = useState(false);
 
+    const { isLoading, isSuccess } = useSelector((state) => state.app);
     const {
         tenDangNhap, hoTen, quyen, soDienThoai, email, diaChi, maNhanVien
     } = useSelector((store) => store.user)
@@ -29,6 +30,15 @@ function ProfilePage() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [activeTab]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            const timer = setTimeout(() => {
+                dispatch(resetStatus()); // Reset status after 3 seconds
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [isSuccess, dispatch]);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -51,6 +61,7 @@ function ProfilePage() {
                 dispatch(setProfile(profileData.hoTen, profileData.soDienThoai, profileData.email, profileData.diaChi, profileData.maNhanVien));
             } catch (error) {
                 console.error('Error fetching profile data:', error);
+                navigate("/");
             }
         };
         if (activeTab === '1') {
@@ -109,13 +120,38 @@ function ProfilePage() {
         setIsEditing(true);
     };
     const handleSave = () => {
-        // Call the function capNhatTaiKhoan with the updated formData
         capNhatTaiKhoan(formData);
         setIsEditing(false);
     };
     const cancelEdit = () => {
         setIsEditing(false);
     }
+
+    const capNhatTaiKhoan = async (data) => {
+        try {
+            const payload = {
+                tenDangNhap,
+                hoTen: data.hoTen,
+            };
+
+            if (data.soDienThoai) {
+                payload.diaChiHoacSDT = data.soDienThoai;
+            } else if (data.diaChi) {
+                payload.diaChiHoacSDT = data.diaChi;
+            }
+
+            const token = localStorage.getItem('token');
+            const response = await axios.put('http://localhost:8080/taiKhoan/capNhatThongTin', payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            dispatch(setSuccess(true));
+        } catch (error) {
+            console.error('Error updating account:', error);
+        }
+    };
+
 
     const renderTabContent = () => {
         switch (activeTab) {
@@ -166,6 +202,7 @@ function ProfilePage() {
                                         value={hideSoDienThoai(formData.soDienThoai)}
                                         disabled={!isEditing}
                                         className="form-control"
+                                        onChange={handleInputChange}
                                     />
                                 </Col>
                             </Row>
@@ -356,7 +393,10 @@ function ProfilePage() {
                     {renderTabContent()}
                 </Col>
             </Row>
+            {isLoading && <div className="loading">Loading...</div>}
+            {isSuccess && <Alert variant="success">Thành công</Alert>}
         </Container>
+
     )
 }
 
