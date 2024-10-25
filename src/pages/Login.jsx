@@ -31,7 +31,6 @@ export default function Login() {
       localStorage.setItem('token', token);
       const decodedToken = jwtDecode(token);
       dispatch(setUser(decodedToken.sub, decodedToken.scope));
-      setupTokenRefresh(decodedToken.exp);
 
       navigate('/');
     } catch (error) {
