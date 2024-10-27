@@ -25,6 +25,7 @@ import { useDispatch } from "react-redux";
 import { clearUser, setUser } from './redux/UserSlice';
 import { jwtDecode } from "jwt-decode";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import axios from 'axios';
 
 
 function App() {
