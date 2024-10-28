@@ -5,6 +5,9 @@
   --secondary-color: #1b2848;
   --white-color: white;
   --background-color: #f5f5f5;
+  --text-color: #573e44;
+  --ligh-primary-color: rgb(255, 185, 135);
+
 }
 
 body {
@@ -32,6 +35,16 @@ body {
     border-color: var(--secondary-color);
     &:hover {
       background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+  }
+  .whiteBtn {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    color: var(--text-color);
+    border: 1px solid var(--hover-gray-color);
+    &:hover {
+      background-color: var(--background-color);
       border-color: var(--primary-color);
     }
   }
@@ -193,12 +206,6 @@ body {
       }
     }
     .contentContainer {
-      .doiMatKhau {
-        width: 80%;
-        @media (max-width: 768px) {
-          width: 100%;
-        }
-      }
       .content {
         .row {
           margin-bottom: 10px;
@@ -206,6 +213,137 @@ body {
           align-items: center;
         }
       }
+      .donHangContainer {
+        .donHang {
+          .trangThaiDonHang {
+            background-color: var(--ligh-primary-color);
+            .col {
+              display: flex;
+              justify-content: space-between;
+            }
+          }
+          .thongTinDonHang {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            .anhSanPham {
+              width: max-content;
+            }
+            .thongtinSanPhamContainer {
+              height: 100px;
+              flex: 1;
+              .thongTinSanPham {
+                display: flex;
+                flex-direction: column;
+                .spanContainer {
+                  display: flex;
+                  span {
+                    margin-right: 20px;
+                    white-space: nowrap; // Prevent line breaks if content overflows
+                  }
+                }
+                .nameAndType {
+                  display: flex;
+                  justify-content: space-between;
+                }
+                .chiTiet,
+                .priceAndQuantity {
+                  display: flex;
+                  flex-direction: column;
+                }
+              }
+              .muaLaiBtn {
+                width: 100%;
+                margin: 0 auto;
+              }
+              .giaTien_soLuong {
+                text-align: right;
+              }
+            }
+          }
+          .danhGia {
+            .danhGiaBtn {
+              width: 100%;
+            }
+          }
+          // Media queries for responsive design
+          @media (max-width: 768px) {
+            .thongTinDonHang {
+              flex-direction: column; // Stack elements on smaller screens
+              align-items: flex-start;
+
+              .anhSanPham {
+                width: 50px; // Smaller image size for mobile devices
+              }
+
+              .thongtinSanPhamContainer {
+                padding-left: 0;
+                margin-top: 10px; // Add spacing between elements when stacked
+
+                .giaTien_soLuong {
+                  text-align: left; // Align left on smaller screens
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .doiMatKhau {
+        width: 80%;
+        @media (max-width: 768px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999; // Bring it above everything
+
+    .popup-content {
+      width: 30vw;
+      height: 20vh;
+      background-color: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      animation: fadeIn 0.3s ease-in-out;
+
+      .loading {
+        font-size: 20px;
+        color: #555;
+      }
+
+      .alert {
+        font-size: 18px;
+        font-weight: bold;
+
+        &.success {
+          color: green;
+        }
+      }
+    }
+  }
+
+  // Optional: Fade-in animation for a smoother effect
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 }
