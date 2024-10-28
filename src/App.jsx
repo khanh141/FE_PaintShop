@@ -28,6 +28,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import axios from 'axios';
 
 
+
 function App() {
   const dispatch = useDispatch();
 
@@ -113,18 +114,17 @@ function App() {
             <Route path='/productDetail/:maSanPham' element={<ProductDetail />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
-
-          {/* localhost/admin */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="" element={<Dashboard />} />
-            <Route path="products" element={<AdminProduct />} />
-            <Route path="import-export" element={<AdminImpExp />} />
-            <Route path="warehouse" element={<WarehousePage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+                    {/* localhost/admin */}
+                    <Route path="/admin" element={<AdminLayout />}>
+                        <Route path="" element={<Dashboard />} />
+                        <Route path="products" element={<AdminProduct />} />
+                        <Route path="import-export" element={<AdminImpExp />} />
+                        <Route path="warehouse" element={<WarehousePage />} />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;

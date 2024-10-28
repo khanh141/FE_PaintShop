@@ -1,84 +1,107 @@
-import { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 function ModalAddProduct(props) {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
+    const { onSubmit, ...rest } = props;
 
-  return (
-    <Modal
-      {...props}
-      backdrop="static"
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Them san pham
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <input
-          type="text"
-          name="name"
-          placeholder="Tên Sản Phẩm"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          name="name"
-          placeholder="Loại Sản Phẩm"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          name="name"
-          placeholder="Tính năng"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          name="name"
-          placeholder="Mô tả"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={(e) => handleImageChange(e)}
-        />
-        <input
-          type="number"
-          name="price"
-          placeholder="Enter price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-        <Button
-          onClick={() => {
-            props.onSubmit({
-              name,
-              price,
-            });
-            setName("");
-            setPrice(0);
-          }}
+    return (
+        <Modal
+            {...rest}
+            backdrop="static"
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
         >
-          Submit
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
+            <form onSubmit={onSubmit}>
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Them san pham
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <input
+                        required
+                        type="text"
+                        name="loai"
+                        placeholder="Loai san pham"
+                    />
+                    <input
+                        required
+                        type="text"
+                        name="ten"
+                        placeholder="Ten Sản Phẩm"
+                    />
+                    <input
+                        required
+                        type="text"
+                        name="tinhNang"
+                        placeholder="Tính năng"
+                    />
+                    <input
+                        required
+                        type="text"
+                        name="moTa"
+                        placeholder="Mô tả"
+                    />
+                    <input
+                        required
+                        type="text"
+                        name="hinhAnh"
+                        placeholder="Hinh anh"
+                    />
+                    <input
+                        required
+                        type="text"
+                        name="tenNhaSanXuat"
+                        placeholder="Ten nha san xuat"
+                    />
+                    <input
+                        required
+                        type="text"
+                        name="loaiBaoBi"
+                        placeholder="Loai bao bi"
+                    />
+                    <input required type="color" name="mau" placeholder="Mau" />
+                    <input
+                        required
+                        type="text"
+                        name="loaiDinhMucLyThuyet"
+                        placeholder="Loai dinh muc ly thuyet"
+                    />
+                    <input
+                        required
+                        type="text"
+                        name="sttKhu"
+                        placeholder="Stt khu"
+                    />
+                    <input
+                        required
+                        type="number"
+                        name="giaTien"
+                        placeholder="Enter price"
+                    />
+                    <input
+                        required
+                        type="number"
+                        name="soLuong"
+                        placeholder="So luong"
+                    />
+                    <input
+                        required
+                        type="text"
+                        name="maNhanVien"
+                        placeholder="Ma nhan vien"
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={props.onHide} type="button">
+                        Close
+                    </Button>
+                    <Button type="submit">Submit</Button>
+                </Modal.Footer>
+            </form>
+        </Modal>
+    );
 }
 
 export default ModalAddProduct;

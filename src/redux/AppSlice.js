@@ -14,6 +14,7 @@ const appSlice = createSlice({
     },
     setSuccess(state, action) {
       state.isLoading = !action.payload;
+
       state.isSuccess = action.payload;
     },
     resetStatus(state) {
