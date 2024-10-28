@@ -6,6 +6,7 @@
   --white-color: white;
   --background-color: #f5f5f5;
   --text-color: #573e44;
+  --ligh-primary-color: rgb(255, 185, 135);
 }
 
 body {
@@ -39,9 +40,9 @@ body {
   .whiteBtn {
     background-color: var(--background-color);
     color: var(--text-color);
+    color: var(--text-color);
     border: 1px solid var(--hover-gray-color);
     &:hover {
-      color: var(--text-color);
       background-color: var(--background-color);
       border-color: var(--primary-color);
     }
@@ -214,6 +215,7 @@ body {
       .donHangContainer {
         .donHang {
           .trangThaiDonHang {
+            background-color: var(--ligh-primary-color);
             .col {
               display: flex;
               justify-content: space-between;
@@ -222,7 +224,7 @@ body {
           .thongTinDonHang {
             display: flex;
             align-items: center;
-            flex-wrap: wrap; // Allow wrapping for smaller screens
+            flex-wrap: wrap;
             .anhSanPham {
               width: max-content;
             }

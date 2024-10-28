@@ -2,21 +2,21 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { Form, FloatingLabel, Button, Alert } from 'react-bootstrap'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setSuccess } from "../redux/AppSlice"
-import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function ChangePassword() {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [showOldPassword, setShowOldPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [errors, setErrors] = useState('');
+
+    const { tenDangNhap } = useSelector((store) => store.user)
 
     const handlePasswordChange = async () => {
 
@@ -34,10 +34,14 @@ function ChangePassword() {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             localStorage.setItem('token', response.data.token);
-            dispatch(setSuccess(true))
-            navigate('/profile');
+            dispatch(setLoading(false));
+            toast.success("Đổi mật khẩu thành công", { position: "top-right", autoClose: 3000 })
+            setOldPassword('');
+            setNewPassword('');
         } catch (error) {
-            setErrors(error.response.data)
+            setErrors("Sai thông tin đăng nhập")
+            // setErrors(error.response.data)
+            dispatch(setLoading(false))
         }
     };
 

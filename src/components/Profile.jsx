@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 
-function Profile({ formData, setFormData }) {
+function Profile() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -23,7 +23,19 @@ function Profile({ formData, setFormData }) {
     const {
         tenDangNhap, hoTen, quyen, soDienThoai, email, diaChi, maNhanVien
     } = useSelector((store) => store.user)
+    const [formData, setFormData] = useState({
+        hoTen, email, soDienThoai, diaChi, maNhanVien,
+    });
 
+    useEffect(() => {
+        setFormData({
+            hoTen: hoTen || '',
+            email: email || '',
+            soDienThoai: soDienThoai || '',
+            diaChi: diaChi || '',
+            maNhanVien: maNhanVien || '',
+        });
+    }, [hoTen, email, soDienThoai, diaChi, maNhanVien]);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value, }));
@@ -80,7 +92,6 @@ function Profile({ formData, setFormData }) {
                 diaChiHoacSDT: userDataFromBackend.soDienThoai || userDataFromBackend.diaChi,
             };
 
-            console.log(updatedData)
             dispatch(setProfile(updatedData.hoTen, updatedData.diaChiHoacSDT));
             dispatch(setSuccess(true));
         } catch (error) {

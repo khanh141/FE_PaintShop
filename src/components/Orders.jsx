@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Modal, Form, Button } from 'react-bootstrap'
 import Rating from 'react-rating';
 import { FaStar, FaRegStar } from 'react-icons/fa';
-import { setLoading } from "../redux/AppSlice"
+import { setLoading, setSuccess } from "../redux/AppSlice"
 
 function Orders() {
 
@@ -69,6 +69,7 @@ function Orders() {
 
     const fetchDonHangData = async (page) => {
         try {
+            dispatch(setLoading(true));
             const token = localStorage.getItem('token');
             const response = await axios.get('http://localhost:8080/donHang/xemChiTiet',
                 {
@@ -82,6 +83,7 @@ function Orders() {
                 });
 
             if (Array.isArray(response.data)) {
+                dispatch(setLoading(false));
                 setDonHangList((prevList) => [...prevList, ...response.data]);
             } else {
                 console.error('Unexpected response format:', response.data);
@@ -169,7 +171,7 @@ function Orders() {
                 </div>
             ))}
             <div className="text-center mt-3">
-                <Button onClick={handleLoadMore} disabled={isLoadingMore}>
+                <Button className='btn sndColor' onClick={handleLoadMore} disabled={isLoadingMore}>
                     {isLoadingMore ? 'Đang tải...' : 'Xem thêm'}
                 </Button>
             </div>

@@ -3,30 +3,17 @@ import { Container, Row, Col, Modal, Form, FloatingLabel, Button, Alert } from '
 import { CgProfile } from "react-icons/cg";
 import { useSelector, useDispatch } from 'react-redux';
 import { resetStatus, setProfileActiveTab } from "../redux/AppSlice"
-import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Profile from '../components/Profile';
 import Orders from '../components/Orders';
 import ChangePassword from '../components/ChangePassword';
-
 function ProfilePage() {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [errors, setErrors] = useState('');
 
     const { isLoading, isSuccess, profileActiveTab } = useSelector((state) => state.app);
-    const {
-        tenDangNhap, hoTen, quyen, soDienThoai, email, diaChi, maNhanVien
-    } = useSelector((store) => store.user)
-
-    const [formData, setFormData] = useState({
-        hoTen, email, soDienThoai, diaChi, maNhanVien,
-    });
-    useEffect(() => {
-        setFormData({ hoTen, email, soDienThoai, diaChi, maNhanVien });
-    }, [hoTen, email, soDienThoai, diaChi, maNhanVien]);
+    const { tenDangNhap } = useSelector((store) => store.user)
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -45,7 +32,7 @@ function ProfilePage() {
     const renderTabContent = () => {
         switch (profileActiveTab) {
             case '1': return (
-                <Profile formData={formData} setFormData={setFormData} />
+                <Profile />
             )
             case '2': return (
                 <Orders />
@@ -62,7 +49,7 @@ function ProfilePage() {
     };
     return (
         <Container className='profilePage'>
-            <Row className="h-100 mt-4">
+            <Row className="mainContainer h-100 mt-4">
                 <Col xs={2} className="text-white p-3 sideBar pt-4">
                     <div className="profile">
                         <CgProfile />
