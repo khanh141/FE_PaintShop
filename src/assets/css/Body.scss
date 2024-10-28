@@ -5,6 +5,7 @@
   --secondary-color: #1b2848;
   --white-color: white;
   --background-color: #f5f5f5;
+  --text-color: #573e44;
 }
 
 body {
@@ -32,6 +33,16 @@ body {
     border-color: var(--secondary-color);
     &:hover {
       background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+  }
+  .whiteBtn {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--hover-gray-color);
+    &:hover {
+      color: var(--text-color);
+      background-color: var(--background-color);
       border-color: var(--primary-color);
     }
   }
@@ -201,48 +212,74 @@ body {
         }
       }
       .donHangContainer {
-        .thongTinDonHang {
-          display: flex;
-          align-items: center;
-          flex-wrap: wrap; // Allow wrapping for smaller screens
-          .anhSanPham {
-            width: max-content;
-          }
-          .thongtinSanPhamContainer {
-            flex: 1;
-            .thongTinSanPham {
+        .donHang {
+          .trangThaiDonHang {
+            .col {
               display: flex;
-              flex-direction: column;
-              .spanContainer {
+              justify-content: space-between;
+            }
+          }
+          .thongTinDonHang {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap; // Allow wrapping for smaller screens
+            .anhSanPham {
+              width: max-content;
+            }
+            .thongtinSanPhamContainer {
+              height: 100px;
+              flex: 1;
+              .thongTinSanPham {
                 display: flex;
-                span {
-                  margin-right: 20px;
-                  display: inline-block; // Ensures spans are treated as inline elements
-                  white-space: nowrap; // Prevent line breaks if content overflows
+                flex-direction: column;
+                .spanContainer {
+                  display: flex;
+                  span {
+                    margin-right: 20px;
+                    white-space: nowrap; // Prevent line breaks if content overflows
+                  }
+                }
+                .nameAndType {
+                  display: flex;
+                  justify-content: space-between;
+                }
+                .chiTiet,
+                .priceAndQuantity {
+                  display: flex;
+                  flex-direction: column;
                 }
               }
-            }
-            .giaTien_soLuong {
-              text-align: right;
+              .muaLaiBtn {
+                width: 100%;
+                margin: 0 auto;
+              }
+              .giaTien_soLuong {
+                text-align: right;
+              }
             }
           }
-        }
-        // Media queries for responsive design
-        @media (max-width: 768px) {
-          .thongTinDonHang {
-            flex-direction: column; // Stack elements on smaller screens
-            align-items: flex-start;
-
-            .anhSanPham {
-              width: 50px; // Smaller image size for mobile devices
+          .danhGia {
+            .danhGiaBtn {
+              width: 100%;
             }
+          }
+          // Media queries for responsive design
+          @media (max-width: 768px) {
+            .thongTinDonHang {
+              flex-direction: column; // Stack elements on smaller screens
+              align-items: flex-start;
 
-            .thongtinSanPhamContainer {
-              padding-left: 0;
-              margin-top: 10px; // Add spacing between elements when stacked
+              .anhSanPham {
+                width: 50px; // Smaller image size for mobile devices
+              }
 
-              .giaTien_soLuong {
-                text-align: left; // Align left on smaller screens
+              .thongtinSanPhamContainer {
+                padding-left: 0;
+                margin-top: 10px; // Add spacing between elements when stacked
+
+                .giaTien_soLuong {
+                  text-align: left; // Align left on smaller screens
+                }
               }
             }
           }
