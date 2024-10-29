@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import styles from '../assets/css/ModalAddProduct.module.scss';
 
 function ModalAddProduct(props) {
     const { onSubmit, ...rest } = props;
@@ -15,83 +16,127 @@ function ModalAddProduct(props) {
             <form onSubmit={onSubmit}>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Them san pham
+                        Thêm sản phẩm
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <input
-                        required
-                        type="text"
-                        name="loai"
-                        placeholder="Loai san pham"
-                    />
-                    <input
-                        required
-                        type="text"
-                        name="ten"
-                        placeholder="Ten Sản Phẩm"
-                    />
-                    <input
-                        required
-                        type="text"
-                        name="tinhNang"
-                        placeholder="Tính năng"
-                    />
-                    <input
-                        required
-                        type="text"
-                        name="moTa"
-                        placeholder="Mô tả"
-                    />
-                    <input
-                        required
-                        type="text"
-                        name="hinhAnh"
-                        placeholder="Hinh anh"
-                    />
-                    <input
-                        required
-                        type="text"
-                        name="tenNhaSanXuat"
-                        placeholder="Ten nha san xuat"
-                    />
-                    <input
-                        required
-                        type="text"
-                        name="loaiBaoBi"
-                        placeholder="Loai bao bi"
-                    />
-                    <input required type="color" name="mau" placeholder="Mau" />
-                    <input
-                        required
-                        type="text"
-                        name="loaiDinhMucLyThuyet"
-                        placeholder="Loai dinh muc ly thuyet"
-                    />
-                    <input
-                        required
-                        type="text"
-                        name="sttKhu"
-                        placeholder="Stt khu"
-                    />
-                    <input
-                        required
-                        type="number"
-                        name="giaTien"
-                        placeholder="Enter price"
-                    />
-                    <input
-                        required
-                        type="number"
-                        name="soLuong"
-                        placeholder="So luong"
-                    />
-                    <input
-                        required
-                        type="text"
-                        name="maNhanVien"
-                        placeholder="Ma nhan vien"
-                    />
+                <Modal.Body className={styles['modal-body']}>
+                    <label>
+                        Loại sản phẩm
+                        <input
+                            required
+                            type="text"
+                            name="loai"
+                            placeholder="Loại sản phẩm"
+                        />
+                    </label>
+                    <label>
+                        Tên sản phẩm
+                        <input
+                            required
+                            type="text"
+                            name="ten"
+                            placeholder="Tên sản phẩm"
+                        />
+                    </label>
+                    <label>
+                        Tính năng
+                        <input
+                            required
+                            type="text"
+                            name="tinhNang"
+                            placeholder="Tính năng"
+                        />
+                    </label>
+                    <label>
+                        Mô tả
+                        <input
+                            required
+                            type="text"
+                            name="moTa"
+                            placeholder="Mô tả"
+                        />
+                    </label>
+                    <label>
+                        Hình ảnh
+                        <input
+                            required
+                            type="text"
+                            name="hinhAnh"
+                            placeholder="Hình ảnh"
+                        />
+                    </label>
+                    <label>
+                        Tên nhà sản xuất
+                        <input
+                            required
+                            type="text"
+                            name="tenNhaSanXuat"
+                            placeholder="Tên nhà sản xuất"
+                        />
+                    </label>
+                    <label>
+                        Loại bao bì
+                        <input
+                            required
+                            type="text"
+                            name="loaiBaoBi"
+                            placeholder="Loại bao bì"
+                        />
+                    </label>
+                    <label>
+                        Màu
+                        <input
+                            required
+                            type="text"
+                            name="mau"
+                            placeholder="Màu"
+                        />
+                    </label>
+                    <label>
+                        Loại định mức lý thuyết
+                        <input
+                            required
+                            type="text"
+                            name="loaiDinhMucLyThuyet"
+                            placeholder="Loại định mức lý thuyết"
+                        />
+                    </label>
+                    <label>
+                        Số thứ tự khu
+                        <input
+                            required
+                            type="text"
+                            name="sttKhu"
+                            placeholder="Số thứ tự khu"
+                        />
+                    </label>
+                    <label>
+                        Giá tiền
+                        <input
+                            required
+                            type="number"
+                            name="giaTien"
+                            placeholder="Giá tiền"
+                        />
+                    </label>
+                    <label>
+                        Số lượng
+                        <input
+                            required
+                            type="number"
+                            name="soLuong"
+                            placeholder="Số lượng"
+                        />
+                    </label>
+                    <label>
+                        Mã nhân viên
+                        <input
+                            required
+                            type="text"
+                            name="maNhanVien"
+                            placeholder="Mã nhân viên"
+                        />
+                    </label>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={props.onHide} type="button">

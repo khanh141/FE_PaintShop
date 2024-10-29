@@ -1,0 +1,132 @@
+// RegistrationModal.scss
+
+// Modal container styling
+.register{
+.modal-content {
+        border-radius: 8px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background-color: #f8f9fa;
+        border-bottom: none;
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    // Form field styling
+    .form-group {
+        margin-bottom: 1.25rem;
+
+        label {
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .form-control {
+            padding: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            font-size: 1rem;
+            color: #495057;
+            transition: border-color 0.2s ease-in-out;
+
+            &:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+
+            &.is-invalid {
+                border-color: #dc3545;
+
+                &:focus {
+                    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+                }
+            }
+        }
+
+        .invalid-feedback {
+            font-size: 0.85rem;
+            color: #dc3545;
+        }
+    }
+
+    // Password input group styling
+    .input-group {
+        .form-control {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+
+            &.outline-secondary {
+                color: #6c757d;
+                border-color: #ced4da;
+
+                &:hover {
+                    background-color: #e9ecef;
+                }
+            }
+
+            .fa-eye,
+            .fa-eye-slash {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    // Modal footer styling
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 1rem 1.5rem;
+        border-top: none;
+
+        .btn {
+            font-size: 1rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+
+            &:first-of-type {
+                margin-right: 0.5rem;
+                background-color: #6c757d;
+                color: #fff;
+
+                &:hover {
+                    background-color: #5a6268;
+                }
+            }
+
+            &:last-of-type {
+                background-color: #007bff;
+                color: #fff;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+            }
+
+            &:disabled {
+                background-color: #6c757d;
+                border-color: #6c757d;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
