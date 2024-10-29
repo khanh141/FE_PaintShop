@@ -3,9 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const userInitialState = {
   tenDangNhap: "",
   quyen: [],
+  hoTen: "",
   soDienThoai: "",
   email: "",
   diaChi: "",
+  maNhanVien: "",
   isLoggedIn: false,
 };
 
@@ -30,19 +32,28 @@ const userSlice = createSlice({
       },
     },
     setProfile: {
-      prepare(soDienThoai, email, diaChi) {
+      prepare(hoTen, soDienThoai, email, diaChi, maNhanVien) {
         return {
           payload: {
+            hoTen,
             soDienThoai,
             email,
-            diaChi,
+            diaChi: diaChi || "",
+            maNhanVien: maNhanVien || "",
+            isLoggedIn: true,
           },
         };
       },
       reducer(state, action) {
-        (state.soDienThoai = action.payload.soDienThoai),
-          (state.email = action.payload.email),
-          (state.diaChi = action.payload.diaChi);
+        const { hoTen, soDienThoai, email, diaChi, maNhanVien } =
+          action.payload;
+
+        state.hoTen = hoTen;
+        state.soDienThoai = soDienThoai;
+        state.email = email;
+        if (diaChi) state.diaChi = diaChi;
+        if (maNhanVien) state.maNhanVien = maNhanVien;
+        state.isLoggedIn = true;
       },
     },
     clearUser(state) {
@@ -52,4 +63,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, setProfile, clearUser } = userSlice.actions;
