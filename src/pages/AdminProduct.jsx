@@ -1,6 +1,5 @@
 import { useState } from 'react';
 // import Table from "react-bootstrap/Table";
-import dataTest from '../testData.json';
 import ModalAddProduct from '../components/ModalAddProduct';
 import { Col, Button, Table } from 'react-bootstrap';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -15,6 +14,7 @@ function AdminProduct() {
         queryFn: () => getAllProducts(),
         staleTime: 1000 * 60 * 5,
     });
+    // console.log(localStorage.getItem('token'));
     const mutation = useMutation({
         mutationKey: [KEYS.GET_ALL_PRODUCTS],
         mutationFn: (data) => createProduct(data),
@@ -27,9 +27,10 @@ function AdminProduct() {
     });
 
     function deleteClick(prod) {
-        setProducts((prev) => {
-            return prev.filter((p) => p.id !== prod.id);
-        });
+        console.log(prod);
+        // setProducts((prev) => {
+        //     return prev.filter((p) => p.id !== prod.id);
+        // });
     }
 
     const handleAddProduct = (e) => {
@@ -43,21 +44,22 @@ function AdminProduct() {
     };
     return (
         <Col sm={12} md={12} lg={10} xl={10}>
+            <h1 className="text-center mb-5">Quản Lý Sản Phẩm</h1>
             <div>
                 <Button
                     className="mt-4 rounded"
                     onClick={() => setIsShowModalAddProduct(true)}
                 >
-                    Add product
+                    Thêm sản phẩm
                 </Button>
                 <Table>
                     <thead>
                         <tr>
-                            <th>Stt</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Describe</th>
-                            <th>Actions</th>
+                            <th>STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Loại</th>
+                            <th>Tên nhà sản xuất</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +69,7 @@ function AdminProduct() {
                                     <td>{index + 1}</td>
                                     <td>{prod.ten}</td>
                                     <td>{prod.loai}</td>
-                                    <td>{prod.moTa}</td>
+                                    <td>{prod.tenNhaSanXuat}</td>
 
                                     <td>
                                         <Button
@@ -75,7 +77,7 @@ function AdminProduct() {
                                             variant="info"
                                             onClick={() => deleteClick(prod)}
                                         >
-                                            Delete
+                                            Chi Tiết
                                         </Button>
                                     </td>
                                 </tr>
