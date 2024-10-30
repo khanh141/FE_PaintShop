@@ -39,7 +39,6 @@ export default function Signup() {
           (acc, [key, message]) => ({ ...acc, [key]: message }),
           {}
         );
-        console.log(error.response.data)
         if (error.response.data === "So dien thoai da duoc su dung") {
           errorList.sdt = "Số điện thoại đã được sử dụng."
         } else if (error.response.data === "Ten nguoi dung da ton tai") {

@@ -141,14 +141,14 @@ function Profile() {
     }, [dispatch, setProfileActiveTab, navigate]);
 
     return (
-        <Col xs={10} className="bg-light content">
+        <Col xs={12} className="bg-light profilePageContent profileContainer">
             <div id='tab1'>
                 <h3 className='mb-3'>Hồ sơ của tôi</h3>
                 <Row id='tenDangNhap'>
-                    <Col style={{ flex: '0 0 30%' }} className="text-end">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         <span>Tên đăng nhập</span>
                     </Col>
-                    <Col>
+                    <Col sm={8} xs={7}>
                         <input
                             type="text"
                             placeholder="Tên đăng nhập"
@@ -159,10 +159,10 @@ function Profile() {
                     </Col>
                 </Row>
                 <Row id='ten'>
-                    <Col style={{ flex: '0 0 30%' }} className="text-end">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         <span>Tên</span>
                     </Col>
-                    <Col>
+                    <Col sm={8} xs={7}>
                         <input
                             type="text"
                             name="hoTen"
@@ -175,10 +175,10 @@ function Profile() {
                     </Col>
                 </Row>
                 <Row id='soDienThoai'>
-                    <Col style={{ flex: '0 0 30%' }} className="text-end">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         <span>Số điện thoại</span>
                     </Col>
-                    <Col className="position-relative">
+                    <Col sm={8} xs={7} className="position-relative">
                         <input
                             type={showSdt ? "text" : "password"}
                             name="soDienThoai"
@@ -198,10 +198,10 @@ function Profile() {
 
                 </Row>
                 <Row id='email' className="align-items-center">
-                    <Col style={{ flex: '0 0 30%' }} className="text-end">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         <span>Email</span>
                     </Col>
-                    <Col style={{ position: 'relative' }}>
+                    <Col sm={8} xs={7} style={{ position: 'relative' }}>
                         <input
                             type={showEmail ? "text" : "password"}
                             name="email"
@@ -222,10 +222,10 @@ function Profile() {
                 </Row>
                 {diaChi ? (
                     <Row id='diaChi'>
-                        <Col style={{ flex: '0 0 30%' }} className="text-end">
+                        <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                             <span>Địa chỉ</span>
                         </Col>
-                        <Col>
+                        <Col sm={8} xs={7}>
                             <input
                                 type="text"
                                 name="diaChi"
@@ -239,10 +239,10 @@ function Profile() {
                     </Row>
                 ) : maNhanVien ? (
                     <Row id='maNhanVien'>
-                        <Col style={{ flex: '0 0 30%' }} className="text-end">
+                        <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                             <span>Mã nhân viên</span>
                         </Col>
-                        <Col>
+                        <Col sm={8} xs={7}>
                             <input
                                 type="text"
                                 name="maNhanVien"
@@ -256,10 +256,10 @@ function Profile() {
                     </Row>
                 ) : null}
                 <Row id='quyen'>
-                    <Col style={{ flex: '0 0 30%' }} className="text-end">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         <span>Loại tài khoản</span>
                     </Col>
-                    <Col>
+                    <Col sm={8} xs={7}>
                         <input
                             type="text"
                             placeholder="Loại tài khoản"
@@ -270,7 +270,7 @@ function Profile() {
                     </Col>
                 </Row>
                 <Row id="btnGrp" className="align-items-center">
-                    <Col style={{ flex: '0 0 30%' }} className="text-end">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         {isEditing && (
                             <Button
                                 style={{ minWidth: '100px' }}
