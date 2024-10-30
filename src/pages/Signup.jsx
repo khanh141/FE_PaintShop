@@ -38,8 +38,6 @@ export default function Signup() {
                 diaChi,
                 email,
             });
-
-            // Chuyển hướng đến trang Login sau khi đăng ký thành công
             navigate('/Login');
         } catch (error) {
             if (error.response && error.response.data) {
@@ -65,42 +63,6 @@ export default function Signup() {
             }
         }
     };
-
-    // const handleSignup = async () => {
-    //     try {
-    //         await axios.post(
-    //             'http://localhost:8080/taiKhoan/dangKy/khachHang',
-    //             {
-    //                 tenDangNhap,
-    //                 matKhau,
-    //                 sdt,
-    //                 hoTen,
-    //                 diaChi,
-    //                 email,
-    //             }
-    //         );
-    //         navigate('/Login');
-    //     } catch (error) {
-    //         if (error.response && error.response.data) {
-    //             const errorList = Object.entries(error.response.data).reduce(
-    //                 (acc, [key, message]) => ({ ...acc, [key]: message }),
-    //                 {}
-    //             );
-    //             console.log(error.response.data);
-    //             if (error.response.data === 'So dien thoai da duoc su dung') {
-    //                 errorList.sdt = 'Số điện thoại đã được sử dụng.';
-    //             } else if (
-    //                 error.response.data === 'Ten nguoi dung da ton tai'
-    //             ) {
-    //                 errorList.tenDangNhap = 'Tên người dùng đã tồn tại.';
-    //             }
-
-    //             setErrors(errorList);
-    //         } else {
-    //             console.error('An unknown error occurred:', error);
-    //         }
-    //     }
-    // };
 
     const translateError = (error) => {
         const translations = {

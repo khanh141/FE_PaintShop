@@ -1,349 +1,368 @@
 :root {
-  --hover-gray-color: rgb(215, 215, 215);
-  --primary-color: rgb(255, 106, 0);
-  --primary-light-color: rgb(250, 153, 83);
-  --secondary-color: #1b2848;
-  --white-color: white;
-  --background-color: #f5f5f5;
-  --text-color: #573e44;
-  --ligh-primary-color: rgb(255, 185, 135);
-
+    --hover-gray-color: rgb(215, 215, 215);
+    --primary-color: rgb(255, 106, 0);
+    --primary-light-color: rgb(250, 153, 83);
+    --secondary-color: #1b2848;
+    --white-color: white;
+    --background-color: #f5f5f5;
+    --text-color: #573e44;
+    --ligh-primary-color: rgb(255, 185, 135);
 }
 
 body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: var(--background-color);
-  .form-control {
-    &:focus {
-      border-color: var(--white-color);
-      box-shadow: 0 0 0 0.2rem var(--primary-light-color) !important;
-      outline: none; // Optional: remove default outline
-    }
-  }
-  .sndColor {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    &:hover {
-      background-color: var(--secondary-color);
-      border-color: var(--secondary-color);
-    }
-  }
-  .priColor {
-    background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
-    &:hover {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-    }
-  }
-  .whiteBtn {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     background-color: var(--background-color);
-    color: var(--text-color);
-    color: var(--text-color);
-    border: 1px solid var(--hover-gray-color);
-    &:hover {
-      background-color: var(--background-color);
-      border-color: var(--primary-color);
-    }
-  }
-  a {
-    text-decoration: none;
-  }
-  background-repeat: no-repeat;
-  background-size: cover;
-  .hasScrollBar {
-    &::-webkit-scrollbar {
-      width: 10px; // Set width of the scrollbar
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #f1f1f1; // Background color of the scrollbar track
-      border-radius: 10px; // Optional, adds rounded corners
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: #888; // Color of the scrollbar thumb
-      border-radius: 10px; // Optional, adds rounded corners to the thumb
-      border: 2px solid #f1f1f1; // Border around the scrollbar thumb
-    }
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: #555; // Darken the scrollbar thumb on hover
-    }
-  }
-  .productList {
-    .cardCol {
-      flex: 0 0 20%; // Each column takes 20% of the row
-      max-width: 20%;
-      .cardContainer {
-        .card {
-          border: none;
-          border-radius: 2px;
-          box-shadow: 1px 1px 2px var(--hover-gray-color),
-            -1px 1px 2px var(--hover-gray-color),
-            1px -1px 2px var(--hover-gray-color),
-            -1px -1px 2px var(--hover-gray-color);
-          overflow: hidden;
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-          .card-body {
-            display: flex;
-            flex-direction: column;
-            span {
-              font-size: 14px;
-            }
-            .card-title {
-              display: -webkit-box;
-              -webkit-line-clamp: 2;
-              -webkit-box-orient: vertical;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              height: 2.5rem;
-            }
-            .price {
-              color: var(--primary-color);
-              font-size: 15px;
-              .vnd {
-                font-size: 12px;
-              }
-            }
-          }
+    .form-control {
+        &:focus {
+            border-color: var(--white-color);
+            box-shadow: 0 0 0 0.2rem var(--primary-light-color) !important;
+            outline: none; // Optional: remove default outline
         }
+    }
+    .sndColor {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
         &:hover {
-          transform: translateY(-1px);
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
         }
-      }
-      @media (max-width: 768px) {
-        flex: 0 0 33.33%; // Adjust for smaller screens
-        max-width: 33.33%;
-      }
-      @media (max-width: 576px) {
-        flex: 0 0 50%; // Adjust for extra small screens
-        max-width: 50%;
-      }
     }
-  }
+    .priColor {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        &:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+    }
+    .whiteBtn {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        color: var(--text-color);
+        border: 1px solid var(--hover-gray-color);
+        &:hover {
+            background-color: var(--background-color);
+            border-color: var(--primary-color);
+        }
+    }
+    a {
+        text-decoration: none;
+    }
+    background-repeat: no-repeat;
+    background-size: cover;
+    .hasScrollBar {
+        &::-webkit-scrollbar {
+            width: 10px; // Set width of the scrollbar
+        }
+        &::-webkit-scrollbar-track {
+            background-color: #f1f1f1; // Background color of the scrollbar track
+            border-radius: 10px; // Optional, adds rounded corners
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #888; // Color of the scrollbar thumb
+            border-radius: 10px; // Optional, adds rounded corners to the thumb
+            border: 2px solid #f1f1f1; // Border around the scrollbar thumb
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: #555; // Darken the scrollbar thumb on hover
+        }
+    }
+    .productList {
+        .cardCol {
+            flex: 0 0 20%; // Each column takes 20% of the row
+            max-width: 20%;
+            .cardContainer {
+                .card {
+                    border: none;
+                    border-radius: 2px;
+                    box-shadow: 1px 1px 2px var(--hover-gray-color),
+                        -1px 1px 2px var(--hover-gray-color),
+                        1px -1px 2px var(--hover-gray-color),
+                        -1px -1px 2px var(--hover-gray-color);
+                    overflow: hidden;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                    .card-body {
+                        display: flex;
+                        flex-direction: column;
+                        span {
+                            font-size: 14px;
+                        }
+                        .card-title {
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            height: 2.5rem;
+                        }
+                        .price {
+                            color: var(--primary-color);
+                            font-size: 15px;
+                            .vnd {
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+                &:hover {
+                    transform: translateY(-1px);
+                }
+            }
+            @media (max-width: 768px) {
+                flex: 0 0 33.33%; // Adjust for smaller screens
+                max-width: 33.33%;
+            }
+            @media (max-width: 576px) {
+                flex: 0 0 50%; // Adjust for extra small screens
+                max-width: 50%;
+            }
+        }
+    }
 
-  .productDetail {
-    .firstRow {
-      height: 500px;
-      .productImagesContainer {
-        height: 100%;
-        overflow: hidden;
-      }
+    .productDetail {
+        .firstRow {
+            height: 500px;
+            .productImagesContainer {
+                height: 100%;
+                overflow: hidden;
+            }
+        }
     }
-  }
 
-  #imageSlides {
-    .imageSlideItem {
-      object-fit: contain;
-      object-position: center;
+    #imageSlides {
+        .imageSlideItem {
+            object-fit: contain;
+            object-position: center;
+        }
     }
-  }
 
-  .navbar {
-    .px-2 {
-      transition: background-color 0.5s ease;
-      &:hover {
-        background-color: var(--hover-gray-color);
-      }
+    .navbar {
+        .px-2 {
+            transition: background-color 0.5s ease;
+            &:hover {
+                background-color: var(--hover-gray-color);
+            }
+        }
     }
-  }
 
-  .eye-icon {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #6c757d;
-    font-size: 1.2rem;
-    z-index: 2;
-    &:hover {
-      color: #000;
+    .eye-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #6c757d;
+        font-size: 1.2rem;
+        z-index: 2;
+        &:hover {
+            color: #000;
+        }
     }
-  }
 
-  .productImagesContainer {
-    #imageManifier {
-      width: 500px;
-      height: 500px;
-      position: relative;
-      width: 400px;
-      height: auto;
-      overflow: hidden;
+    .productImagesContainer {
+        #imageManifier {
+            width: 500px;
+            height: 500px;
+            position: relative;
+            width: 400px;
+            height: auto;
+            overflow: hidden;
+        }
     }
-  }
-  .authForm {
-    background-color: var(--white-color);
-  }
+    .authForm {
+        background-color: var(--white-color);
+    }
 }
 
 .layoutContainer {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  .content {
-    flex: 1;
-  }
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    .content {
+        flex: 1;
+    }
 }
 
 .profilePage {
-  .row {
-    .sideBar {
-      background-color: var(--background-color);
-      line-height: 2rem;
-      .profile {
-        color: black;
-        font-size: 20px;
-      }
-      .sideBarList {
-        color: black;
-        list-style: none;
-        background-color: var(--background-color) !important;
-      }
+    .mainContainer {
+        position: relative;
+        .sideBar {
+            z-index: 50;
+            #sideBarIcon {
+                position: absolute;
+                display: none;
+                color: var(--secondary-color);
+            }
+            background-color: var(--background-color);
+            .profile {
+                color: var(--secondary-color);
+                font-size: 20px;
+                padding-bottom: 6px;
+            }
+            .sideBarList {
+                color: black;
+                list-style: none;
+                background-color: var(--background-color) !important;
+                user-select: none;
+                li {
+                    line-height: 2.5rem;
+                    color: var(--secondary-color);
+                    &:hover {
+                        cursor: pointer;
+                        color: var(--primary-color);
+                        font-weight: bold;
+                    }
+                }
+            }
+            @media (max-width: 768px) {
+                position: fixed;
+                left: -200px;
+                top: 90px;
+                bottom: 0;
+                width: 178px;
+                -webkit-box-shadow: 5px 0px 5px -3px rgba(0, 0, 0, 0.75);
+                -moz-box-shadow: 5px 0px 5px -3px rgba(0, 0, 0, 0.75);
+                box-shadow: 5px 0px 5px -3px rgba(0, 0, 0, 0.75);
+                #sideBarIcon {
+                    display: block;
+                    position: absolute;
+                    right: 4px;
+                    top: 10px;
+                }
+                .sideBarList {
+                    color: red;
+                    top: 0;
+                }
+            }
+        }
+        .showSideBar {
+            left: 0;
+            animation: slideFromLeft 0.3s ease-in-out;
+        }
+        .hideSideBar {
+            left: -155px;
+            box-shadow: none;
+            animation: slideToLeft 0.4s ease-in-out forwards;
+        }
+        .contentContainer {
+            .profilePageContent {
+                .row {
+                    margin-bottom: 10px;
+                }
+            }
+            .donHangContainer {
+                .donHang {
+                    .thongTinDonHang {
+                        .anhSanPham {
+                            width: max-content;
+                        }
+                        .thongtinSanPhamContainer {
+                            .thongTinSanPham {
+                                @media (max-width: 1200px) {
+                                    #nameAndType {
+                                        flex-direction: column;
+                                    }
+                                    #priceAndQuantity {
+                                        text-align: start !important;
+                                    }
+                                }
+                            }
+                            .muaLaiBtnCol {
+                                .muaLaiBtn {
+                                    &:hover {
+                                        color: var(--primary-color);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .danhGia {
+                        .danhGiaBtn {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+            .changePasswordContainer {
+                width: 80%;
+                @media (max-width: 768px) {
+                    width: 100%;
+                }
+            }
+        }
     }
-    .contentContainer {
-      .content {
-        .row {
-          margin-bottom: 10px;
-          display: flex;
-          align-items: center;
+
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999; // Bring it above everything
+
+        .popup-content {
+            width: 30vw;
+            height: 20vh;
+            background-color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
+
+            .loading {
+                font-size: 20px;
+                color: #555;
+            }
+
+            .alert {
+                font-size: 18px;
+                font-weight: bold;
+
+                &.success {
+                    color: green;
+                }
+            }
         }
-      }
-      .donHangContainer {
-        .donHang {
-          .trangThaiDonHang {
-            background-color: var(--ligh-primary-color);
-            .col {
-              display: flex;
-              justify-content: space-between;
-            }
-          }
-          .thongTinDonHang {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            .anhSanPham {
-              width: max-content;
-            }
-            .thongtinSanPhamContainer {
-              height: 100px;
-              flex: 1;
-              .thongTinSanPham {
-                display: flex;
-                flex-direction: column;
-                .spanContainer {
-                  display: flex;
-                  span {
-                    margin-right: 20px;
-                    white-space: nowrap; // Prevent line breaks if content overflows
-                  }
-                }
-                .nameAndType {
-                  display: flex;
-                  justify-content: space-between;
-                }
-                .chiTiet,
-                .priceAndQuantity {
-                  display: flex;
-                  flex-direction: column;
-                }
-              }
-              .muaLaiBtn {
-                width: 100%;
-                margin: 0 auto;
-              }
-              .giaTien_soLuong {
-                text-align: right;
-              }
-            }
-          }
-          .danhGia {
-            .danhGiaBtn {
-              width: 100%;
-            }
-          }
-          // Media queries for responsive design
-          @media (max-width: 768px) {
-            .thongTinDonHang {
-              flex-direction: column; // Stack elements on smaller screens
-              align-items: flex-start;
-
-              .anhSanPham {
-                width: 50px; // Smaller image size for mobile devices
-              }
-
-              .thongtinSanPhamContainer {
-                padding-left: 0;
-                margin-top: 10px; // Add spacing between elements when stacked
-
-                .giaTien_soLuong {
-                  text-align: left; // Align left on smaller screens
-                }
-              }
-            }
-          }
-        }
-      }
-
-      .doiMatKhau {
-        width: 80%;
-        @media (max-width: 768px) {
-          width: 100%;
-        }
-      }
     }
-  }
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999; // Bring it above everything
-
-    .popup-content {
-      width: 30vw;
-      height: 20vh;
-      background-color: white;
-      padding: 20px 30px;
-      border-radius: 10px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      animation: fadeIn 0.3s ease-in-out;
-
-      .loading {
-        font-size: 20px;
-        color: #555;
-      }
-
-      .alert {
-        font-size: 18px;
-        font-weight: bold;
-
-        &.success {
-          color: green;
-        }
-      }
-    }
-  }
-
-  // Optional: Fade-in animation for a smoother effect
-  @keyframes fadeIn {
+}
+@keyframes fadeIn {
     from {
-      opacity: 0;
-      transform: scale(0.9);
+        opacity: 0.5;
+        transform: scale(0.9);
     }
     to {
-      opacity: 1;
-      transform: scale(1);
+        opacity: 1;
+        transform: scale(1);
     }
-  }
+}
+@keyframes slideFromLeft {
+    0% {
+        left: -155px;
+        opacity: 0;
+    }
+    100% {
+        left: 0;
+        opacity: 1;
+    }
+}
+@keyframes slideToLeft {
+    0% {
+        left: -50px;
+        opacity: 1;
+    }
+    100% {
+        left: -155px;
+        opacity: 1;
+    }
 }
