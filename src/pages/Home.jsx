@@ -5,6 +5,7 @@ import Info from '../components/Info';
 
 export default function Home() {
   const imagesForHomePage = [
+    { src: 'images/banner1.jpg', alt: 'Banner 1' },
     { src: 'images/banner2.jpg', alt: 'Banner 2' },
     { src: 'images/banner3.jpg', alt: 'Banner 3' },
   ];

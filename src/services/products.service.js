@@ -1,4 +1,5 @@
 import { instance } from './instanceAxios';
+import axios from 'axios';
 
 export const getAllProducts = async () => {
     return instance.get('/sanPham/layTatCa');
