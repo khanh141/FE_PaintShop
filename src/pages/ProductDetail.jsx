@@ -71,7 +71,6 @@ const ProductDetail = () => {
       alert("Vui lòng chọn màu và bao bì.");
       return;
     }
-    let token = localStorage.getItem("token");
     try {
       const response = await axios.post('http://localhost:8080/gioHang/themSanPham', {
         loaiBaoBi: selectedBaoBi,

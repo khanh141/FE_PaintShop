@@ -22,6 +22,7 @@ const ProductsContainer = () => {
                     'http://localhost:8080/sanPham/layTatCa'
                 );
                 dispatch(setFilter(response.data));
+                console.log(response.data);
             } catch (error) {
                 console.error('Error loading products:', error);
             }
