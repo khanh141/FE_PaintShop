@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { FaStar } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 const ProductDetail = () => {
   const { maSanPham } = useParams();
@@ -17,6 +18,8 @@ const ProductDetail = () => {
   const [selectedDinhMuc, setSelectedDinhMuc] = useState(null);
   const [price, setPrice] = useState("");
   const { tenDangNhap } = useSelector((state) => state.user);
+  const navigate = useNavigate(); 
+
   const imageUrl = "/images/product.jpg";
 
   const handleSelectBaoBi = (baoBi) => {
@@ -55,6 +58,15 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = async () => {
+    const token = localStorage.getItem("token");
+    
+    // Kiểm tra token trước khi thêm sản phẩm vào giỏ hàng
+    if (!token) {
+      alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
+      navigate("/login"); // Điều hướng đến trang đăng nhập
+      return;
+    }
+
     if (!selectedBaoBi || !selectedMau) {
       alert("Vui lòng chọn màu và bao bì.");
       return;
