@@ -1,8 +1,5 @@
-
-
 import { Link } from "react-router-dom";
 import React from 'react';
-
 export default function Card({ id, image, name, type, tinhnang, mota, giatien, soluong }) {
   if (!id) {
     console.error("Product ID is undefined or invalid.");
