@@ -125,20 +125,42 @@ body {
         }
     }
 
-    .productDetail {
-        .firstRow {
-            height: 500px;
-            .productImagesContainer {
-                height: 100%;
-                overflow: hidden;
-            }
-        }
-    }
-
     #imageSlides {
         .imageSlideItem {
             object-fit: contain;
             object-position: center;
+        }
+    }
+
+    .productDetail {
+        margin-top: 20px;
+        .row {
+            background-color: var(--white-color);
+            margin-bottom: 20px;
+        }
+        #image {
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+        #productName {
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+        }
+        #productPrice {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+        }
+        .productInformation {
+            .optionBtn {
+                color: var(--secondary-color) !important;
+            }
+            .chosen {
+                border-color: var(--primary-color) !important;
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../assets/css/SiderBar.css'; // Ensure the path is correct
+// import '../assets/css/SiderBar.css'; // Ensure the path is correct
 // import Logo from '../imgs/logo.png'; // Uncomment if you use a logo
 import { UilSignOutAlt, UilBars } from '@iconscout/react-unicons'; // Make sure this import works
 import { motion } from 'framer-motion';
