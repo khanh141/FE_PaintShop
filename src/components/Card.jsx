@@ -18,7 +18,7 @@ export default function Card({ id, image, name, type, tinhnang, mota, giatien, s
           <div className="card-body p-2">
             <span className="card-title h-30">{name}</span>
             <span className="price my-2">
-              {giatien} <small className="vnd">VND</small>
+              {giatien.toLocaleString()} <small className="vnd">VND</small>
             </span>
             <span className="card-text">{type}</span>
           </div>
