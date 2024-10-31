@@ -18,7 +18,7 @@ const ProductDetail = () => {
   const [selectedDinhMuc, setSelectedDinhMuc] = useState(null);
   const [price, setPrice] = useState("");
   const { tenDangNhap } = useSelector((state) => state.user);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const imageUrl = "/images/product.jpg";
 
@@ -59,7 +59,7 @@ const ProductDetail = () => {
 
   const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
-    
+
     // Kiểm tra token trước khi thêm sản phẩm vào giỏ hàng
     if (!token) {
       alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
@@ -71,7 +71,6 @@ const ProductDetail = () => {
       alert("Vui lòng chọn màu và bao bì.");
       return;
     }
-    let token = localStorage.getItem("token");
     try {
       const response = await axios.post('http://localhost:8080/gioHang/themSanPham', {
         loaiBaoBi: selectedBaoBi,
