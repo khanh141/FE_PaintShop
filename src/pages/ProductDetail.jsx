@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const ProductDetail = () => {
   const { maSanPham } = useParams();
@@ -14,7 +15,8 @@ const ProductDetail = () => {
   const [selectedMau, setSelectedMau] = useState(null);
   const [price, setPrice] = useState("Chưa chọn màu và bao bì");
   const [loaiDinhMuc,setDinhMuc] = useState("");
-  const { tenDangNhap } = useSelector((state) => state.user);
+  const tenDangNhap = useSelector((state) => state.user.tenDangNhap);
+  const navigate = useNavigate(); 
   const imageUrl = "/images/product.jpg";
 
    const handleSelectBaoBi = (eventKey) => {
@@ -27,12 +29,22 @@ const ProductDetail = () => {
     console.log(eventKey);
   };
   const handleAddToCart = async () => {
+    const token = localStorage.getItem("token");
+    
+    // Kiểm tra token trước khi thêm sản phẩm vào giỏ hàng
+    if (!token) {
+      alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
+      navigate("/login"); // Điều hướng đến trang đăng nhập
+      return;
+    }
+
     if (!selectedBaoBi || !selectedMau) {
       alert("Vui lòng chọn màu và bao bì.");
       return;
     }
     console.log(tenDangNhap);
-    let token = localStorage.getItem("token");
+    console.log(token);
+    // let token = localStorage.getItem("token");
     try {
       const response = await axios.post('http://localhost:8080/gioHang/themSanPham', {
         loaiBaoBi: selectedBaoBi,

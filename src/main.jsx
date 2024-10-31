@@ -15,5 +15,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <App />
         </QueryClientProvider>
     </Provider>,
-    document.getElementById('root')
+    // document.getElementById('root')
 );
