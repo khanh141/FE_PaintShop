@@ -1,11 +1,5 @@
-
-
 import { Link } from "react-router-dom";
 import React from 'react';
-import { Button } from 'react-bootstrap'
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../redux/CardReducer';
-
 export default function Card({ id, image, name, type, tinhnang, mota, giatien, soluong }) {
   if (!id) {
     console.error("Product ID is undefined or invalid.");

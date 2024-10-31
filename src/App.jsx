@@ -27,6 +27,7 @@ import { jwtDecode } from 'jwt-decode';
 import AdminAccount from './pages/AdminAccount.jsx';
 import AdminOrder from './pages/AdminOrder.jsx';
 import ProfilePage from "./pages/ProfilePage.jsx";
+import PurchasePage from './pages/PurchasePage.jsx';
 
 
 
@@ -153,6 +154,9 @@ function App() {
             <Route path="login" element={<Login />} />
             {/* localhost/cart */}
             <Route path="cart" element={<ShoppingCart />} />
+
+            <Route path="purchase" element={<PurchasePage />} />
+
             <Route path="enterEmail"
               element={
                 <Authentication>
