@@ -21,13 +21,12 @@ function Orders() {
     const [rating, setRating] = useState(0);
     const [pageNumber, setPageNumber] = useState(0);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
-
     const hasSubmittedReview = !!(selectedDonHang?.danhGia && selectedDonHang?.soSao);
 
     const handleLoadMore = () => {
         setIsLoadingMore(true);
         setPageNumber((prevPage) => prevPage + 1);
-        fetchDonHangData(pageNumber + 1);
+        fetchDonHangData(pageNumber + 1, true);
     };
 
     const handleShowModal = (donHang) => {
@@ -43,11 +42,14 @@ function Orders() {
     const handleDanhGia = async () => {
         try {
             const token = localStorage.getItem('token');
+            const maSanPhamArray = selectedDonHang.sanPhamResDtos.map(sanPham => sanPham.maSanPham);
             const payload = {
+                maSanPham: maSanPhamArray,
                 maDonHang: selectedDonHang.maDonHang,
                 soSao: rating,
                 noiDung: danhGia
             }
+            console.log(payload)
             dispatch(setLoading(true))
             const response = await axios.post("http://localhost:8080/khachHang/danhGia", payload,
                 { headers: { Authorization: `Bearer ${token}` } });
@@ -67,7 +69,7 @@ function Orders() {
         handleCloseModal();
     };
 
-    const fetchDonHangData = async (page) => {
+    const fetchDonHangData = async (page, reLoad) => {
         try {
             dispatch(setLoading(true));
             const token = localStorage.getItem('token');
@@ -84,7 +86,12 @@ function Orders() {
 
             if (Array.isArray(response.data)) {
                 dispatch(setLoading(false));
-                setDonHangList((prevList) => [...prevList, ...response.data]);
+                if (reLoad) {
+                    setDonHangList((prevList) => [...prevList, ...response.data]);
+                } else {
+                    setDonHangList(response.data);
+                }
+                console.log(response.data)
             } else {
                 console.error('Unexpected response format:', response.data);
             }
@@ -96,16 +103,17 @@ function Orders() {
     };
 
     useEffect(() => {
-        fetchDonHangData(pageNumber)
-    }, [profileActiveTab, dispatch])
+        fetchDonHangData(pageNumber, false);
+    }, [profileActiveTab, pageNumber, dispatch]);
+
 
     return (
-        <Col id="tab2" className="donHangContainer">
+        <Col xs={12} id="tab2" className="donHangContainer profilePageContent">
             <h3 className='mb-3'>Các đơn hàng đã đặt mua</h3>
             {donHangList.map((donHang, index) => (
-                <div className='donHang' key={`${donHang.maDonHang}-${index}`}> {/* Using `thoiDiem` as a fallback key */}
-                    <Row className="trangThaiDonHang mb-3">
-                        <Col>
+                <Row className='donHang' key={`${donHang.maDonHang}-${index}`}> {/* Using `thoiDiem` as a fallback key */}
+                    <Row className="trangThaiDonHang mb-3 pe-0">
+                        <Col className='d-flex justify-content-between'>
                             <span>Trạng thái đơn hàng: {donHang.trangThai}</span>
                             <span>Thời điểm mua: {new Date(donHang.thoiDiem).toLocaleString()}</span>
                         </Col>
@@ -121,28 +129,31 @@ function Orders() {
                             </Col>
                             <Col className="thongtinSanPhamContainer ms-2">
                                 <Row>
-                                    <Col xs={10} className="thongTinSanPham">
+                                    <Col xs={12} className="thongTinSanPham">
                                         <Row className="g-1">
-                                            <Col className="spanContainer nameAndType">
+                                            <Col id='nameAndType' className="spanContainer nameAndType d-flex justify-content-between">
                                                 <span>Tên sản phẩm: {sanPham.ten}</span>
                                                 <span>Phân loại: {sanPham.loai}</span>
                                             </Col>
                                         </Row>
                                         {sanPham.chiTietSanPhamResList.map((chiTiet, idx) => (
                                             <Row className="g-1" key={"ctsp" + idx}>
-                                                <Col className="spanContainer chiTiet" xs={8}>
+                                                <Col xl={8} md={12} className="d-flex flex-column spanContainer chiTiet">
                                                     <span>Loại bao bì: {chiTiet.loaiBaoBi}</span>
                                                     <span>Màu: {chiTiet.mau}</span>
                                                     <span>Loại định mức: {chiTiet.loaiDinhMucLyThuyet}</span>
                                                 </Col>
-                                                <Col xs={4} className="text-end spanContainer priceAndQuantity">
+                                                <Col
+                                                    xl={4}
+                                                    id='priceAndQuantity'
+                                                    className="d-flex flex-column spanContainer priceAndQuantity text-end">
                                                     <span>Giá tiền: {chiTiet.giaTien.toLocaleString()} VND</span>
                                                     <span>Số lượng: {chiTiet.soLuong}</span>
                                                 </Col>
                                             </Row>
                                         ))}
                                     </Col>
-                                    <Col className='p-0'>
+                                    <Col xs={12} className='muaLaiBtnCol'>
                                         <Button
                                             className='btn btn-priamry whiteBtn muaLaiBtn'
                                             onClick={() => navigate(`/productDetail/${sanPham.maSanPham}`)}
@@ -168,7 +179,7 @@ function Orders() {
                         </Col>
                     </Row>
                     <hr />
-                </div>
+                </Row>
             ))}
             <div className="text-center mt-3">
                 <Button className='btn sndColor' onClick={handleLoadMore} disabled={isLoadingMore}>

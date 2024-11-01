@@ -50,7 +50,7 @@ const ProductsContainer = () => {
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
-        window.scrollTo({ top: 400, behavior: 'smooth' }); // Smooth scroll to 400px from the top
+        window.scrollTo({ top: 500, behavior: 'smooth' }); // Smooth scroll to 500px from the top
     };
 
     const renderPaginationItems = () => {

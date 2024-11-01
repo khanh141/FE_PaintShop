@@ -1,87 +1,48 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateQuantity, removeFromCart } from '../redux/CardReducer'; 
-import { Table, Image, Button } from 'react-bootstrap';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import {
+  fetchProducts,
+  increaseProductQuantity,
+  decreaseProductQuantity,
+  toggleSelectAll,
+  toggleCheckbox,
+} from '../redux/CardReducer.js';
+import { Table, Image, Button, Container, Row, Col } from 'react-bootstrap';
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
-  const [products, setProducts] = useState([]);
+  const { products, selectAll } = useSelector((state) => state.cart);
+  const tenDangNhap = useSelector((state) => state.user.tenDangNhap);
 
-  const decode = (token) => {
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
-      );
-      return JSON.parse(jsonPayload);
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return null;
-    }
-  };
-  
-
+  const navigate = useNavigate();
   useEffect(() => {
-    const loadProducts = async () => {  
-      try {
-        const token = localStorage.getItem('token');
-        console.log(token);
-        const tenDangNhap = decode(token)?.sub;
-        console.log(tenDangNhap);
-        if (!tenDangNhap) {
-          throw new Error('Không tìm thấy tên đăng nhập từ token');
-        }
-
-        const response = await axios.post(`http://localhost:8080/gioHang/xemChiTiet/${tenDangNhap}`,
-          {},
-          {
-          headers: {
-            Authorization: `Bearer ${token}` 
-        }
-        });
-        console.log('Dữ liệu sản phẩm từ API:', response.data);
-        setProducts(response.data);  
-        dispatch(setFilter(response.data));
-
-      } catch (error) {
-        console.error('Error loading products:', error);
-      }
-    };
-
-    loadProducts(); 
-  }, [dispatch]);
-
-  const handleQuantityChange = (productId, newQuantity) => {
-    dispatch(updateQuantity({ productId, quantity: Math.max(newQuantity, 1) }));
-  };
-
-  const handleIncreaseQuantity = (productId) => {
-    const product = products.find(p => p.id === productId);
-    dispatch(updateQuantity({ productId, quantity: product.soLuong + 1 }));
-  };
-
-  const handleDecreaseQuantity = (productId) => {
-    const product = products.find(p => p.id === productId);
-    if (product.quantity > 1) {
-      dispatch(updateQuantity({ productId, quantity: product.soLuong - 1 }));
-    }
-  };
+    dispatch(fetchProducts(tenDangNhap));
+  }, [dispatch, tenDangNhap]);
 
   const calculateTotal = () => {
-    return products.reduce((total, product) => total + product.gia * product.soLuong, 0);
+    return products.reduce((total, product) => {
+      return product.isChecked ? total + product.gia * product.soLuong : total;
+    }, 0);
+  };
+
+  const handlePurchase = () => {
+    navigate('/purchase');
   };
 
   return (
-    <div>
+    <Container>
       <h2>Giỏ hàng</h2>
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th>
+              <input
+                type="checkbox"
+                checked={selectAll}
+                onChange={() => dispatch(toggleSelectAll())}
+              />
+            </th>
             <th>Hình ảnh</th>
             <th>Sản phẩm</th>
             <th>Giá</th>
@@ -90,30 +51,55 @@ export default function ShoppingCart() {
           </tr>
         </thead>
         <tbody>
-          {products.map( product => (
+          {products.map((product) => (
             <tr key={product.id}>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={product.isChecked || false}
+                  onChange={() => dispatch(toggleCheckbox({
+                    maSanPham: product.maSanPham,
+                    mau: product.chiTietSanPham.mau,
+                    loaiBaoBi: product.chiTietSanPham.loaiBaoBi
+                  }))}
+                />
+              </td>
               <td>
                 <Image src={product.image} width={50} height={50} />
               </td>
               <td>{product.ten}</td>
-              <td>{product.gia} đ</td>
+              <td>{product.gia.toLocaleString('vi-VN')} đ</td>
               <td>
-                <Button variant="outline-secondary" onClick={() => handleDecreaseQuantity(product.id)}>-</Button>
-                <input
-                  type="number"
-                  value={product.soLuong}
-                  onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
-                  style={{ width: '60px', textAlign: 'center', margin: '0 10px' }}
-                />
-                <Button variant="outline-secondary" onClick={() => handleIncreaseQuantity(product.id)}>+</Button>
+                <div style={{ display: 'inline-block', textAlign: 'center', margin: '0 10px' }}>
+                  <Button
+                    style={{ border: 'none' }}
+                    variant="outline-secondary"
+                    onClick={() => dispatch(decreaseProductQuantity(product, tenDangNhap))} // Gọi đúng hàm
+                  >
+                    -
+                  </Button>
+                  <span>{product.soLuong}</span>
+                  <Button
+                    style={{ border: 'none' }}
+                    variant="outline-secondary"
+                    onClick={() => dispatch(increaseProductQuantity(product, tenDangNhap))} // Gọi đúng hàm
+                  >
+                    +
+                  </Button>
+                </div>
               </td>
-              <td>{(product.gia * product.soLuong)} đ</td>
+              <td>{(product.gia * product.soLuong).toLocaleString('vi-VN')} đ</td>
             </tr>
           ))}
         </tbody>
       </Table>
-      <p>Tổng tiền: {calculateTotal().toLocaleString('vi-VN')} đ</p>
-      <Button variant="primary">Thanh toán</Button>
-    </div>
+      <Row className="justify-content-end">
+        <Col md={3} className="text-right">
+          <h4>Tổng cộng: {calculateTotal().toLocaleString('vi-VN')} đ</h4>
+          <Button onClick={handlePurchase} >Mua hàng</Button>
+        </Col>
+      </Row>
+    </Container>
   );
 }
+

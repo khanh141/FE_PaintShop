@@ -46,11 +46,11 @@ function ChangePassword() {
     };
 
     return (
-        <div id='tab3' style={{ height: '7 0vh' }} className='content doiMatKhau'>
+        <div id='tab3' style={{ height: '7 0vh' }} className='profilePageContent changePasswordContainer'>
+            <Form.Control type="text" style={{ display: 'none' }} autoComplete="username" />
+            <Form.Control type="password" style={{ display: 'none' }} autoComplete="new-password" />
             <h3 className='mb-3'>Đổi mật khẩu</h3>
             <div className="position-relative mb-4 inputContainer"  >
-                <Form.Control type="text" style={{ display: 'none' }} autoComplete="username" />
-                <Form.Control type="password" style={{ display: 'none' }} autoComplete="new-password" />
                 <FloatingLabel label="Mật khẩu cũ">
                     <Form.Control
                         type={showOldPassword ? 'text' : 'password'}

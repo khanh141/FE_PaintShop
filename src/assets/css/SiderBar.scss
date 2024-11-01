@@ -91,6 +91,7 @@
     margin-left: 0;
 }
 
+/* đổi tên này nhe, ví dụ ".sangBuLonActive::before"*/
 .active::before {
     content: "";
     width: 8px;
@@ -144,7 +145,6 @@
         border-radius: 10px;
         z-index: 9;
     }
-
     .close {
         left: -60%;
     }
