@@ -59,7 +59,6 @@ function AdminAccount() {
                                     <td>{index + 1}</td>
                                     <td>{prod.tenDangNhap}</td>
                                     <td>{prod.quyens}</td>
-
                                     <td>
                                         <Button>Chi Tiết</Button>
                                     </td>

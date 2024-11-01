@@ -56,7 +56,7 @@ export default function PurchasePage() {
             console.error('Error:', error);
         }
     };
-
+    
     return (
         <Container>
             <h2>Trang mua hàng</h2>

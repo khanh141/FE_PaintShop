@@ -16,6 +16,7 @@ import './assets/CSS/Body.scss';
 import './assets/CSS/Header.scss';
 import './assets/CSS/Footer.scss';
 import WarehousePage from './pages/WarehousePage.jsx';
+import ChangePassword from './components/ChangePassword.jsx';
 import ShoppingCart from './pages/ShoppingCart.jsx';
 import Authentication from './pages/Authentication';
 import EnterEmail from './components/EnterEmail.jsx';
@@ -31,10 +32,10 @@ import axios from 'axios';
 import { refreshToken } from './services/auth.service.js';
 
 function App() {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  let refreshTimeout;
-  useEffect(() => {
+    let refreshTimeout;
+    useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
@@ -56,7 +57,7 @@ function App() {
     }
   }, [dispatch]);
 
-  // Setup token refresh logic
+    // Setup token refresh logic
   const setupTokenRefresh = (expiredTime) => {
     const currentTime = Math.floor(Date.now() / 1000);
     const remainingTime = expiredTime - currentTime;
@@ -88,47 +89,54 @@ function App() {
       dispatch(clearUser());
     };
   }
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          {/* localhost/ */}
-          <Route path="/" element={<DefaultLayout />}>
-            <Route path="/" element={<Home />} />
-            {/* localhost/signup */}
-            <Route path="signup" element={<Signup />} />
-            {/* localhost/login */}
-            <Route path="login" element={<Login />} />
-            {/* localhost/cart */}
-            <Route path="cart" element={<ShoppingCart />} />
-            <Route path="purchase" element={<PurchasePage />} />
-            <Route path="enterEmail"
-              element={
-                <Authentication>
-                  <EnterEmail />
-                </Authentication>
-              } />
-            <Route path="resetPassword"
-              element={
-                <Authentication>
-                  <ResetPassword />
-                </Authentication>
-              } />
-            {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
-            <Route path='/productDetail/:maSanPham' element={<ProductDetail />} />
-            <Route path="/profile" element={<ProfilePage />} />
-          </Route>
-          {/* localhost/admin */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="" element={<Dashboard />} />
-            <Route path="products" element={<AdminProduct />} />
-            <Route path="adminorder" element={<AdminOrder />} />
-            <Route path="warehouse" element={<WarehousePage />} />
-            <Route path="adminaccount" element={<AdminAccount />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <Routes>
+                    {/* localhost/ */}
+                    <Route path="/" element={<DefaultLayout />}>
+                        <Route path="/" element={<Home />} />
+                        {/* localhost/signup */}
+                        <Route path="signup" element={<Signup />} />
+                        {/* localhost/login */}
+                        <Route path="login" element={<Login />} />
+                        {/* localhost/cart */}
+                        <Route path="cart" element={<ShoppingCart />} />
+                        <Route path="purchase" element={<PurchasePage />} />
+                        <Route
+                            path="enterEmail"
+                            element={
+                                <Authentication>
+                                    <EnterEmail />
+                                </Authentication>
+                            }
+                        />
+                        <Route
+                            path="resetPassword"
+                            element={
+                                <Authentication>
+                                    <ResetPassword />
+                                </Authentication>
+                            }
+                        />
+                        {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
+                        <Route
+                            path="/productDetail/:maSanPham"
+                            element={<ProductDetail />}
+                        />
+                        <Route path="/profile" element={<ProfilePage />} />
+                    </Route>
+                    {/* localhost/admin */}
+                    <Route path="/admin" element={<AdminLayout />}>
+                        <Route path="" element={<Dashboard />} />
+                        <Route path="products" element={<AdminProduct />} />
+                        <Route path="adminorder" element={<AdminOrder />} />
+                        <Route path="warehouse" element={<WarehousePage />} />
+                        <Route path="adminaccount" element={<AdminAccount />} />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 export default App;
