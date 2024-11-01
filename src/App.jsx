@@ -44,7 +44,6 @@ function App() {
         if (decodedToken.exp > currentTime) {
           dispatch(setUser(decodedToken.sub, decodedToken.scope));
           setupTokenRefresh(decodedToken.exp);
-          console.log("Call setUpTokenRefresh function")
         } else {
           localStorage.removeItem('token');
           dispatch(clearUser());
@@ -83,8 +82,6 @@ function App() {
       const decodedToken = jwtDecode(response.data.token);
       dispatch(setUser(decodedToken.sub, decodedToken.scope));
       setupTokenRefresh(decodedToken.exp);
-      console.log("Lay token thanh cong");
-      console.log("token: " + token)
     } catch (error) {
       console.error('Token refresh failed:', error);
       localStorage.removeItem('token');
