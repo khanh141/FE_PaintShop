@@ -16,10 +16,7 @@ import './assets/CSS/Body.scss';
 import './assets/CSS/Header.scss';
 import './assets/CSS/Footer.scss';
 import WarehousePage from './pages/WarehousePage.jsx';
-<<<<<<< HEAD
 import ChangePassword from './components/ChangePassword.jsx';
-=======
->>>>>>> e6c0a3c479e3dcf67a32b0ea335d996aa05dd054
 import ShoppingCart from './pages/ShoppingCart.jsx';
 import Authentication from './pages/Authentication';
 import EnterEmail from './components/EnterEmail.jsx';
@@ -29,7 +26,6 @@ import { clearUser, setUser } from './redux/UserSlice';
 import { jwtDecode } from 'jwt-decode';
 import AdminAccount from './pages/AdminAccount.jsx';
 import AdminOrder from './pages/AdminOrder.jsx';
-<<<<<<< HEAD
 import ProfilePage from './pages/ProfilePage.jsx';
 // =======
 // import "./assets/CSS/Body.scss";
@@ -47,103 +43,96 @@ import ProfilePage from './pages/ProfilePage.jsx';
 // import axios from 'axios';
 
 // >>>>>>> main
-=======
-import ProfilePage from "./pages/ProfilePage.jsx";
-import PurchasePage from './pages/PurchasePage.jsx';
-import axios from 'axios';
-import { refreshToken } from './services/auth.service.js';
->>>>>>> e6c0a3c479e3dcf67a32b0ea335d996aa05dd054
 
 function App() {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  let refreshTimeout;
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
+    let refreshTimeout;
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const currentTime = Math.floor(Date.now() / 1000);
+
+                if (decodedToken.exp > currentTime) {
+                    dispatch(setUser(decodedToken.sub, decodedToken.scope));
+                    setupTokenRefresh(decodedToken.exp);
+                } else {
+                    localStorage.removeItem('token');
+                    dispatch(clearUser());
+                }
+            } catch (error) {
+                console.error('Invalid token:', error);
+                localStorage.removeItem('token');
+                dispatch(clearUser());
+            }
+        }
+    }, [dispatch]);
+
+    // Setup token refresh logic
+    const setupTokenRefresh = (expiredTime) => {
         const currentTime = Math.floor(Date.now() / 1000);
+        const remainingTime = expiredTime - currentTime;
 
-        if (decodedToken.exp > currentTime) {
-          dispatch(setUser(decodedToken.sub, decodedToken.scope));
-          setupTokenRefresh(decodedToken.exp);
-        } else {
-          localStorage.removeItem('token');
-          dispatch(clearUser());
-        }
-      } catch (error) {
-        console.error('Invalid token:', error);
-        localStorage.removeItem('token');
-        dispatch(clearUser());
-      }
-    }
-  }, [dispatch]);
+        const refreshTime = remainingTime - 600; // Refresh 10 mins before expiration
+        if (refreshTimeout) clearTimeout(refreshTimeout); // Avoid multiple timeouts
 
-  // Setup token refresh logic
-  const setupTokenRefresh = (expiredTime) => {
-    const currentTime = Math.floor(Date.now() / 1000);
-    const remainingTime = expiredTime - currentTime;
-
-    const refreshTime = remainingTime - 600; // Refresh 10 mins before expiration
-    if (refreshTimeout) clearTimeout(refreshTimeout); // Avoid multiple timeouts
-
-<<<<<<< HEAD
-            // <<<<<<< AdminLayout_Sang
-            //             setupTokenRefresh(decodedToken.exp); // Schedule next refresh
-            //         } catch (error) {
-            //             console.error('Token refresh failed:', error);
-            //             localStorage.removeItem('token');
-            //             dispatch(clearUser()); // Log the user out if refresh fails
-            //         }
-            //     };
-            //     return (
-            //         <div className="App">
-            //             <BrowserRouter>
-            //                 <Routes>
-            //                     {/* localhost/ */}
-            //                     <Route path="/" element={<DefaultLayout />}>
-            //                         <Route path="/" element={<Home />} />
-            //                         {/* localhost/signup */}
-            //                         <Route path="signup" element={<Signup />} />
-            //                         {/* localhost/login */}
-            //                         <Route path="login" element={<Login />} />
-            //                         {/* localhost/cart */}
-            //                         <Route path="cart" element={<ShoppingCart />} />
-            //                         {/* localhost/changePassword */}
-            //                         <Route
-            //                             path="changePassword"
-            //                             element={<ChangePassword />}
-            //                         />
-            //                         <Route
-            //                             path="enterEmail"
-            //                             element={
-            //                                 <Authentication>
-            //                                     <EnterEmail />
-            //                                 </Authentication>
-            //                             }
-            //                         />
-            //                         <Route
-            //                             path="resetPassword"
-            //                             element={
-            //                                 <Authentication>
-            //                                     <ResetPassword />
-            //                                 </Authentication>
-            //                             }
-            //                         />
-            //                         {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
-            //                         <Route
-            //                             path="/productDetail/:maSanPham"
-            //                             element={<ProductDetail />}
-            //                         />
-            //                     </Route>
-            // =======
-            setupTokenRefresh(decodedToken.exp); // Schedule next refresh
-        } catch (error) {
-            console.error('Token refresh failed:', error);
-            localStorage.removeItem('token');
-            dispatch(clearUser()); // Log the user out if refresh fails
-        }
+        // <<<<<<< AdminLayout_Sang
+        //             setupTokenRefresh(decodedToken.exp); // Schedule next refresh
+        //         } catch (error) {
+        //             console.error('Token refresh failed:', error);
+        //             localStorage.removeItem('token');
+        //             dispatch(clearUser()); // Log the user out if refresh fails
+        //         }
+        //     };
+        //     return (
+        //         <div className="App">
+        //             <BrowserRouter>
+        //                 <Routes>
+        //                     {/* localhost/ */}
+        //                     <Route path="/" element={<DefaultLayout />}>
+        //                         <Route path="/" element={<Home />} />
+        //                         {/* localhost/signup */}
+        //                         <Route path="signup" element={<Signup />} />
+        //                         {/* localhost/login */}
+        //                         <Route path="login" element={<Login />} />
+        //                         {/* localhost/cart */}
+        //                         <Route path="cart" element={<ShoppingCart />} />
+        //                         {/* localhost/changePassword */}
+        //                         <Route
+        //                             path="changePassword"
+        //                             element={<ChangePassword />}
+        //                         />
+        //                         <Route
+        //                             path="enterEmail"
+        //                             element={
+        //                                 <Authentication>
+        //                                     <EnterEmail />
+        //                                 </Authentication>
+        //                             }
+        //                         />
+        //                         <Route
+        //                             path="resetPassword"
+        //                             element={
+        //                                 <Authentication>
+        //                                     <ResetPassword />
+        //                                 </Authentication>
+        //                             }
+        //                         />
+        //                         {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
+        //                         <Route
+        //                             path="/productDetail/:maSanPham"
+        //                             element={<ProductDetail />}
+        //                         />
+        //                     </Route>
+        // =======
+        setupTokenRefresh(decodedToken.exp); // Schedule next refresh
+        // } catch (error) {
+        //     console.error('Token refresh failed:', error);
+        //     localStorage.removeItem('token');
+        //     dispatch(clearUser()); // Log the user out if refresh fails
+        // }
     };
     return (
         <div className="App">
@@ -194,73 +183,5 @@ function App() {
             </BrowserRouter>
         </div>
     );
-=======
-    if (refreshTime > 0) {
-      refreshTimeout = setTimeout(refreshToken, refreshTime * 1000);
-    }
-  };
-
-
-  const refreshToken = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        'http://localhost:8080/taiKhoan/taoMoiToken',
-        { token }
-      );
-
-      localStorage.setItem('token', response.data.token);
-      const decodedToken = jwtDecode(response.data.token);
-      dispatch(setUser(decodedToken.sub, decodedToken.scope));
-      setupTokenRefresh(decodedToken.exp);
-    } catch (error) {
-      console.error('Token refresh failed:', error);
-      localStorage.removeItem('token');
-      dispatch(clearUser());
-    };
-  }
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          {/* localhost/ */}
-          <Route path="/" element={<DefaultLayout />}>
-            <Route path="/" element={<Home />} />
-            {/* localhost/signup */}
-            <Route path="signup" element={<Signup />} />
-            {/* localhost/login */}
-            <Route path="login" element={<Login />} />
-            {/* localhost/cart */}
-            <Route path="cart" element={<ShoppingCart />} />
-            <Route path="purchase" element={<PurchasePage />} />
-            <Route path="enterEmail"
-              element={
-                <Authentication>
-                  <EnterEmail />
-                </Authentication>
-              } />
-            <Route path="resetPassword"
-              element={
-                <Authentication>
-                  <ResetPassword />
-                </Authentication>
-              } />
-            {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
-            <Route path='/productDetail/:maSanPham' element={<ProductDetail />} />
-            <Route path="/profile" element={<ProfilePage />} />
-          </Route>
-          {/* localhost/admin */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="" element={<Dashboard />} />
-            <Route path="products" element={<AdminProduct />} />
-            <Route path="adminorder" element={<AdminOrder />} />
-            <Route path="warehouse" element={<WarehousePage />} />
-            <Route path="adminaccount" element={<AdminAccount />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
->>>>>>> e6c0a3c479e3dcf67a32b0ea335d996aa05dd054
 }
 export default App;
