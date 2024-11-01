@@ -20,47 +20,40 @@ export default function PurchasePage() {
     };
 
     const handleConfirmOrder = async () => {
-        const orderData = {
-            products: selectedProducts,
-            paymentMethod: selectedMethod,
-            total: calculateTotal(),
-        };
-        // Tạo chi tiết mua hàng từ sản phẩm đã chọn
         const chiTietMuaList = selectedProducts.reduce((acc, product) => {
-            acc[product.id] = product.soLuong; // Giả sử product.id là khóa và product.soLuong là giá trị
+            const productKey = [
+                product.chiTietSanPham.maBaoBi,
+                product.chiTietSanPham.maDinhMucLyThuyet,
+                product.maSanPham,
+                product.chiTietSanPham.maMau
+            ].join('-');
+            acc[productKey] = product.chiTietSanPham.soLuong;
             return acc;
         }, {});
 
-        // Tạo đối tượng cho phương thức thanh toán
+        // Prepare `phuongThucThanhToanDto` as a JSON object
         const phuongThucThanhToanDto = {
-            method: selectedMethod === "Chuyển khoản" ? "Thanh toán trước" : "Thanh toán khi nhận hàng",
-            total: calculateTotal(),
+            loai: selectedMethod === "Chuyển khoản" ? "Thanh toan truoc" : "Thanh toan khi nhan hang"
         };
+
+        // Create FormData and append both JSON objects as blobs
+        const formData = new FormData();
+        formData.append('chiTietMuaList', new Blob([JSON.stringify(chiTietMuaList)], { type: 'application/json' }));
+        formData.append('phuongThucThanhToanDto', new Blob([JSON.stringify(phuongThucThanhToanDto)], { type: 'application/json' }));
+
+        // Retrieve token from localStorage
         const token = localStorage.getItem('token');
 
         try {
-            // Gọi API đặt hàng
-            const response = await axios.post('http://localhost:8080/giohang/datHang', {
-                chiTietMuaList: chiTietMuaList,
-                phuongThucThanhToanDto: phuongThucThanhToanDto,
-            }, {
+            // Send the FormData as `multipart/form-data`
+            const response = await axios.post('http://localhost:8080/gioHang/datHang', formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             console.log('Order Response:', response.data);
-
-            // Gọi API thanh toán
-            const paymentResponse = await axios.post('/api/payment', {
-                method: selectedMethod,
-                total: calculateTotal(),
-            });
-            console.log('Payment Response:', paymentResponse.data);
-
-            // Xử lý phản hồi từ API (như thông báo cho người dùng)
         } catch (error) {
             console.error('Error:', error);
-            // Xử lý lỗi (như thông báo cho người dùng)
         }
     };
 
