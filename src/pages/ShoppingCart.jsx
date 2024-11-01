@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   fetchProducts,
   increaseProductQuantity,
@@ -7,25 +8,26 @@ import {
   toggleSelectAll,
   toggleCheckbox,
 } from '../redux/CardReducer.js';
-import { Table, Image, Button, Container,Row,Col } from 'react-bootstrap';
+import { Table, Image, Button, Container, Row, Col } from 'react-bootstrap';
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
-  const { products, checkedItems, selectAll } = useSelector((state) => state.cart);
+  const { products, selectAll } = useSelector((state) => state.cart);
   const tenDangNhap = useSelector((state) => state.user.tenDangNhap);
 
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchProducts(tenDangNhap));
   }, [dispatch, tenDangNhap]);
-
-  // const calculateTotal = () => {
-  //   return products.reduce((total, product) => total + product.gia * product.soLuong, 0);
-  // };
 
   const calculateTotal = () => {
     return products.reduce((total, product) => {
       return product.isChecked ? total + product.gia * product.soLuong : total;
     }, 0);
+  };
+
+  const handlePurchase = () => {
+    navigate('/purchase');
   };
 
   return (
@@ -55,11 +57,11 @@ export default function ShoppingCart() {
                 <input
                   type="checkbox"
                   checked={product.isChecked || false}
-                  onChange={() => dispatch(toggleCheckbox({ 
-                    maSanPham: product.maSanPham, 
+                  onChange={() => dispatch(toggleCheckbox({
+                    maSanPham: product.maSanPham,
                     mau: product.chiTietSanPham.mau,
                     loaiBaoBi: product.chiTietSanPham.loaiBaoBi
-                }))}
+                  }))}
                 />
               </td>
               <td>
@@ -91,15 +93,13 @@ export default function ShoppingCart() {
           ))}
         </tbody>
       </Table>
-      {/* <h4>Tổng cộng: {calculateTotal().toLocaleString('vi-VN')} đ</h4> */}
       <Row className="justify-content-end">
         <Col md={3} className="text-right">
           <h4>Tổng cộng: {calculateTotal().toLocaleString('vi-VN')} đ</h4>
-          <Button>Mua hàng</Button>
+          <Button onClick={handlePurchase} >Mua hàng</Button>
         </Col>
       </Row>
     </Container>
   );
 }
 
-  
