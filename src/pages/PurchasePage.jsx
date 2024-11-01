@@ -30,20 +30,20 @@ export default function PurchasePage() {
             acc[productKey] = product.chiTietSanPham.soLuong;
             return acc;
         }, {});
-    
+
         // Prepare `phuongThucThanhToanDto` as a JSON object
         const phuongThucThanhToanDto = {
             loai: selectedMethod === "Chuyển khoản" ? "Thanh toan truoc" : "Thanh toan khi nhan hang"
         };
-    
+
         // Create FormData and append both JSON objects as blobs
         const formData = new FormData();
         formData.append('chiTietMuaList', new Blob([JSON.stringify(chiTietMuaList)], { type: 'application/json' }));
         formData.append('phuongThucThanhToanDto', new Blob([JSON.stringify(phuongThucThanhToanDto)], { type: 'application/json' }));
-    
+
         // Retrieve token from localStorage
         const token = localStorage.getItem('token');
-    
+
         try {
             // Send the FormData as `multipart/form-data`
             const response = await axios.post('http://localhost:8080/gioHang/datHang', formData, {
