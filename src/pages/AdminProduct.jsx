@@ -52,38 +52,97 @@ function AdminProduct() {
                 >
                     Thêm sản phẩm
                 </Button>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Loại</th>
-                            <th>Tên nhà sản xuất</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {!isLoading &&
-                            data?.data?.map((prod, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{prod.ten}</td>
-                                    <td>{prod.loai}</td>
-                                    <td>{prod.tenNhaSanXuat}</td>
+                <div
+                    style={{
+                        maxHeight: '80vh' /* Chiều cao tối đa của bảng */,
+                        overflowY: 'auto' /* Cuộn dọc khi dữ liệu quá nhiều */,
+                        width: '100%',
+                    }}
+                >
+                    <Table
+                        style={{
+                            width: '100%',
+                            borderCollapse: 'collapse',
+                        }}
+                    >
+                        <thead>
+                            <tr>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor:
+                                            '#f0f0f0' /* Nền cố định cho tiêu đề */,
+                                        zIndex: 1,
+                                    }}
+                                >
+                                    STT
+                                </th>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                    }}
+                                >
+                                    Tên sản phẩm
+                                </th>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                    }}
+                                >
+                                    Loại
+                                </th>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                    }}
+                                >
+                                    Tên nhà sản xuất
+                                </th>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                    }}
+                                ></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {!isLoading &&
+                                data?.data?.map((prod, index) => (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{prod.ten}</td>
+                                        <td>{prod.loai}</td>
+                                        <td>{prod.tenNhaSanXuat}</td>
+                                        <td>
+                                            <Button
+                                                className="rounded"
+                                                variant="info"
+                                                onClick={() =>
+                                                    deleteClick(prod)
+                                                }
+                                            >
+                                                Chi Tiết
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </Table>
+                </div>
 
-                                    <td>
-                                        <Button
-                                            className="rounded"
-                                            variant="info"
-                                            onClick={() => deleteClick(prod)}
-                                        >
-                                            Chi Tiết
-                                        </Button>
-                                    </td>
-                                </tr>
-                            ))}
-                    </tbody>
-                </Table>
                 <ModalAddProduct
                     show={isShowModalAddProduct}
                     onHide={() => setIsShowModalAddProduct(false)}

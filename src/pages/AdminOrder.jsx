@@ -71,7 +71,7 @@ function AdminOrder() {
                                 <td>{formatDate(prod.thoiDiem)}</td>{' '}
                                 {/* Use the formatDate function */}
                                 <td>{prod.trangThai}</td>
-                                <td>{prod.tongTien}</td>
+                                <td>{prod.tongTien} VND</td>
                                 <td>{prod.soSao}</td>
                                 <td>{prod.danhGia}</td>
                                 <td>
