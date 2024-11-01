@@ -12,7 +12,6 @@ import Dashboard from './pages/Dashboard.jsx';
 import AdminProduct from './pages/AdminProduct.jsx';
 import AdminLayout from './layouts/AdminLayout.jsx';
 import ProductDetail from './pages/ProductDetail.jsx';
-// <<<<<<< AdminLayout_Sang
 import './assets/CSS/Body.scss';
 import './assets/CSS/Header.scss';
 import './assets/CSS/Footer.scss';
@@ -28,6 +27,8 @@ import AdminAccount from './pages/AdminAccount.jsx';
 import AdminOrder from './pages/AdminOrder.jsx';
 import ProfilePage from "./pages/ProfilePage.jsx";
 import PurchasePage from './pages/PurchasePage.jsx';
+import axios from 'axios';
+import { refreshToken } from './services/auth.service.js';
 
 function App() {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ function App() {
       refreshTimeout = setTimeout(refreshToken, refreshTime * 1000);
     }
   };
+
 
   const refreshToken = async () => {
     try {

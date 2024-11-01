@@ -10,7 +10,7 @@ function ImageSlides({ images = [], height = '100%', width = '100%', interval = 
         imageSlideItem: {
             img: {
                 width: '100%',
-                ...imgStyles,  // Allows additional custom styles to be passed from parent
+                ...imgStyles,
             },
         },
     };

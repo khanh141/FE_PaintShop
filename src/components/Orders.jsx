@@ -21,13 +21,12 @@ function Orders() {
     const [rating, setRating] = useState(0);
     const [pageNumber, setPageNumber] = useState(0);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
-
     const hasSubmittedReview = !!(selectedDonHang?.danhGia && selectedDonHang?.soSao);
 
     const handleLoadMore = () => {
         setIsLoadingMore(true);
         setPageNumber((prevPage) => prevPage + 1);
-        fetchDonHangData(pageNumber + 1);
+        fetchDonHangData(pageNumber + 1, true);
     };
 
     const handleShowModal = (donHang) => {
@@ -43,11 +42,14 @@ function Orders() {
     const handleDanhGia = async () => {
         try {
             const token = localStorage.getItem('token');
+            const maSanPhamArray = selectedDonHang.sanPhamResDtos.map(sanPham => sanPham.maSanPham);
             const payload = {
+                maSanPham: maSanPhamArray,
                 maDonHang: selectedDonHang.maDonHang,
                 soSao: rating,
                 noiDung: danhGia
             }
+            console.log(payload)
             dispatch(setLoading(true))
             const response = await axios.post("http://localhost:8080/khachHang/danhGia", payload,
                 { headers: { Authorization: `Bearer ${token}` } });
@@ -67,7 +69,7 @@ function Orders() {
         handleCloseModal();
     };
 
-    const fetchDonHangData = async (page) => {
+    const fetchDonHangData = async (page, reLoad) => {
         try {
             dispatch(setLoading(true));
             const token = localStorage.getItem('token');
@@ -84,7 +86,12 @@ function Orders() {
 
             if (Array.isArray(response.data)) {
                 dispatch(setLoading(false));
-                setDonHangList((prevList) => [...prevList, ...response.data]);
+                if (reLoad) {
+                    setDonHangList((prevList) => [...prevList, ...response.data]);
+                } else {
+                    setDonHangList(response.data);
+                }
+                console.log(response.data)
             } else {
                 console.error('Unexpected response format:', response.data);
             }
@@ -96,8 +103,9 @@ function Orders() {
     };
 
     useEffect(() => {
-        fetchDonHangData(pageNumber)
-    }, [profileActiveTab, dispatch])
+        fetchDonHangData(pageNumber, false);
+    }, [profileActiveTab, pageNumber, dispatch]);
+
 
     return (
         <Col xs={12} id="tab2" className="donHangContainer profilePageContent">
