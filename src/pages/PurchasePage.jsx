@@ -4,8 +4,9 @@ import { Table, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
 import InvoiceModal from '../components/ModalReceipt.jsx'; // Import the InvoiceModal component
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 export default function PurchasePage() {
     const { products } = useSelector((state) => state.cart);
@@ -15,6 +16,20 @@ export default function PurchasePage() {
     const navigate = useNavigate();
     const [diaChi, setDiaChi] = useState(""); 
     const [hoTen, setHoTen] = useState("");
+    const location = useLocation();
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const status = params.get("status");
+        if (status === "success") {
+            toast.success("Thanh toán thành công", { position: "top-right", autoClose: 3000 });
+        } else if (status === "failed") {
+            toast.error("Thanh toán không thành công", { position: "top-right", autoClose: 3000 });
+        }
+        params.delete("status");
+        navigate({ search: params.toString() }, { replace: true })
+    }, [location.search, navigate]);
+
     const selectedProducts = products.filter(product => product.isChecked);
 
     const calculateTotal = () => {
@@ -58,16 +73,21 @@ export default function PurchasePage() {
 
         try {
             const response = await axios.post('http://localhost:8080/gioHang/datHang', formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                headers: { Authorization: `Bearer ${token}` }
             });
+
             console.log('Order Response:', response.data);
-            toast.success("Mua hàng thành công", { position: "top-right", autoClose: 3000 });
-            setShowInvoice(false);
-            setTimeout(() => {
-                navigate("/cart");
-            }, 3000);
+
+            if (selectedMethod === "Chuyển khoản") {
+                // Initiate payment via VNPay if selected method is "Chuyển khoản"
+                const amount = response.data;
+                const bankCode = "NCB";
+                await handlePayByVNPay(amount, bankCode, token);
+            }
+          else if (selectedMethod === "Tiền mặt") {
+            // Hiển thị InvoiceModal cho phương thức thanh toán tiền mặt
+            setShowInvoice(true);
+        }
         } catch (error) {
             console.error('Error:', error);
         }
@@ -92,6 +112,28 @@ export default function PurchasePage() {
     
         fetchUserInfo();
     }, []);
+
+    const handlePayByVNPay = async (amount, bankCode, token) => {
+        try {
+            const response = await axios.get("http://localhost:8080/thanhToan/taoThanhToan", {
+                headers: { Authorization: `Bearer ${token}` },
+                params: { amount, bankCode }
+            });
+
+            const vnPayUrl = response.data.URL;
+
+            if (vnPayUrl) {
+                window.location.href = vnPayUrl;  // Redirect to VNPay's URL
+            }
+
+        } catch (error) {
+            toast.error(error.message, { position: "top-right", autoClose: 3000 });
+        }
+    };
+  
+  const handleInvoiceConfirm = () => {
+        setShowInvoice(false); // Close the InvoiceModal
+    };
 
     return (
         <Container>
@@ -164,11 +206,12 @@ export default function PurchasePage() {
             <Button
                 variant="danger"
                 className="mt-3"
-                onClick={handleShowInvoice}
+                onClick={handleConfirmOrder}
             >
-                Xác nhận
+                Xác nhận mua hàng
             </Button>
             <ToastContainer />
+
             <InvoiceModal // Use the InvoiceModal component
                 show={showInvoice}
                 onHide={() => setShowInvoice(false)}
@@ -176,7 +219,7 @@ export default function PurchasePage() {
                 diaChi={diaChi}
                 selectedProducts={selectedProducts}
                 total={calculateTotal()}
-                onConfirm={handleConfirmOrder}
+                onConfirm={handleInvoiceConfirm}
             />
         </Container>
     );

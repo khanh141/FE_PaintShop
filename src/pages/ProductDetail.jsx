@@ -64,6 +64,7 @@ const ProductDetail = () => {
 
     // Kiểm tra token trước khi thêm sản phẩm vào giỏ hàng
     if (!token) {
+      // todo
       alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
       navigate("/login"); 
       return;
@@ -240,7 +241,10 @@ const ProductDetail = () => {
                                 key={`${chitiet.loaiDinhMucLyThuyet}-${index}`}
                                 className={`optionBtn p-2 border rounded me-2 ${selectedDinhMuc === chitiet.loaiDinhMucLyThuyet ? 'chosen' : 'bg-light'}`}
                                 onClick={() => handleSelectDinhMuc(chitiet.loaiDinhMucLyThuyet)}
-                                style={{ userSelect: 'none', pointerEvents: renderredDinhMuc.length === 0 ? 'none' : 'auto' }}
+                                style={{
+                                  userSelect: 'none',
+                                  pointerEvents: renderredDinhMuc.length === 0 ? 'none' : 'auto'
+                                }}
                                 role="button"
                               >
                                 {chitiet.loaiDinhMucLyThuyet}
@@ -278,7 +282,10 @@ const ProductDetail = () => {
                                 key={`${chitiet.mau}-${index}`}
                                 className={`optionBtn p-2 border rounded me-2 ${selectedMau === chitiet.mau ? 'chosen' : 'bg-light'}`}
                                 onClick={() => handleSelectMau(chitiet.mau)}
-                                style={{ userSelect: 'none', pointerEvents: renderedMau.filter(detail => detail.mau).length === 0 ? 'none' : 'auto' }}
+                                style={{
+                                  userSelect: 'none',
+                                  pointerEvents: product.chiTietSanPhamResList.filter(detail => detail.mau).length === 1 ? 'none' : 'auto'
+                                }}
                                 role="button"
                               >
                                 {chitiet.mau}
