@@ -29,7 +29,7 @@ export const fetchProducts = createAsyncThunk(
 const cardSlice = createSlice({
     name: 'cart',
     initialState,
-    reducers: {
+    reducers: {    
         toggleCheckbox: (state, action) => {
             const { maSanPham, mau, loaiBaoBi } = action.payload;
             state.products = state.products.map((product) => {
@@ -42,14 +42,22 @@ const cardSlice = createSlice({
                 }
                 return product;
             });
+        
+            // Cập nhật `selectAll` nếu tất cả sản phẩm đã được chọn
+            state.selectAll = state.products.every((product) => product.isChecked);
         },
         toggleSelectAll: (state) => {
             const newSelectAll = !state.selectAll;
             state.selectAll = newSelectAll;
-            Object.keys(state.checkedItems).forEach((key) => {
-                state.checkedItems[key] = newSelectAll;
-            });
+        
+            // Cập nhật `isChecked` cho từng sản phẩm theo `selectAll`
+            state.products = state.products.map((product) => ({
+                ...product,
+                isChecked: newSelectAll,
+            }));
         },
+        
+
         increaseQuantity: (state, action) => {
             const product = state.products.find(
                 (p) =>
@@ -95,11 +103,12 @@ const cardSlice = createSlice({
         builder.addCase(fetchProducts.fulfilled, (state, action) => {
             state.products = action.payload;
             state.checkedItems = action.payload.reduce((acc, product) => {
-                acc[product.id] = false;
+                acc[product.id] = product.isChecked || false;
                 return acc;
             }, {});
+            state.selectAll = action.payload.every((product) => product.isChecked); // Cập nhật `selectAll`
         });
-    },
+    }    
 });
 
 // Action để tăng số lượng sản phẩm
