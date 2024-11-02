@@ -85,11 +85,12 @@ export default function PurchasePage() {
                 await handlePayByVNPay(amount, bankCode, token);
             }
           else if (selectedMethod === "Tiền mặt") {
-            // Hiển thị InvoiceModal cho phương thức thanh toán tiền mặt
             setShowInvoice(true);
+          toast.success("Đặt hàng thành công", { position: "top-right", autoClose: 3000 })
         }
         } catch (error) {
             console.error('Error:', error);
+            toast.error("Đã xảy ra lỗi khi đặt hàng vui lòng thử lại", { position: "top-right", autoClose: 2000 });
         }
     };
 
@@ -132,7 +133,8 @@ export default function PurchasePage() {
     };
   
   const handleInvoiceConfirm = () => {
-        setShowInvoice(false); // Close the InvoiceModal
+        setShowInvoice(false); 
+        navigate("/cart")
     };
 
     return (

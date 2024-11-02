@@ -15,6 +15,7 @@ export default function NavigationBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+
   const navbarHeight = "90px";
 
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn); // Use Redux state
@@ -30,7 +31,7 @@ export default function NavigationBar() {
         token: localStorage.getItem('token')
       });
       localStorage.removeItem('token');
-      dispatch(clearUser()); // Dispatch clearUser to update Redux state
+      dispatch(clearUser()); 
       navigate('/login');
     } catch (error) {
       console.error('Logout error:', error);
@@ -50,102 +51,126 @@ export default function NavigationBar() {
   }, []);
 
   return (
-    <>
-      <Navbar
-        bg="light"
-        expand="lg"
-        className="navbar"
-        style={{
-          opacity: navbarOpacity,
-          transition: 'opacity 0.3s ease-in-out', // Smooth opacity transition
-        }}
-      >
-        <Container fluid>
-          <Col xs={2}>
-            <Link className="navbar-brand text-black" to="/">
-              <img src="/images/Logo.png" alt="Logo" className="img-fluid logo" />
-            </Link>
-          </Col>
-          <Navbar.Toggle aria-controls="navbarSupportedContent">
-            <FontAwesomeIcon id="navbarToggerIcon" icon={faBars} />
-          </Navbar.Toggle>
-          <Navbar.Collapse id="navbarSupportedContent">
-            <Row className="align-items-center w-100">
-              <Col xs={6} className="d-flex justify-content-center">
-                <div className="input-group">
-                  <input
-                    id="input"
-                    type="text"
-                    className="form-control"
-                    placeholder="Tìm kiếm theo tên"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTermInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        handleSearch();
-                      }
-                    }}
-                  />
-                  <button className="btn btn-primary sndColor" onClick={handleSearch}>
-                    Tìm kiếm
-                  </button>
-                </div>
-              </Col>
-              <Col xs={6} className="d-flex justify-content-end">
-                <Nav>
-                  <Nav.Item>
-                    <Link className="nav-link text-black fs-5" to="/">
-                      Trang Chủ
-                    </Link>
-                  </Nav.Item>
-                  {isLoggedIn ? (
-                    <>
-                      <Nav.Item>
-                        <button
-                          onClick={handleLogout}
-                          className="nav-link text-black fs-5"
-                        >
-                          Đăng xuất
-                        </button>
-                      </Nav.Item>
-                      <Nav.Item className="px-2 fs-5">
-                        <Link className="nav-link text-black fs-5" to="/profile">
-                          <FaUser />
-                        </Link>
-                      </Nav.Item>
-                    </>
-                  ) : (
-                    <>
-                      <Nav.Item className="px-2">
-                        <Link className="nav-link text-black fs-5" to="/signup">
-                          Đăng Ký
-                        </Link>
-                      </Nav.Item>
-                      <Nav.Item className="px-2">
-                        <Link className="nav-link fs-5 text-black" to="/login">
-                          Đăng Nhập
-                        </Link>
-                      </Nav.Item>
-                    </>
-                  )}
-                  {location.pathname === "/" && (
-                    <Nav.Item className="px-2">
-                      <Link className="nav-link text-black fs-5" to="/cart">
-                        <FaShoppingCart />
+      <>
+          <Navbar
+              bg="light"
+              expand="lg"
+              className="navbar"
+              style={{
+                  opacity: navbarOpacity,
+                  transition: 'opacity 0.3s ease-in-out', // Smooth opacity transition
+              }}
+          >
+              <Container fluid>
+                  <Col xs={2}>
+                      <Link className="navbar-brand text-black" to="/">
+                          <img
+                              src="/images/Logo.png"
+                              alt="Logo"
+                              className="img-fluid logo"
+                          />
                       </Link>
-                    </Nav.Item>
-                  )}
-                </Nav>
-              </Col>
-            </Row>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+                  </Col>
+                  <Navbar.Toggle aria-controls="navbarSupportedContent">
+                      <FontAwesomeIcon id="navbarToggerIcon" icon={faBars} />
+                  </Navbar.Toggle>
+                  <Navbar.Collapse id="navbarSupportedContent">
+                      <Row className="align-items-center w-100">
+                          <Col xs={6} className="d-flex justify-content-center">
+                              <div className="input-group">
+                                  <input
+                                      id="input"
+                                      type="text"
+                                      className="form-control"
+                                      placeholder="Tìm kiếm theo tên"
+                                      value={searchTerm}
+                                      onChange={(e) =>
+                                          setSearchTermInput(e.target.value)
+                                      }
+                                      onKeyDown={(e) => {
+                                          if (e.key === 'Enter') {
+                                              handleSearch();
+                                          }
+                                      }}
+                                  />
+                                  <button
+                                      className="btn btn-primary sndColor"
+                                      onClick={handleSearch}
+                                  >
+                                      Tìm kiếm
+                                  </button>
+                              </div>
+                          </Col>
+                          <Col xs={6} className="d-flex justify-content-end">
+                              <Nav>
+                                  <Nav.Item className="px-2">
+                                      <Link
+                                          className="nav-link btn btn-link text-black fs-5"
+                                          to="/"
+                                      >
+                                          Trang Chủ
+                                      </Link>
+                                  </Nav.Item>
+                                  {isLoggedIn ? (
+                                      <>
+                                          <Nav.Item className="px-2">
+                                              <Link
+                                                  onClick={handleLogout}
+                                                  className="nav-link text-black fs-5"
+                                              >
+                                                  Đăng xuất
+                                              </Link>
+                                          </Nav.Item>
+                                          {location.pathname !== '/cart' && (
+                                              <Nav.Item className="px-2">
+                                                  <Link
+                                                      className="nav-link text-black fs-5"
+                                                      to="/cart"
+                                                  >
+                                                      <FaShoppingCart />
+                                                  </Link>
+                                              </Nav.Item>
+                                          )}
+                                          <Nav.Item className="px-2 fs-5">
+                                              <Link
+                                                  className="nav-link text-black fs-5"
+                                                  to="/profile"
+                                              >
+                                                  <FaUser />
+                                              </Link>
+                                          </Nav.Item>
+                                      </>
+                                  ) : (
+                                      <>
+                                          <Nav.Item className="px-2">
+                                              <Link
+                                                  className="nav-link text-black fs-5"
+                                                  to="/signup"
+                                              >
+                                                  Đăng Ký
+                                              </Link>
+                                          </Nav.Item>
+                                          <Nav.Item className="px-2">
+                                              <Link
+                                                  className="nav-link fs-5 text-black"
+                                                  to="/login"
+                                              >
+                                                  Đăng Nhập
+                                              </Link>
+                                          </Nav.Item>
+                                      </>
+                                  )}
+                              </Nav>
+                          </Col>
+                      </Row>
+                  </Navbar.Collapse>
+              </Container>
+          </Navbar>
 
-      {/* Add padding to the main content to avoid overlap */}
-      <div style={{ paddingTop: navbarHeight }}>
-        {/* Your page content goes here */}
-      </div>
-    </>
+          {/* Add padding to the main content to avoid overlap */}
+          <div style={{ paddingTop: navbarHeight }}>
+              {/* Your page content goes here */}
+          </div>
+      </>
   );
 }

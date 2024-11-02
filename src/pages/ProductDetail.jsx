@@ -89,7 +89,7 @@ const ProductDetail = () => {
       });
       toast.success("Thêm vào giỏ hàng thành công", { position: "top-right", autoClose: 3000 })
     } catch (error) {
-      toast.success("Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng", { position: "top-right", autoClose: 3000 })
+      toast.error("Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng", { position: "top-right", autoClose: 3000 })
     }
   };
 
