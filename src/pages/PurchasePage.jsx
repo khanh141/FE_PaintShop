@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Table, Button, Container, Col, Row } from 'react-bootstrap';
+import { Table, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import InvoiceModal from '../components/ModalReceipt.jsx'; // Import the InvoiceModal component
 import { useNavigate, useLocation } from 'react-router-dom';
+
 
 export default function PurchasePage() {
     const { products } = useSelector((state) => state.cart);
     const [showOptions, setShowOptions] = useState(false);
     const [selectedMethod, setSelectedMethod] = useState("");
+    const [showInvoice, setShowInvoice] = useState(false);
     const navigate = useNavigate();
+    const [diaChi, setDiaChi] = useState(""); 
+    const [hoTen, setHoTen] = useState("");
     const location = useLocation();
 
     useEffect(() => {
@@ -34,6 +39,14 @@ export default function PurchasePage() {
     const handleSelectMethod = (method) => {
         setSelectedMethod(method);
         setShowOptions(false);
+    };
+
+    const handleShowInvoice = () => {
+        if (!selectedMethod) {
+            toast.warn("Vui lòng chọn phương thức thanh toán trước", { position: "top-right" });
+            return;
+        }
+        setShowInvoice(true);
     };
 
     const handleConfirmOrder = async () => {
@@ -71,11 +84,34 @@ export default function PurchasePage() {
                 const bankCode = "NCB";
                 await handlePayByVNPay(amount, bankCode, token);
             }
-
+          else if (selectedMethod === "Tiền mặt") {
+            // Hiển thị InvoiceModal cho phương thức thanh toán tiền mặt
+            setShowInvoice(true);
+        }
         } catch (error) {
             console.error('Error:', error);
         }
     };
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get('http://localhost:8080/taiKhoan/trangCaNhan', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setDiaChi(response.data.khachHangResDto.diaChi);
+                setHoTen(response.data.khachHangResDto.hoTen);
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+                toast.error("Không thể lấy thông tin người dùng", { position: "top-right" });
+            }
+        };
+    
+        fetchUserInfo();
+    }, []);
 
     const handlePayByVNPay = async (amount, bankCode, token) => {
         try {
@@ -94,6 +130,11 @@ export default function PurchasePage() {
             toast.error(error.message, { position: "top-right", autoClose: 3000 });
         }
     };
+  
+  const handleInvoiceConfirm = () => {
+        setShowInvoice(false); // Close the InvoiceModal
+    };
+
     return (
         <Container>
             <h2>Trang mua hàng</h2>
@@ -113,12 +154,16 @@ export default function PurchasePage() {
                                 <td>{product.ten}</td>
                                 <td>{product.gia.toLocaleString('vi-VN')} đ</td>
                                 <td>{product.soLuong}</td>
-                                <td>{(product.gia * product.soLuong).toLocaleString('vi-VN')} đ</td>
+                                <td>
+                                    {(product.gia * product.soLuong).toLocaleString('vi-VN')} đ
+                                </td>
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="4" className="text-center">Chưa có sản phẩm nào được chọn.</td>
+                            <td colSpan="4" className="text-center">
+                                Chưa có sản phẩm nào được chọn.
+                            </td>
                         </tr>
                     )}
                 </tbody>
@@ -129,9 +174,9 @@ export default function PurchasePage() {
             <Button
                 style={{ width: '25%', marginBottom: '10px' }}
                 onClick={() => setShowOptions(!showOptions)}
-                variant={selectedMethod ? "success" : "primary"}
+                variant={selectedMethod ? 'success' : 'primary'}
             >
-                {selectedMethod || "Chọn phương thức thanh toán"}
+                {selectedMethod || 'Chọn phương thức thanh toán'}
             </Button>
             <Row>
                 {showOptions && (
@@ -140,7 +185,7 @@ export default function PurchasePage() {
                             <Button
                                 style={{ width: '15%', marginBottom: '10px' }}
                                 variant="outline-primary"
-                                onClick={() => handleSelectMethod("Chuyển khoản")}
+                                onClick={() => handleSelectMethod('Chuyển khoản')}
                             >
                                 Chuyển khoản
                             </Button>
@@ -149,7 +194,7 @@ export default function PurchasePage() {
                             <Button
                                 style={{ width: '15%', marginBottom: '10px' }}
                                 variant="outline-success"
-                                onClick={() => handleSelectMethod("Tiền mặt")}
+                                onClick={() => handleSelectMethod('Tiền mặt')}
                             >
                                 Tiền mặt
                             </Button>
@@ -158,10 +203,24 @@ export default function PurchasePage() {
                 )}
             </Row>
 
-            <Button variant="danger" className="mt-3" onClick={handleConfirmOrder}>
-                Xác nhận
+            <Button
+                variant="danger"
+                className="mt-3"
+                onClick={handleConfirmOrder}
+            >
+                Xác nhận mua hàng
             </Button>
             <ToastContainer />
+
+            <InvoiceModal // Use the InvoiceModal component
+                show={showInvoice}
+                onHide={() => setShowInvoice(false)}
+                hoTen={hoTen}
+                diaChi={diaChi}
+                selectedProducts={selectedProducts}
+                total={calculateTotal()}
+                onConfirm={handleInvoiceConfirm}
+            />
         </Container>
     );
 }

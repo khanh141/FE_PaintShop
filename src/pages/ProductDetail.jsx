@@ -5,6 +5,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import axios from 'axios';
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { FaStar } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
@@ -64,7 +66,7 @@ const ProductDetail = () => {
     if (!token) {
       // todo
       alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
-      navigate("/login"); // Điều hướng đến trang đăng nhập
+      navigate("/login"); 
       return;
     }
 
@@ -85,13 +87,9 @@ const ProductDetail = () => {
           Authorization: `Bearer ${token}`
         }
       });
-
-      if (response.status === 200) {
-        alert('Sản phẩm đã được thêm vào giỏ hàng');
-      }
+      toast.success("Thêm vào giỏ hàng thành công", { position: "top-right", autoClose: 3000 })
     } catch (error) {
-      console.error('Error adding product to cart:', error);
-      alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng');
+      toast.success("Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng", { position: "top-right", autoClose: 3000 })
     }
   };
 
@@ -346,6 +344,7 @@ const ProductDetail = () => {
           <Col>No reviews available</Col>
         )}
       </Row>
+      <ToastContainer/>
     </Container >
   );
 };
