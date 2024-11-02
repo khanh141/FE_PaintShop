@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Button, Container, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function PurchasePage() {
     const { products } = useSelector((state) => state.cart);
     const [showOptions, setShowOptions] = useState(false);
     const [selectedMethod, setSelectedMethod] = useState("");
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const status = params.get("status");
+        if (status === "success") {
+            toast.success("Thanh toán thành công", { position: "top-right", autoClose: 3000 });
+        } else if (status === "failed") {
+            toast.error("Thanh toán không thành công", { position: "top-right", autoClose: 3000 });
+        }
+        params.delete("status");
+        navigate({ search: params.toString() }, { replace: true })
+    }, [location.search, navigate]);
 
     const selectedProducts = products.filter(product => product.isChecked);
 
@@ -31,32 +48,52 @@ export default function PurchasePage() {
             return acc;
         }, {});
 
-        // Prepare `phuongThucThanhToanDto` as a JSON object
         const phuongThucThanhToanDto = {
             loai: selectedMethod === "Chuyển khoản" ? "Thanh toan truoc" : "Thanh toan khi nhan hang"
         };
 
-        // Create FormData and append both JSON objects as blobs
         const formData = new FormData();
         formData.append('chiTietMuaList', new Blob([JSON.stringify(chiTietMuaList)], { type: 'application/json' }));
         formData.append('phuongThucThanhToanDto', new Blob([JSON.stringify(phuongThucThanhToanDto)], { type: 'application/json' }));
 
-        // Retrieve token from localStorage
         const token = localStorage.getItem('token');
 
         try {
-            // Send the FormData as `multipart/form-data`
             const response = await axios.post('http://localhost:8080/gioHang/datHang', formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                headers: { Authorization: `Bearer ${token}` }
             });
+
             console.log('Order Response:', response.data);
+
+            if (selectedMethod === "Chuyển khoản") {
+                // Initiate payment via VNPay if selected method is "Chuyển khoản"
+                const amount = response.data;
+                const bankCode = "NCB";
+                await handlePayByVNPay(amount, bankCode, token);
+            }
+
         } catch (error) {
             console.error('Error:', error);
         }
     };
-    
+
+    const handlePayByVNPay = async (amount, bankCode, token) => {
+        try {
+            const response = await axios.get("http://localhost:8080/thanhToan/taoThanhToan", {
+                headers: { Authorization: `Bearer ${token}` },
+                params: { amount, bankCode }
+            });
+
+            const vnPayUrl = response.data.URL;
+
+            if (vnPayUrl) {
+                window.location.href = vnPayUrl;  // Redirect to VNPay's URL
+            }
+
+        } catch (error) {
+            toast.error(error.message, { position: "top-right", autoClose: 3000 });
+        }
+    };
     return (
         <Container>
             <h2>Trang mua hàng</h2>
@@ -124,6 +161,7 @@ export default function PurchasePage() {
             <Button variant="danger" className="mt-3" onClick={handleConfirmOrder}>
                 Xác nhận
             </Button>
+            <ToastContainer />
         </Container>
     );
 }
