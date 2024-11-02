@@ -59,14 +59,9 @@ function Profile() {
 
     const capNhatTaiKhoan = async (data) => {
 
-        const currentSDT = formData.soDienThoai || "";
-        const currentDiaChi = formData.diaChi || "";
-        let newDiaChiHoacSDT = "";
-        if (diaChi) {
-            newDiaChiHoacSDT = currentDiaChi
-        } else if (diaChi === "") {
-            newDiaChiHoacSDT = currentSDT || "";
-        }
+        const currentSDT = soDienThoai || "";
+        const currentDiaChi = diaChi || "";
+        const newDiaChiHoacSDT = data.soDienThoai || data.diaChi || "";
 
         if (data.hoTen === hoTen && newDiaChiHoacSDT === (currentSDT || currentDiaChi)) {
             toast.error("Không có thay đổi về thông tin")
@@ -79,11 +74,12 @@ function Profile() {
                 hoTen: data.hoTen,
             };
 
-            if (data.diaChi) {
-                payload.diaChiHoacSDT = data.diaChi;
-            } else {
+            if (data.soDienThoai) {
                 payload.diaChiHoacSDT = data.soDienThoai;
+            } else if (data.diaChi) {
+                payload.diaChiHoacSDT = data.diaChi;
             }
+
             const token = localStorage.getItem('token');
             const response = await axios.put('http://localhost:8080/taiKhoan/capNhatThongTin',
                 payload,
@@ -94,16 +90,10 @@ function Profile() {
             const updatedData = {
                 ...userDataFromBackend,
                 hoTen: userDataFromBackend.hoTen || '',
-                diaChiHoacSDT: userDataFromBackend.diaChi || userDataFromBackend.soDienThoai,
+                diaChiHoacSDT: userDataFromBackend.soDienThoai || userDataFromBackend.diaChi,
             };
 
-            if (diaChi) {
-                dispatch(setProfile(
-                    updatedData.hoTen,
-                    soDienThoai,
-                    email,
-                    updatedData.diaChiHoacSDT));
-            }
+            dispatch(setProfile(updatedData.hoTen, updatedData.diaChiHoacSDT));
             dispatch(setSuccess(true));
         } catch (error) {
             dispatch(setLoading(false));
@@ -159,7 +149,7 @@ function Profile() {
             <div id='tab1'>
                 <h3 className='mb-3'>Hồ sơ của tôi</h3>
                 <Row id='tenDangNhap'>
-                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="info">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         <span>Tên đăng nhập</span>
                     </Col>
                     <Col sm={8} xs={7}>
@@ -173,7 +163,7 @@ function Profile() {
                     </Col>
                 </Row>
                 <Row id='ten'>
-                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="info">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         <span>Tên</span>
                     </Col>
                     <Col sm={8} xs={7}>
@@ -189,7 +179,7 @@ function Profile() {
                     </Col>
                 </Row>
                 <Row id='soDienThoai'>
-                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="info">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         <span>Số điện thoại</span>
                     </Col>
                     <Col sm={8} xs={7} className="position-relative">
@@ -212,7 +202,7 @@ function Profile() {
 
                 </Row>
                 <Row id='email' className="align-items-center">
-                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="info">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         <span>Email</span>
                     </Col>
                     <Col sm={8} xs={7} style={{ position: 'relative' }}>
@@ -220,7 +210,7 @@ function Profile() {
                             type={showEmail ? "text" : "password"}
                             name="email"
                             placeholder="Email"
-                            value={email}
+                            value={formData.email}
                             onChange={handleInputChange}
                             disabled
                             className="form-control"
@@ -236,7 +226,7 @@ function Profile() {
                 </Row>
                 {diaChi ? (
                     <Row id='diaChi'>
-                        <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="info">
+                        <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                             <span>Địa chỉ</span>
                         </Col>
                         <Col sm={8} xs={7}>
@@ -253,7 +243,7 @@ function Profile() {
                     </Row>
                 ) : maNhanVien ? (
                     <Row id='maNhanVien'>
-                        <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="info">
+                        <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                             <span>Mã nhân viên</span>
                         </Col>
                         <Col sm={8} xs={7}>
@@ -270,7 +260,7 @@ function Profile() {
                     </Row>
                 ) : null}
                 <Row id='quyen'>
-                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="info">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         <span>Loại tài khoản</span>
                     </Col>
                     <Col sm={8} xs={7}>
@@ -284,7 +274,7 @@ function Profile() {
                     </Col>
                 </Row>
                 <Row id="btnGrp" className="align-items-center">
-                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="info">
+                    <Col sm={4} xs={5} style={{ flex: '0 0 30%' }} className="text-end">
                         {isEditing && (
                             <Button
                                 style={{ minWidth: '100px' }}

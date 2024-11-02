@@ -14,25 +14,16 @@ function ProfilePage() {
 
     const dispatch = useDispatch();
 
-    const { isLoading, isSuccess, profileActiveTab } = useSelector((state) => state.app);
+    const { isSuccess, profileActiveTab } = useSelector((state) => state.app);
     const { tenDangNhap } = useSelector((store) => store.user)
     const [showSideBar, setShowSideBar] = useState(false)
+    const quyen = useSelector((state) => state.user.quyen)
 
     const sideBarRef = useRef(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [profileActiveTab]);
-
-    useEffect(() => {
-        if (isSuccess) {
-            toast.success('Thành công!', { position: "top-right", autoClose: 3000 });
-            const timer = setTimeout(() => {
-                dispatch(resetStatus());
-            }, 3000);
-            return () => clearTimeout(timer);
-        }
-    }, [isSuccess, dispatch]);
 
     const handleShowSideBar = () => {
         setShowSideBar(!showSideBar)
@@ -92,12 +83,12 @@ function ProfilePage() {
                         >
                             Hồ sơ
                         </li>
-                        <li
+                        {(quyen !== "nhanVien") && <li
                             className={profileActiveTab === '2' ? 'active' : ''}
                             onClick={() => handleSwitchTab('2')}
                         >
                             Đơn mua
-                        </li>
+                        </li>}
                         <li
                             className={profileActiveTab === '3' ? 'active' : ''}
                             onClick={() => handleSwitchTab('3')}
@@ -116,13 +107,6 @@ function ProfilePage() {
                     {renderTabContent()}
                 </Col>
             </Row>
-            {isLoading && (
-                <div className="popup-overlay">
-                    <div className="popup-content">
-                        <div className="loading">Loading...</div>
-                    </div>
-                </div>
-            )}
             <ToastContainer />
         </Container>
     )
