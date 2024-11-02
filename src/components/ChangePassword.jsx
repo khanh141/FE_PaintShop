@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Form, FloatingLabel, Button, Alert } from 'react-bootstrap'
+import { Form, FloatingLabel, Button, Alert, Row, Col } from 'react-bootstrap'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setSuccess } from "../redux/AppSlice"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
+
 function ChangePassword() {
 
     const dispatch = useDispatch();
@@ -81,13 +83,28 @@ function ChangePassword() {
                 />
             </div>
             {errors && <Alert className='mt-1' variant="danger">{errors}</Alert>}
-            <Button
-                variant="primary"
-                className="me-2 sndColor"
-                onClick={handlePasswordChange}
-            >
-                Đổi mật khẩu
-            </Button>
+            <Row>
+                <Col xs={3}>
+                    <Button
+                        variant="primary"
+                        className="me-2 sndColor"
+                        onClick={handlePasswordChange}
+                    >
+                        Đổi mật khẩu
+                    </Button>
+                </Col>
+                <Col className='d-flex justify-content-start align-items-center'>
+                    <div className="align-items-center">
+                        <Link
+                            to="/enterEmail"
+                            className="text-center nav-link fs-6 p-0"
+                            style={{ color: 'blue' }}
+                        >
+                            Bạn quên mật khẩu?
+                        </Link>
+                    </div>
+                </Col>
+            </Row>
         </div>)
 }
 

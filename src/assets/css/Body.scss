@@ -274,8 +274,15 @@ body {
         }
         .contentContainer {
             .profilePageContent {
-                .row {
-                    margin-bottom: 10px;
+                div {
+                    .row {
+                        margin-bottom: 10px;
+                        .info {
+                            display: flex;
+                            align-items: center;
+                            justify-content: end;
+                        }
+                    }
                 }
             }
             .donHangContainer {
@@ -319,42 +326,31 @@ body {
             }
         }
     }
-
-    .popup-overlay {
-        position: fixed;
+    #loading-overlay {
+        position: absolute;
         top: 0;
         left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.5);
+        width: calc(100% + 48px); /* Add 24px padding on both sides */
+        height: calc(100% + 48px); /* Add 24px padding on both top and bottom */
+        margin: -24px; /* Offset the overlay to cover the padding */
+        background-color: rgba(0, 0, 0, 0.3);
         display: flex;
-        align-items: center;
         justify-content: center;
-        z-index: 999; // Bring it above everything
+        align-items: center;
+        z-index: 10;
+        pointer-events: none;
+    }
+    .loading-container {
+        position: relative;
+        overflow: hidden;
+    }
 
-        .popup-content {
-            width: 30vw;
-            height: 20vh;
-            background-color: white;
-            padding: 20px 30px;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            animation: fadeIn 0.3s ease-in-out;
-
-            .loading {
-                font-size: 20px;
-                color: #555;
-            }
-
-            .alert {
-                font-size: 18px;
-                font-weight: bold;
-
-                &.success {
-                    color: green;
-                }
-            }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
         }
     }
 }

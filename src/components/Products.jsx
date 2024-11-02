@@ -37,7 +37,6 @@ const ProductsContainer = () => {
                 const response = await axios.get(
                     `http://localhost:8080/sanPham/timKiem?Searchreq=${searchTerm}`
                 );
-                console.log('Dữ liệu sản phẩm tìm kiếm:', response.data);
                 dispatch(setFilter(response.data));
             } catch (error) {
                 console.error('Error searching products:', error);

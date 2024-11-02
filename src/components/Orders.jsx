@@ -8,6 +8,7 @@ import { Row, Col, Modal, Form, Button } from 'react-bootstrap'
 import Rating from 'react-rating';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 import { setLoading, setSuccess } from "../redux/AppSlice"
+import Loading from './Loading';
 
 function Orders() {
 
@@ -21,9 +22,11 @@ function Orders() {
     const [rating, setRating] = useState(0);
     const [pageNumber, setPageNumber] = useState(0);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [hasMoreData, setHasMoreData] = useState(true);
     const hasSubmittedReview = !!(selectedDonHang?.danhGia && selectedDonHang?.soSao);
 
     const handleLoadMore = () => {
+        if (!hasMoreData) return;
         setIsLoadingMore(true);
         setPageNumber((prevPage) => prevPage + 1);
         fetchDonHangData(pageNumber + 1, true);
@@ -49,7 +52,6 @@ function Orders() {
                 soSao: rating,
                 noiDung: danhGia
             }
-            console.log(payload)
             dispatch(setLoading(true))
             const response = await axios.post("http://localhost:8080/khachHang/danhGia", payload,
                 { headers: { Authorization: `Bearer ${token}` } });
@@ -83,18 +85,11 @@ function Orders() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-
-            if (Array.isArray(response.data)) {
-                dispatch(setLoading(false));
-                if (reLoad) {
-                    setDonHangList((prevList) => [...prevList, ...response.data]);
-                } else {
-                    setDonHangList(response.data);
-                }
-                console.log(response.data)
-            } else {
-                console.error('Unexpected response format:', response.data);
+            if (response.data.length < 6) {
+                setHasMoreData(false); // No more data available
             }
+            setDonHangList((prevList) => [...prevList, ...response.data]);
+            dispatch(setSuccess(true));
         } catch (error) {
             console.error('Error fetching order data:', error);
         } finally {
@@ -108,7 +103,8 @@ function Orders() {
 
 
     return (
-        <Col xs={12} id="tab2" className="donHangContainer profilePageContent">
+        <Col xs={12} id="tab2" className="donHangContainer profilePageContent loading-container">
+            <Loading />
             <h3 className='mb-3'>Các đơn hàng đã đặt mua</h3>
             {donHangList.map((donHang, index) => (
                 <Row className='donHang' key={`${donHang.maDonHang}-${index}`}> {/* Using `thoiDiem` as a fallback key */}
