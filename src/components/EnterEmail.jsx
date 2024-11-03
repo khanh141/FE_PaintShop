@@ -52,7 +52,7 @@ function EnterEmail() {
 
                         <Button
                             variant="primary"
-                            className="mt-3 sndColor"
+                            className="mt-3 priColor"
                             style={{ width: '100px' }}
                             onClick={handleEnterEmail}
                         >

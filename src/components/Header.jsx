@@ -10,167 +10,167 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function NavigationBar() {
-  const [navbarOpacity, setNavbarOpacity] = useState(1); // Track opacity
-  const [searchTerm, setSearchTermInput] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useDispatch();
+    const [navbarOpacity, setNavbarOpacity] = useState(1); // Track opacity
+    const [searchTerm, setSearchTermInput] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const dispatch = useDispatch();
 
-  const navbarHeight = "90px";
+    const navbarHeight = "90px";
 
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn); // Use Redux state
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn); // Use Redux state
 
-  const handleSearch = () => {
-    if (!searchTerm.trim()) return;
-    dispatch(setSearchTerm(searchTerm));
-  };
-
-  const handleLogout = async () => {
-    try {
-      await axios.post('http://localhost:8080/taiKhoan/dangXuat', {
-        token: localStorage.getItem('token')
-      });
-      localStorage.removeItem('token');
-      dispatch(clearUser()); 
-      navigate('/login');
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
-
-  // Handle scroll to change navbar opacity
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const newOpacity = scrollY > 90 ? 0.8 : 1; // Adjust based on scroll
-      setNavbarOpacity(newOpacity);
+    const handleSearch = () => {
+        if (!searchTerm.trim()) return;
+        dispatch(setSearchTerm(searchTerm));
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll); // Cleanup
-  }, []);
+    const handleLogout = async () => {
+        try {
+            await axios.post('http://localhost:8080/taiKhoan/dangXuat', {
+                token: localStorage.getItem('token')
+            });
+            localStorage.removeItem('token');
+            dispatch(clearUser());
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    };
 
-  return (
-      <>
-          <Navbar
-              bg="light"
-              expand="lg"
-              className="navbar"
-              style={{
-                  opacity: navbarOpacity,
-                  transition: 'opacity 0.3s ease-in-out', // Smooth opacity transition
-              }}
-          >
-              <Container fluid>
-                  <Col xs={2}>
-                      <Link className="navbar-brand text-black" to="/">
-                          <img
-                              src="/images/Logo.png"
-                              alt="Logo"
-                              className="img-fluid logo"
-                          />
-                      </Link>
-                  </Col>
-                  <Navbar.Toggle aria-controls="navbarSupportedContent">
-                      <FontAwesomeIcon id="navbarToggerIcon" icon={faBars} />
-                  </Navbar.Toggle>
-                  <Navbar.Collapse id="navbarSupportedContent">
-                      <Row className="align-items-center w-100">
-                          <Col xs={6} className="d-flex justify-content-center">
-                              <div className="input-group">
-                                  <input
-                                      id="input"
-                                      type="text"
-                                      className="form-control"
-                                      placeholder="Tìm kiếm theo tên"
-                                      value={searchTerm}
-                                      onChange={(e) =>
-                                          setSearchTermInput(e.target.value)
-                                      }
-                                      onKeyDown={(e) => {
-                                          if (e.key === 'Enter') {
-                                              handleSearch();
-                                          }
-                                      }}
-                                  />
-                                  <button
-                                      className="btn btn-primary sndColor"
-                                      onClick={handleSearch}
-                                  >
-                                      Tìm kiếm
-                                  </button>
-                              </div>
-                          </Col>
-                          <Col xs={6} className="d-flex justify-content-end">
-                              <Nav>
-                                  <Nav.Item className="px-2">
-                                      <Link
-                                          className="nav-link btn btn-link text-black fs-5"
-                                          to="/"
-                                      >
-                                          Trang Chủ
-                                      </Link>
-                                  </Nav.Item>
-                                  {isLoggedIn ? (
-                                      <>
-                                          <Nav.Item className="px-2">
-                                              <Link
-                                                  onClick={handleLogout}
-                                                  className="nav-link text-black fs-5"
-                                              >
-                                                  Đăng xuất
-                                              </Link>
-                                          </Nav.Item>
-                                          {location.pathname !== '/cart' && (
-                                              <Nav.Item className="px-2">
-                                                  <Link
-                                                      className="nav-link text-black fs-5"
-                                                      to="/cart"
-                                                  >
-                                                      <FaShoppingCart />
-                                                  </Link>
-                                              </Nav.Item>
-                                          )}
-                                          <Nav.Item className="px-2 fs-5">
-                                              <Link
-                                                  className="nav-link text-black fs-5"
-                                                  to="/profile"
-                                              >
-                                                  <FaUser />
-                                              </Link>
-                                          </Nav.Item>
-                                      </>
-                                  ) : (
-                                      <>
-                                          <Nav.Item className="px-2">
-                                              <Link
-                                                  className="nav-link text-black fs-5"
-                                                  to="/signup"
-                                              >
-                                                  Đăng Ký
-                                              </Link>
-                                          </Nav.Item>
-                                          <Nav.Item className="px-2">
-                                              <Link
-                                                  className="nav-link fs-5 text-black"
-                                                  to="/login"
-                                              >
-                                                  Đăng Nhập
-                                              </Link>
-                                          </Nav.Item>
-                                      </>
-                                  )}
-                              </Nav>
-                          </Col>
-                      </Row>
-                  </Navbar.Collapse>
-              </Container>
-          </Navbar>
+    // Handle scroll to change navbar opacity
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const newOpacity = scrollY > 90 ? 0.8 : 1; // Adjust based on scroll
+            setNavbarOpacity(newOpacity);
+        };
 
-          {/* Add padding to the main content to avoid overlap */}
-          <div style={{ paddingTop: navbarHeight }}>
-              {/* Your page content goes here */}
-          </div>
-      </>
-  );
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll); // Cleanup
+    }, []);
+
+    return (
+        <>
+            <Navbar
+                bg="light"
+                expand="lg"
+                className="navbar"
+                style={{
+                    opacity: navbarOpacity,
+                    transition: 'opacity 0.3s ease-in-out', // Smooth opacity transition
+                }}
+            >
+                <Container fluid>
+                    <Col xs={2}>
+                        <Link className="navbar-brand text-black" to="/">
+                            <img
+                                src="/images/Logo.png"
+                                alt="Logo"
+                                className="img-fluid logo"
+                            />
+                        </Link>
+                    </Col>
+                    <Navbar.Toggle aria-controls="navbarSupportedContent">
+                        <FontAwesomeIcon id="navbarToggerIcon" icon={faBars} />
+                    </Navbar.Toggle>
+                    <Navbar.Collapse id="navbarSupportedContent">
+                        <Row className="align-items-center w-100">
+                            <Col xs={6} className="d-flex justify-content-center">
+                                <div className="input-group">
+                                    <input
+                                        id="input"
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Tìm kiếm theo tên"
+                                        value={searchTerm}
+                                        onChange={(e) =>
+                                            setSearchTermInput(e.target.value)
+                                        }
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleSearch();
+                                            }
+                                        }}
+                                    />
+                                    <button
+                                        className="btn btn-primary priColor"
+                                        onClick={handleSearch}
+                                    >
+                                        Tìm kiếm
+                                    </button>
+                                </div>
+                            </Col>
+                            <Col xs={6} className="d-flex justify-content-end">
+                                <Nav>
+                                    <Nav.Item className="px-2">
+                                        <Link
+                                            className="nav-link btn btn-link text-black fs-5"
+                                            to="/"
+                                        >
+                                            Trang Chủ
+                                        </Link>
+                                    </Nav.Item>
+                                    {isLoggedIn ? (
+                                        <>
+                                            <Nav.Item className="px-2">
+                                                <Link
+                                                    onClick={handleLogout}
+                                                    className="nav-link text-black fs-5"
+                                                >
+                                                    Đăng xuất
+                                                </Link>
+                                            </Nav.Item>
+                                            {location.pathname !== '/cart' && (
+                                                <Nav.Item className="px-2">
+                                                    <Link
+                                                        className="nav-link text-black fs-5"
+                                                        to="/cart"
+                                                    >
+                                                        <FaShoppingCart />
+                                                    </Link>
+                                                </Nav.Item>
+                                            )}
+                                            <Nav.Item className="px-2 fs-5">
+                                                <Link
+                                                    className="nav-link text-black fs-5"
+                                                    to="/profile"
+                                                >
+                                                    <FaUser />
+                                                </Link>
+                                            </Nav.Item>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Nav.Item className="px-2">
+                                                <Link
+                                                    className="nav-link text-black fs-5"
+                                                    to="/signup"
+                                                >
+                                                    Đăng Ký
+                                                </Link>
+                                            </Nav.Item>
+                                            <Nav.Item className="px-2">
+                                                <Link
+                                                    className="nav-link fs-5 text-black"
+                                                    to="/login"
+                                                >
+                                                    Đăng Nhập
+                                                </Link>
+                                            </Nav.Item>
+                                        </>
+                                    )}
+                                </Nav>
+                            </Col>
+                        </Row>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+
+            {/* Add padding to the main content to avoid overlap */}
+            <div style={{ paddingTop: navbarHeight }}>
+                {/* Your page content goes here */}
+            </div>
+        </>
+    );
 }

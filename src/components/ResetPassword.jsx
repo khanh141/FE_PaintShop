@@ -91,7 +91,7 @@ function ResetPassword() {
 
                     <Button
                         variant="primary"
-                        className="mt-3 sndColor"
+                        className="mt-3 priColor"
                         style={{ width: '100%' }}
                         onClick={handleSubmit}
                     >

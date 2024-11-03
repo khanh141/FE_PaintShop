@@ -247,7 +247,7 @@ export default function Signup() {
                         <div className="d-flex my-4">
                             <Button
                                 variant="primary"
-                                className="me-2 sndColor"
+                                className="me-2 priColor"
                                 style={{ flex: 7 }}
                                 onClick={handleSignup}
                             >

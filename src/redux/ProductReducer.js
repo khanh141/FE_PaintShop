@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import testDataInFile from '../testData.json';
 
 const initialState = {
     products: [],
     filteredProducts: [],
     displayedCards: 8,
-    showAll: false
+    showAll: false,
 };
 
 const productsSlice = createSlice({
@@ -20,10 +19,10 @@ const productsSlice = createSlice({
             state.displayedCards = state.showAll ? state.products.length : 8;
         },
         setSearchTerm: (state, action) => {
-            state.searchTerm = action.payload; 
+            state.searchTerm = action.payload;
         },
     },
 });
 
-export const { setFilter, setShowAll,setSearchTerm } = productsSlice.actions;
+export const { setFilter, setShowAll, setSearchTerm } = productsSlice.actions;
 export default productsSlice.reducer;
