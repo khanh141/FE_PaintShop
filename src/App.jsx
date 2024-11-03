@@ -26,7 +26,7 @@ import { clearUser, setUser } from './redux/UserSlice';
 import { jwtDecode } from 'jwt-decode';
 import AdminAccount from './pages/AdminAccount.jsx';
 import AdminOrder from './pages/AdminOrder.jsx';
-import ProfilePage from "./pages/ProfilePage.jsx";
+import ProfilePage from './pages/ProfilePage.jsx';
 import PurchasePage from './pages/PurchasePage.jsx';
 import axios from 'axios';
 import { refreshToken } from './services/auth.service.js';
@@ -36,59 +36,58 @@ function App() {
 
     let refreshTimeout;
     useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-        const currentTime = Math.floor(Date.now() / 1000);
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const currentTime = Math.floor(Date.now() / 1000);
 
-        if (decodedToken.exp > currentTime) {
-          dispatch(setUser(decodedToken.sub, decodedToken.scope));
-          setupTokenRefresh(decodedToken.exp);
-        } else {
-          localStorage.removeItem('token');
-          dispatch(clearUser());
+                if (decodedToken.exp > currentTime) {
+                    dispatch(setUser(decodedToken.sub, decodedToken.scope));
+                    setupTokenRefresh(decodedToken.exp);
+                } else {
+                    localStorage.removeItem('token');
+                    dispatch(clearUser());
+                }
+            } catch (error) {
+                console.error('Invalid token:', error);
+                localStorage.removeItem('token');
+                dispatch(clearUser());
+            }
         }
-      } catch (error) {
-        console.error('Invalid token:', error);
-        localStorage.removeItem('token');
-        dispatch(clearUser());
-      }
-    }
-  }, [dispatch]);
+    }, [dispatch]);
 
     // Setup token refresh logic
-  const setupTokenRefresh = (expiredTime) => {
-    const currentTime = Math.floor(Date.now() / 1000);
-    const remainingTime = expiredTime - currentTime;
+    const setupTokenRefresh = (expiredTime) => {
+        const currentTime = Math.floor(Date.now() / 1000);
+        const remainingTime = expiredTime - currentTime;
 
-    const refreshTime = remainingTime - 600; // Refresh 10 mins before expiration
-    if (refreshTimeout) clearTimeout(refreshTimeout); // Avoid multiple timeouts
+        const refreshTime = remainingTime - 600; // Refresh 10 mins before expiration
+        if (refreshTimeout) clearTimeout(refreshTimeout); // Avoid multiple timeouts
 
-    if (refreshTime > 0) {
-      refreshTimeout = setTimeout(refreshToken, refreshTime * 1000);
-    }
-  };
-
-
-  const refreshToken = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        'http://localhost:8080/taiKhoan/taoMoiToken',
-        { token }
-      );
-
-      localStorage.setItem('token', response.data.token);
-      const decodedToken = jwtDecode(response.data.token);
-      dispatch(setUser(decodedToken.sub, decodedToken.scope));
-      setupTokenRefresh(decodedToken.exp);
-    } catch (error) {
-      console.error('Token refresh failed:', error);
-      localStorage.removeItem('token');
-      dispatch(clearUser());
+        if (refreshTime > 0) {
+            refreshTimeout = setTimeout(refreshToken, refreshTime * 1000);
+        }
     };
-  }
+
+    const refreshToken = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(
+                'http://localhost:8080/taiKhoan/taoMoiToken',
+                { token }
+            );
+
+            localStorage.setItem('token', response.data.token);
+            const decodedToken = jwtDecode(response.data.token);
+            dispatch(setUser(decodedToken.sub, decodedToken.scope));
+            setupTokenRefresh(decodedToken.exp);
+        } catch (error) {
+            console.error('Token refresh failed:', error);
+            localStorage.removeItem('token');
+            dispatch(clearUser());
+        }
+    };
     return (
         <div className="App">
             <BrowserRouter>
