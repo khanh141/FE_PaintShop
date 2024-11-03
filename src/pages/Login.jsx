@@ -118,7 +118,7 @@ export default function Login() {
                         <div className="d-flex mb-3">
                             <Button
                                 variant="primary"
-                                className="sndColor me-2"
+                                className="priColor me-2"
                                 style={{ flex: 7 }}
                                 onClick={handleLogin}
                             >

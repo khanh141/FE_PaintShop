@@ -87,7 +87,7 @@ function ChangePassword() {
                 <Col xs={3}>
                     <Button
                         variant="primary"
-                        className="me-2 sndColor"
+                        className="me-2 priColor"
                         onClick={handlePasswordChange}
                     >
                         Đổi mật khẩu

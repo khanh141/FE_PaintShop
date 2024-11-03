@@ -21,7 +21,7 @@ body {
             outline: none; // Optional: remove default outline
         }
     }
-    .sndColor {
+    .priColor {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
         &:hover {
@@ -29,13 +29,19 @@ body {
             border-color: var(--secondary-color);
         }
     }
-    .priColor {
+    .sndColor {
         background-color: var(--secondary-color);
         border-color: var(--secondary-color);
         &:hover {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
+    }
+    .priColorText {
+        color: var(--primary-color);
+    }
+    .sndColorText {
+        color: var(--secondary-color);
     }
     .whiteBtn {
         background-color: var(--background-color);
@@ -127,8 +133,12 @@ body {
 
     #imageSlides {
         .imageSlideItem {
-            object-fit: contain;
-            object-position: center;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center -70px;
+            }
         }
     }
 
@@ -151,15 +161,34 @@ body {
             font-size: 2.5rem;
         }
         #productPrice {
-            color: var(--primary-color);
             font-size: 2.5rem;
         }
         .productInformation {
+            overflow: hidden;
             .optionBtn {
                 color: var(--secondary-color) !important;
             }
             .chosen {
                 border-color: var(--primary-color) !important;
+            }
+        }
+        .sanPhamCungLoaiContainer {
+            .news {
+                .newsSlider {
+                    .navTag {
+                        .newsItem {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-self: center;
+                            span {
+                                display: block;
+                                text-align: center;
+                                font-size: 17px;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -189,8 +218,8 @@ body {
 
     .productImagesContainer {
         #imageManifier {
-            width: 500px;
-            height: 500px;
+            width: 600px;
+            height: 600px;
             position: relative;
             width: 400px;
             height: auto;

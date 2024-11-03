@@ -3,6 +3,7 @@ import ProductsContainer from '../components/Products';
 import ImageSlides from '../components/ImageSlides';
 import Info from '../components/Info';
 
+
 export default function Home() {
   const imagesForHomePage = [
     { src: 'images/banner1.jpg', alt: 'Banner 1' },
@@ -12,7 +13,7 @@ export default function Home() {
     <div className="homePage">
       <ImageSlides
         images={imagesForHomePage}
-        height="500px" width='100%' interval={null}
+        height="600px" width='100%' interval={null}
       />
       <ProductsContainer />
       <Info />
