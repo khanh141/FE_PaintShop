@@ -1,7 +1,16 @@
 import React from 'react';
 import { Modal, Button, Table } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const InvoiceModal = ({ show, onHide, hoTen, diaChi, selectedProducts, total, onConfirm }) => {
+  const navigate = useNavigate();
+  const handleCart = () =>{
+    navigate('/cart');
+  }
+  const handleDonHang = () => {
+    navigate('/profile');
+
+  }
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
@@ -48,8 +57,11 @@ const InvoiceModal = ({ show, onHide, hoTen, diaChi, selectedProducts, total, on
                 </h4>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" onClick={onConfirm}>
-                    Xác nhận
+                <Button variant="success" onClick={handleDonHang}>
+                    Xem đơn hàng
+                </Button>
+                <Button variant="success" onClick={handleCart}>
+                    Quay lại giỏ hàng
                 </Button>
             </Modal.Footer>
         </Modal>
