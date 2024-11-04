@@ -16,6 +16,7 @@ export default function NavigationBar() {
     const location = useLocation();
     const dispatch = useDispatch();
 
+    const quyen = useSelector((state) => state.user.quyen);
     const navbarHeight = "90px";
 
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn); // Use Redux state
@@ -76,7 +77,7 @@ export default function NavigationBar() {
                     </Navbar.Toggle>
                     <Navbar.Collapse id="navbarSupportedContent">
                         <Row className="align-items-center w-100">
-                            <Col xs={6} className="d-flex justify-content-center">
+                            <Col xs={2} sm={4} className="d-flex justify-content-center inputCol">
                                 <div className="input-group">
                                     <input
                                         id="input"
@@ -101,14 +102,28 @@ export default function NavigationBar() {
                                     </button>
                                 </div>
                             </Col>
-                            <Col xs={6} className="d-flex justify-content-end">
-                                <Nav>
+                            <Col xs={10} sm={8} className="d-flex linksCol">
+                                <Nav className="linksContainer">
+                                    {quyen === "nhanVien" ? (
+                                        <Nav.Item className="px-2">
+                                            <Link
+                                                className="nav-link text-black fs-5"
+                                                to="/admin"
+                                            >
+                                                <span className="fs-6 fs-md-5">
+                                                    Trang Quản Lý
+                                                </span>
+                                            </Link>
+                                        </Nav.Item>
+                                    ) : (<></>)}
                                     <Nav.Item className="px-2">
                                         <Link
                                             className="nav-link btn btn-link text-black fs-5"
                                             to="/"
                                         >
-                                            Trang Chủ
+                                            <span className="fs-6 fs-md-5">
+                                                Trang Chủ
+                                            </span>
                                         </Link>
                                     </Nav.Item>
                                     {isLoggedIn ? (
@@ -118,7 +133,9 @@ export default function NavigationBar() {
                                                     onClick={handleLogout}
                                                     className="nav-link text-black fs-5"
                                                 >
-                                                    Đăng xuất
+                                                    <span className="fs-6 fs-md-5">
+                                                        Đăng Xuất
+                                                    </span>
                                                 </Link>
                                             </Nav.Item>
                                             {location.pathname !== '/cart' && (
@@ -147,7 +164,9 @@ export default function NavigationBar() {
                                                     className="nav-link text-black fs-5"
                                                     to="/signup"
                                                 >
-                                                    Đăng Ký
+                                                    <span className="fs-6 fs-md-5">
+                                                        Đăng Ký
+                                                    </span>
                                                 </Link>
                                             </Nav.Item>
                                             <Nav.Item className="px-2">
@@ -155,7 +174,9 @@ export default function NavigationBar() {
                                                     className="nav-link fs-5 text-black"
                                                     to="/login"
                                                 >
-                                                    Đăng Nhập
+                                                    <span className="fs-6 fs-md-5">
+                                                        Đăng Nhập
+                                                    </span>
                                                 </Link>
                                             </Nav.Item>
                                         </>
