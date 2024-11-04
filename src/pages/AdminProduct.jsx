@@ -1,20 +1,23 @@
 import { useState } from 'react';
-// import Table from "react-bootstrap/Table";
 import ModalAddProduct from '../components/ModalAddProduct';
 import { Col, Button, Table } from 'react-bootstrap';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { KEYS } from '~/constants/keys';
 import { createProduct, getAllProducts } from '~/services';
-// import Button from 'react-bootstrap/Button';
+import UpdateProductModal from '~/components/UpdateProductModal';
 
 function AdminProduct() {
     const [isShowModalAddProduct, setIsShowModalAddProduct] = useState(false);
+    const [isShowModalUpdateProduct, setIsShowModalUpdateProduct] =
+        useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
     const { data, error, isLoading } = useQuery({
         queryKey: [KEYS.GET_ALL_PRODUCTS],
         queryFn: () => getAllProducts(),
         staleTime: 1000 * 60 * 5,
     });
-    // console.log(localStorage.getItem('token'));
+
     const mutation = useMutation({
         mutationKey: [KEYS.GET_ALL_PRODUCTS],
         mutationFn: (data) => createProduct(data),
@@ -26,13 +29,6 @@ function AdminProduct() {
         },
     });
 
-    function deleteClick(prod) {
-        console.log(prod);
-        // setProducts((prev) => {
-        //     return prev.filter((p) => p.id !== prod.id);
-        // });
-    }
-
     const handleAddProduct = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -42,6 +38,12 @@ function AdminProduct() {
         });
         mutation.mutate(data);
     };
+
+    const handleUpdateProductClick = (prod) => {
+        setSelectedProduct(prod);
+        setIsShowModalUpdateProduct(true);
+    };
+
     return (
         <Col sm={12} md={12} lg={10} xl={10}>
             <h1 className="text-center mb-5">Quản Lý Sản Phẩm</h1>
@@ -54,8 +56,8 @@ function AdminProduct() {
                 </Button>
                 <div
                     style={{
-                        maxHeight: '80vh' /* Chiều cao tối đa của bảng */,
-                        overflowY: 'auto' /* Cuộn dọc khi dữ liệu quá nhiều */,
+                        maxHeight: '80vh',
+                        overflowY: 'auto',
                         width: '100%',
                     }}
                 >
@@ -71,8 +73,7 @@ function AdminProduct() {
                                     style={{
                                         position: 'sticky',
                                         top: 0,
-                                        backgroundColor:
-                                            '#f0f0f0' /* Nền cố định cho tiêu đề */,
+                                        backgroundColor: '#f0f0f0',
                                         zIndex: 1,
                                     }}
                                 >
@@ -116,6 +117,14 @@ function AdminProduct() {
                                         zIndex: 1,
                                     }}
                                 ></th>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                    }}
+                                ></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -130,11 +139,22 @@ function AdminProduct() {
                                             <Button
                                                 className="rounded"
                                                 variant="info"
-                                                onClick={() =>
-                                                    deleteClick(prod)
-                                                }
                                             >
                                                 Chi Tiết
+                                            </Button>
+                                        </td>
+
+                                        <td>
+                                            <Button
+                                                className="rounded"
+                                                variant="info"
+                                                onClick={() =>
+                                                    handleUpdateProductClick(
+                                                        prod
+                                                    )
+                                                }
+                                            >
+                                                Cập Nhật
                                             </Button>
                                         </td>
                                     </tr>
@@ -142,6 +162,16 @@ function AdminProduct() {
                         </tbody>
                     </Table>
                 </div>
+                <UpdateProductModal
+                    show={isShowModalUpdateProduct}
+                    onHide={() => setIsShowModalUpdateProduct(false)} // Đổi tên prop từ handleClose thành onHide
+                    productData={selectedProduct} // Truyền dữ liệu sản phẩm đã chọn
+                    onSave={(updatedProduct) => {
+                        // Xử lý khi lưu sản phẩm đã cập nhật
+                        console.log('Updated Product:', updatedProduct);
+                        setIsShowModalUpdateProduct(false);
+                    }}
+                />
 
                 <ModalAddProduct
                     show={isShowModalAddProduct}

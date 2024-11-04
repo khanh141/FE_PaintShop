@@ -79,31 +79,32 @@ export default function Warehouse() {
                     </tr>
                 </thead>
                 <tbody>
-                    {!isLoading && data?.data?.map((prod, index) => {
-                        const totalSoLuong =
-                            prod.chiTietSanPhamResList.reduce(
-                                (total, item) => total + item.soLuong,
-                                0
-                            );
+                    {!isLoading &&
+                        data?.data?.map((prod, index) => {
+                            const totalSoLuong =
+                                prod.chiTietSanPhamResList.reduce(
+                                    (total, item) => total + item.soLuong,
+                                    0
+                                );
 
-                        return (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{prod.ten}</td>
-                                <td>{prod.loai}</td>
-                                <td>{totalSoLuong}</td>
-                                <td>
-                                    <Button
-                                        className="rounded"
-                                        variant="info"
-                                        onClick={() => deleteClick(prod)}
-                                    >
-                                        Chi Tiết
-                                    </Button>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                            return (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{prod.ten}</td>
+                                    <td>{prod.loai}</td>
+                                    <td>{totalSoLuong}</td>
+                                    <td>
+                                        <Button
+                                            className="rounded"
+                                            variant="info"
+                                            onClick={() => deleteClick(prod)}
+                                        >
+                                            Chi Tiết
+                                        </Button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                 </tbody>
             </Table>
         </div>
