@@ -12,6 +12,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { singup } from '~/services';
+import { useDispatch } from 'react-redux';
+import { setLoading, setSuccess } from '~/redux/AppSlice';
+import Loading from '~/components/Loading';
 
 export default function Signup() {
     const [tenDangNhap, setUsername] = useState('');
@@ -25,11 +28,12 @@ export default function Signup() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errors, setErrors] = useState({});
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSignup = async () => {
         try {
-            // Gọi hàm signup đã được định nghĩa
+            dispatch(setLoading(true))
             await singup({
                 tenDangNhap,
                 matKhau,
@@ -38,17 +42,16 @@ export default function Signup() {
                 diaChi,
                 email,
             });
+            dispatch(setSuccess(true))
             navigate('/Login');
         } catch (error) {
+            dispatch(setLoading(false))
             if (error.response && error.response.data) {
                 const errorList = Object.entries(error.response.data).reduce(
                     (acc, [key, message]) => ({ ...acc, [key]: message }),
                     {}
                 );
 
-                console.log(error.response.data);
-
-                // Xử lý các thông báo lỗi cụ thể
                 if (error.response.data === 'So dien thoai da duoc su dung') {
                     errorList.sdt = 'Số điện thoại đã được sử dụng.';
                 } else if (
@@ -63,8 +66,13 @@ export default function Signup() {
             }
         }
     };
-
+    const handleEnter = (event) => {
+        if (event.key === 'Enter') {
+            handleSignup();
+        }
+    };
     const translateError = (error) => {
+        if (!error) return;
         const translations = {
             'Password must be 8 or more characters in length.':
                 'Mật khẩu phải có độ dài từ 8 ký tự trở lên.',
@@ -76,7 +84,7 @@ export default function Signup() {
                 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt.',
             'Email khong dung dinh dang': 'Email không đúng định dạng',
             'So dien thoai da duoc su dung': 'Số điện thoại đã được sử dụng.',
-            'Ten nguoi dung da ton tai': 'Tên người dùng đã tồn tại.',
+            'Ten nguoi dung da ton tai': 'Tên đăng nhập đã tồn tại.'
         };
         return error.split('-').map((msg) => translations[msg.trim()]);
     };
@@ -85,7 +93,8 @@ export default function Signup() {
     }, []);
 
     return (
-        <Container fluid className="signUpForm ">
+        <Container fluid className="signUpForm" id='loading-container'>
+            <Loading />
             <Row className="mt-2 d-flex align-items-center justify-content-center">
                 <Col md={6}>
                     <div className="p-4 border rounded-3 shadow-sm authForm">
@@ -112,7 +121,7 @@ export default function Signup() {
                         </FloatingLabel>
                         {errors.tenDangNhap && (
                             <Alert className="mt-1" variant="danger">
-                                {errors.tenDangNhap}
+                                Tên đăng nhập phải có ít nhất 3 ký tự
                             </Alert>
                         )}
                         <div className="password position-relative mt-4">
@@ -185,7 +194,7 @@ export default function Signup() {
                                             className="mt-1"
                                             variant="danger"
                                         >
-                                            "Họ tên không được để trống"
+                                            Họ tên không được để trống
                                         </Alert>
                                     )}
                             </Col>
@@ -237,6 +246,7 @@ export default function Signup() {
                                 placeholder="Địa chỉ"
                                 value={diaChi}
                                 onChange={(e) => setdiaChi(e.target.value)}
+                                onKeyDown={handleEnter}
                             />
                         </FloatingLabel>
                         {errors.diaChi && (
