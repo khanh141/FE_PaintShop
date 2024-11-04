@@ -16,7 +16,6 @@ import './assets/CSS/Body.scss';
 import './assets/CSS/Header.scss';
 import './assets/CSS/Footer.scss';
 import WarehousePage from './pages/WarehousePage.jsx';
-import ChangePassword from './components/ChangePassword.jsx';
 import ShoppingCart from './pages/ShoppingCart.jsx';
 import Authentication from './pages/Authentication';
 import EnterEmail from './components/EnterEmail.jsx';
@@ -88,13 +87,14 @@ function App() {
             dispatch(clearUser());
         }
     };
+
     return (
         <div className="App">
             <BrowserRouter>
                 <Routes>
                     {/* localhost/ */}
                     <Route path="/" element={<DefaultLayout />}>
-                        <Route path="/" element={<Home />} />
+                        <Route index element={<Home />} />
                         {/* localhost/signup */}
                         <Route path="signup" element={<Signup />} />
                         {/* localhost/login */}
@@ -119,15 +119,12 @@ function App() {
                             }
                         />
                         {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
-                        <Route
-                            path="/productDetail/:maSanPham"
-                            element={<ProductDetail />}
-                        />
+                        <Route path="/productDetail/:maSanPham" element={<ProductDetail />} />
                         <Route path="/profile" element={<ProfilePage />} />
                     </Route>
                     {/* localhost/admin */}
                     <Route path="/admin" element={<AdminLayout />}>
-                        <Route path="" element={<Dashboard />} />
+                        <Route index element={<Dashboard />} />
                         <Route path="products" element={<AdminProduct />} />
                         <Route path="adminorder" element={<AdminOrder />} />
                         <Route path="warehouse" element={<WarehousePage />} />

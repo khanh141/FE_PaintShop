@@ -62,24 +62,24 @@ const ProductDetail = () => {
       setDanhGia(danhGiaRes.data);
       const totalSoLuong = productDetailRes.data.chiTietSanPhamResList.reduce((total, item) => total + item.soLuong, 0);
       setSumSoLuong(totalSoLuong);
-      const loaiSanPham = productDetailRes.data.loai; // Assuming loaiSanPham is in the response
-      await loadMoreOnLoai(loaiSanPham, 0);
+      const loaiSanPham = productDetailRes.data.loai;
+      const maSanPhamHienTai = productDetailRes.data.maSanPham;
+      await loadMoreOnLoai(loaiSanPham, maSanPhamHienTai, 0);
     } catch (error) {
       toast.error("Đã xảy ra lỗi khi tải thông tin sản phẩm", { position: "top-right", autoClose: 3000 })
       console.error("Error searching products:", error);
     }
   };
-  const loadMoreOnLoai = async (loaiSanPham, currentPage) => {
+  const loadMoreOnLoai = async (loaiSanPham, maSanPhamHienTai, currentPage) => {
     try {
       dispatch(setLoading(true))
       const response = await axios.get(`http://localhost:8080/sanPham/layTheoLoai/${loaiSanPham}`, {
-        params: { pageNumber: currentPage, pageSize: 6 }
+        params: { maSanPhamHienTai: maSanPhamHienTai, pageNumber: currentPage, pageSize: 20 }
       });
 
       setSameTypeProducts(response.data);
       dispatch(setSuccess(true))
     } catch (error) {
-      toast.error("Đã xảy ra lỗi khi tải thêm sản phẩm", { position: "top-right", autoClose: 3000 });
       console.error("Error loading more products of the same type:", error);
     }
   };
@@ -173,7 +173,7 @@ const ProductDetail = () => {
       window.scrollTo(0, 0)
       viewDetail();
     }
-  }, []);
+  }, [maSanPham]);
 
   return (
     <Container className="productDetail">
@@ -378,7 +378,13 @@ const ProductDetail = () => {
       <Row className="sanPhamCungLoaiContainer p-3 loading-container">
         <Loading />
         <h5 className="mb-3">CÁC SẢN PHẨM CÙNG LOẠI</h5>
-        <MoreProducts products={sameTypeProducts} />
+        {sameTypeProducts ? (
+          <>
+            <MoreProducts products={sameTypeProducts} />
+          </>
+        ) : (
+          <span>Không có sản phẩm cùng loại</span>
+        )}
       </Row>
       <ToastContainer />
     </Container >
