@@ -7,23 +7,42 @@ import { KEYS } from '~/constants/keys';
 import { useQuery } from '@tanstack/react-query';
 
 const Cards = () => {
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, error } = useQuery({
         queryKey: [KEYS.GET_ALL_STATEMENT],
         queryFn: () => getStatement(),
     });
 
-    function sortDateTime(dataTime, order = 'asc') {
-        return dataTime.sort((a, b) => {
-            const dateA = new Date(a);
-            const dateB = new Date(b);
-
-            return order === 'asc' ? dateA - dateB : dateB - dateA;
-        });
+    // Kiểm tra trạng thái loading
+    if (isLoading) {
+        return <div>Loading...</div>; // Hiển thị thông báo loading
     }
 
-    const dataStatement = data?.data?.map((prod) => prod.tongTien) || [];
-    const dataTime = data?.data?.map((prod) => prod.thoiGian + 'Z') || [];
-    // console.log('ahsjhaj', dataTime);
+    // Kiểm tra lỗi
+    if (error) {
+        return <div>Error loading data: {error.message}</div>; // Hiển thị thông báo lỗi
+    }
+
+    const dataByDate = data?.data?.reduce((acc, prod) => {
+        const dateKey = new Date(prod.thoiGian).toISOString().split('T')[0]; // Lấy ngày trong định dạng yyyy-mm-dd
+
+        // Nếu ngày chưa tồn tại trong acc, khởi tạo với tổng tiền ban đầu và thời gian đầu tiên
+        if (!acc[dateKey]) {
+            acc[dateKey] = {
+                totalAmount: prod.tongTien,
+                firstTime: prod.thoiGian,
+            }; // Khởi tạo với tổng tiền và thời gian đầu tiên
+        } else {
+            acc[dateKey].totalAmount += prod.tongTien; // Cộng tổng tiền
+        }
+
+        return acc; // Trả về accumulator
+    }, {});
+    console.log(dataByDate);
+
+    const dataArray = Object.entries(dataByDate).map(([dateKey, value]) => ({
+        totalAmount: value.totalAmount,
+        firstTime: value.firstTime,
+    }));
 
     return (
         <div className="Cards">
@@ -33,7 +52,7 @@ const Cards = () => {
                     series: [
                         {
                             ...card.series[0],
-                            data: dataStatement,
+                            data: dataArray.map((item) => item.totalAmount), // Sử dụng totalAmount
                         },
                     ],
                 };
@@ -48,7 +67,7 @@ const Cards = () => {
                             value={updatedCard.value}
                             png={updatedCard.png}
                             series={updatedCard.series}
-                            dataTime={sortDateTime(dataTime)} // Sử dụng dữ liệu đã được cập nhật
+                            dataTime={dataArray.map((item) => item.firstTime)} // Sử dụng firstTime
                         />
                     </div>
                 );
