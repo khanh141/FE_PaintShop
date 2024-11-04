@@ -177,6 +177,7 @@ body {
                 .newsSlider {
                     .navTag {
                         .newsItem {
+                            margin: 0 10px;
                             display: flex;
                             flex-direction: column;
                             justify-content: center;
@@ -185,7 +186,24 @@ body {
                                 display: block;
                                 text-align: center;
                                 font-size: 17px;
+                                &:first-of-type {
+                                    height: 3.2rem;
+                                }
                             }
+                        }
+                    }
+                }
+                .singleTag {
+                    display: block;
+                    width: max-content;
+                    .newsItem {
+                        display: flex;
+                        flex-direction: column;
+                        width: max-content;
+                        span {
+                            display: block;
+                            text-align: center;
+                            font-size: 17px;
                         }
                     }
                 }

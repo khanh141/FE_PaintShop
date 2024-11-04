@@ -1,6 +1,6 @@
 import React from 'react'
 import Slider from "react-slick";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -10,19 +10,15 @@ const MoreProducts = ({ products }) => {
     }
     const imageUrl = "/images/product.jpg"
 
-    const navigate = useNavigate();
-    const handleClick = (productId) => {
-        navigate(`/productDetail/${productId}`);
-    };
+    console.log(products)
 
     var settings = {
         infinite: true,
         speed: 1200,
-        slidesToScroll: 1,
+        slidesToScroll: 2,
         initialSlide: 0,
         slidesToShow: 5,
         autoplay: true,
-        draggable: false,
         responsive: [
             {
                 breakpoint: 1500,
@@ -57,24 +53,33 @@ const MoreProducts = ({ products }) => {
     };
     return (
         <div className='news mainContent container'>
-            <Slider {...settings} className='newsSlider'>
-                {products?.map((product) => (
-                    <div className='navTag' to={`/productDetail/${product.maSanPham}`} key={product.maSanPham} >
-                        <div
-                            className='new-slide newsItem'
-                            onClick={() => handleClick(product.maSanPham)}
-                        >
-                            {/* <img src={product.hinhAnh} alt={product.ten} /> */}
-                            <img src={imageUrl} alt={product.ten} />
-                            <span className='sndColorText'>{product.ten}</span>
-                            <span className='priColorText'>{product.chiTietSanPhamResList[0]?.giaTien}</span>
+            {products && products.length > 0 ? (
+                products.length === 1 ? (
+                    <Link className='navTag singleTag' to={`/productDetail/${products[0].maSanPham}`} key={`link_${products[0].maSanPham}`} >
+                        <div className='new-slide newsItem'>
+                            <img src={imageUrl} alt={products[0].ten} />
+                            <span className='sndColorText'>{products[0].ten}</span>
+                            <span className='priColorText'>{products[0].chiTietSanPhamResList[0]?.giaTien}</span>
                         </div>
-                    </div>
-                ))}
-            </Slider>
-        </div >
-
-    )
+                    </Link>
+                ) : (
+                    <Slider {...settings} className='newsSlider'>
+                        {products.map((product) => (
+                            <Link className='navTag' to={`/productDetail/${product.maSanPham}`} key={`link_${product.maSanPham}`}>
+                                <div className='new-slide newsItem'>
+                                    <img src={imageUrl} alt={product.ten} />
+                                    <span className='sndColorText'>{product.ten}</span>
+                                    <span className='priColorText'>{product.chiTietSanPhamResList[0]?.giaTien}</span>
+                                </div>
+                            </Link>
+                        ))}
+                    </Slider>
+                )
+            ) : (
+                <span>Chưa có sản phẩm nào khác cùng loại</span>
+            )}
+        </div>
+    );
 }
 
 export default MoreProducts;
