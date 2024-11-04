@@ -106,7 +106,7 @@ function ExpandedCard({ param, setExpanded, layoutId }) {
             },
             tooltip: {
                 x: {
-                    format: 'dd/MM/yyyy HH:mm', // Định dạng tiếng Việt trong tooltip
+                    format: 'dd/MM/yyyy HH:mm',
                 },
             },
             grid: {
@@ -114,16 +114,27 @@ function ExpandedCard({ param, setExpanded, layoutId }) {
             },
             xaxis: {
                 type: 'datetime',
-                categories: param.dataTime,
+                categories: param.dataTime, // Dữ liệu thời gian
                 labels: {
-                    datetimeFormatter: {
-                        year: 'yyyy',
-                        month: 'MMM yyyy',
-                        day: 'dd MMM',
-                        hour: 'HH:mm',
+                    formatter: function (value) {
+                        const date = new Date(value);
+                        return date.toLocaleDateString('vi-VN', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                        });
                     },
-                    format: 'dd/MM/yyyy', // Định dạng tiếng Việt trên trục x
+                    show: true,
+                    style: {
+                        colors: ['#000'], // Màu sắc cho nhãn
+                        fontSize: '12px', // Kích thước chữ cho nhãn
+                    },
                 },
+                tickAmount: param.dataTime.length, // Đảm bảo có đủ ticks cho từng ngày
+                min: new Date(param.dataTime[0]).getTime(), // Ngày đầu tiên
+                max: new Date(
+                    param.dataTime[param.dataTime.length - 1]
+                ).getTime(), // Ngày cuối cùng
             },
         },
     };
