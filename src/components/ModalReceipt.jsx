@@ -41,11 +41,11 @@ const InvoiceModal = ({ show, onHide, hoTen, diaChi, selectedProducts, total, on
                             <tr key={product.id} className="text-center">
                                 <td>{product.ten}</td>
                                 <td style={{ whiteSpace: 'nowrap' }}>
-                                    {product.gia.toLocaleString('vi-VN')} đ
+                                    {product.chiTietSanPham.giaTien.toLocaleString('vi-VN')} đ
                                 </td>
-                                <td>{product.soLuong}</td>
+                                <td>{product.chiTietSanPham.soLuong}</td>
                                 <td>
-                                    {(product.gia * product.soLuong).toLocaleString('vi-VN')}{' '}
+                                    {(product.chiTietSanPham.giaTien * product.chiTietSanPham.soLuong).toLocaleString('vi-VN')}{' '}
                                     đ
                                 </td>
                             </tr>
