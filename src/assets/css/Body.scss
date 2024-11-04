@@ -21,7 +21,7 @@ body {
             outline: none; // Optional: remove default outline
         }
     }
-    .sndColor {
+    .priColor {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
         &:hover {
@@ -29,13 +29,19 @@ body {
             border-color: var(--secondary-color);
         }
     }
-    .priColor {
+    .sndColor {
         background-color: var(--secondary-color);
         border-color: var(--secondary-color);
         &:hover {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
+    }
+    .priColorText {
+        color: var(--primary-color);
+    }
+    .sndColorText {
+        color: var(--secondary-color);
     }
     .whiteBtn {
         background-color: var(--background-color);
@@ -68,6 +74,24 @@ body {
         &::-webkit-scrollbar-thumb:hover {
             background-color: #555; // Darken the scrollbar thumb on hover
         }
+    }
+    #loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc(100% + 48px);
+        height: calc(100% + 48px);
+        margin: -24px;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        pointer-events: none;
+    }
+    .loading-container {
+        position: relative;
+        overflow: hidden;
     }
     .productList {
         .cardCol {
@@ -127,8 +151,12 @@ body {
 
     #imageSlides {
         .imageSlideItem {
-            object-fit: contain;
-            object-position: center;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center -70px;
+            }
         }
     }
 
@@ -151,15 +179,52 @@ body {
             font-size: 2.5rem;
         }
         #productPrice {
-            color: var(--primary-color);
             font-size: 2.5rem;
         }
         .productInformation {
+            overflow: hidden;
             .optionBtn {
                 color: var(--secondary-color) !important;
             }
             .chosen {
                 border-color: var(--primary-color) !important;
+            }
+        }
+        .sanPhamCungLoaiContainer {
+            .news {
+                .newsSlider {
+                    .navTag {
+                        .newsItem {
+                            margin: 0 10px;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-self: center;
+                            span {
+                                display: block;
+                                text-align: center;
+                                font-size: 17px;
+                                &:first-of-type {
+                                    height: 3.2rem;
+                                }
+                            }
+                        }
+                    }
+                }
+                .singleTag {
+                    display: block;
+                    width: max-content;
+                    .newsItem {
+                        display: flex;
+                        flex-direction: column;
+                        width: max-content;
+                        span {
+                            display: block;
+                            text-align: center;
+                            font-size: 17px;
+                        }
+                    }
+                }
             }
         }
     }
@@ -189,8 +254,8 @@ body {
 
     .productImagesContainer {
         #imageManifier {
-            width: 500px;
-            height: 500px;
+            width: 600px;
+            height: 600px;
             position: relative;
             width: 400px;
             height: auto;
@@ -325,24 +390,6 @@ body {
                 }
             }
         }
-    }
-    #loading-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: calc(100% + 48px); /* Add 24px padding on both sides */
-        height: calc(100% + 48px); /* Add 24px padding on both top and bottom */
-        margin: -24px; /* Offset the overlay to cover the padding */
-        background-color: rgba(0, 0, 0, 0.3);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10;
-        pointer-events: none;
-    }
-    .loading-container {
-        position: relative;
-        overflow: hidden;
     }
 
     @keyframes fadeIn {

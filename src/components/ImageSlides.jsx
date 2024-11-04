@@ -16,11 +16,10 @@ function ImageSlides({ images = [], height = '100%', width = '100%', interval = 
     };
 
     return (
-        <Carousel id="imageSlides" style={styles.imageSlides} interval={interval}>
+        <Carousel id="imageSlides" style={styles.imageSlides} interval={3000}>
             {images.map((image, index) => (
                 <Carousel.Item key={index} className="imageSlideItem">
                     <img
-                        style={styles.imageSlideItem.img}
                         src={image.src}
                         alt={image.alt || `slide ${index + 1}`}
                     />

@@ -16,6 +16,8 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/UserSlice'; // Adjust the import path as needed
 import store from '~/redux/store';
+import { setLoading, setSuccess } from '~/redux/AppSlice';
+import Loading from '~/components/Loading';
 
 export default function Login() {
     const [tenDangNhap, setTenDangNhap] = useState('');
@@ -25,12 +27,25 @@ export default function Login() {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
+
+
     const { tenDangNhap: currentTenDangNhap, quyen } = useSelector(
         (store) => store.user
     );
+    const translateError = (error) => {
+        const translations = {
+            'Sai thong tin dang nhap': 'Sai thông tin đăng nhập',
+        };
+        return translations[error] || error;
+    };
 
     const handleLogin = async () => {
+        if (!tenDangNhap || !matKhau) {
+            setErrors('Chưa nhập thông tin');
+            return;
+        }
         try {
+            dispatch(setLoading(true))
             const response = await axios.post(
                 'http://localhost:8080/taiKhoan/dangNhap',
                 { tenDangNhap, matKhau }
@@ -40,11 +55,14 @@ export default function Login() {
             const decodedToken = jwtDecode(token);
             dispatch(setUser(decodedToken.sub, decodedToken.scope));
 
-            if (decodedToken.scope == 'quanTriVien')
+            if (decodedToken.scope == 'quanTriVien') {
                 navigate('/admin/products');
-            else navigate('/');
+                dispatch(setSuccess(true))
+            } else navigate('/');
         } catch (error) {
-            setErrors(error.response?.data || 'Lỗi không xác định');
+            dispatch(setLoading(false))
+            const errorMessage = error.response?.data || 'Lỗi không xác định';
+            setErrors(translateError(errorMessage));
         }
     };
 
@@ -59,7 +77,8 @@ export default function Login() {
     };
 
     return (
-        <Container fluid className="loginForm">
+        <Container fluid className="loginForm " id="loading-container">
+            <Loading />
             <Row className="mt-2 d-flex align-items-center justify-content-center">
                 <Col md={6}>
                     <div className="p-4 border rounded-3 shadow-sm authForm">
@@ -118,7 +137,7 @@ export default function Login() {
                         <div className="d-flex mb-3">
                             <Button
                                 variant="primary"
-                                className="sndColor me-2"
+                                className="priColor me-2"
                                 style={{ flex: 7 }}
                                 onClick={handleLogin}
                             >

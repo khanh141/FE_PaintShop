@@ -5,10 +5,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Loading from './Loading';
+import { useDispatch } from 'react-redux';
+import { setLoading, setSuccess } from '~/redux/AppSlice';
 
 function ResetPassword() {
     const [searchParams] = useSearchParams();
     const token = searchParams.get('token');
+
+    const dispatch = useDispatch();
 
     const [matKhauMoi, setMatKhauMoi] = useState('');
     const [nhapLaiMatKhau, setNhapLaiMatKhau] = useState('');
@@ -18,28 +23,39 @@ function ResetPassword() {
     const [successMessage, setSuccessMessage] = useState('');
     const navigate = useNavigate();
 
+
     const handleSubmit = async () => {
         if (matKhauMoi !== nhapLaiMatKhau) {
             setErrors('Mật khẩu nhập lại không khớp');
             return;
         }
         try {
+            dispatch(setLoading(true))
             const response = await axios.post(
                 'http://localhost:8080/taiKhoan/datLaiMatKhau',
                 { token, matKhauMoi }
             );
             setSuccessMessage(response.data);
+            dispatch(setSuccess(true))
             navigate('/Login');
             setErrors('');
         } catch (error) {
+            dispatch(setLoading(false))
             setErrors(error.response.data);
             console.log(error);
             setSuccessMessage('');
         }
     };
 
+    const handleEnter = (event) => {
+        if (event.key === 'Enter') {
+            handleSubmit();
+        }
+    };
+
     return (
-        <Row className="mt-4 d-flex align-items-center justify-content-center ">
+        <Row className="mt-4 d-flex align-items-center justify-content-center" id="loading-container">
+            <Loading />
             <input type="text" name="hidden" autoComplete="off" style={{ display: 'none' }} />
             <Col md={6}>
                 <Row className="p-4 border rounded-3 shadow-sm authForm">
@@ -74,6 +90,7 @@ function ResetPassword() {
                                 value={nhapLaiMatKhau}
                                 onChange={(e) => setNhapLaiMatKhau(e.target.value)}
                                 autoComplete="new-password" // Disable autofill
+                                onKeyDown={handleEnter}
                             />
                         </FloatingLabel>
                         <FontAwesomeIcon
@@ -91,7 +108,7 @@ function ResetPassword() {
 
                     <Button
                         variant="primary"
-                        className="mt-3 sndColor"
+                        className="mt-3 priColor"
                         style={{ width: '100%' }}
                         onClick={handleSubmit}
                     >

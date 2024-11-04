@@ -134,7 +134,7 @@ export default function PurchasePage() {
   
   const handleInvoiceConfirm = () => {
         setShowInvoice(false); 
-        navigate("/cart")
+        // navigate("/cart")
     };
 
     return (

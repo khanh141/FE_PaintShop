@@ -167,7 +167,7 @@ function Orders() {
                         </Col>
                         <Col className='p-0'>
                             <Button
-                                className={`btn ${donHang?.danhGia && donHang?.soSao ? 'priColor' : 'sndColor'} btn-primary danhGiaBtn`}
+                                className={`btn ${donHang?.danhGia && donHang?.soSao ? 'sndColor' : 'priColor'} btn-primary danhGiaBtn`}
                                 onClick={() => handleShowModal(donHang)}
                             >
                                 {donHang?.danhGia && donHang?.soSao ? "Xem đánh giá" : " Đánh giá"}
@@ -178,7 +178,7 @@ function Orders() {
                 </Row>
             ))}
             <div className="text-center mt-3">
-                <Button className='btn sndColor' onClick={handleLoadMore} disabled={isLoadingMore}>
+                <Button className='btn priColor' onClick={handleLoadMore} disabled={isLoadingMore}>
                     {isLoadingMore ? 'Đang tải...' : 'Xem thêm'}
                 </Button>
             </div>

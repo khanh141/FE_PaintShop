@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import axios from 'axios';
-import { toast,ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FaStar } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import MoreProducts from "~/components/MoreProducts";
+import { setLoading, setSuccess } from "~/redux/AppSlice";
+import Loading from "~/components/Loading";
 
 const ProductDetail = () => {
   const { maSanPham } = useParams();
@@ -19,10 +22,13 @@ const ProductDetail = () => {
   const [selectedMau, setSelectedMau] = useState(null);
   const [selectedDinhMuc, setSelectedDinhMuc] = useState(null);
   const [price, setPrice] = useState("");
+  const [sumSoLuong, setSumSoLuong] = useState(0)
   const { tenDangNhap } = useSelector((state) => state.user);
-  const navigate = useNavigate();
-
+  const [sameTypeProducts, setSameTypeProducts] = useState([]);
   const imageUrl = "/images/product.jpg";
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSelectBaoBi = (baoBi) => {
     if (selectedBaoBi !== baoBi) {
@@ -54,19 +60,37 @@ const ProductDetail = () => {
       setProduct(productDetailRes.data);
       const danhGiaRes = await axios.get(`http://localhost:8080/sanPham/${maSanPham}/xemDanhGia`);
       setDanhGia(danhGiaRes.data);
+      const totalSoLuong = productDetailRes.data.chiTietSanPhamResList.reduce((total, item) => total + item.soLuong, 0);
+      setSumSoLuong(totalSoLuong);
+      const loaiSanPham = productDetailRes.data.loai;
+      const maSanPhamHienTai = productDetailRes.data.maSanPham;
+      await loadMoreOnLoai(loaiSanPham, maSanPhamHienTai, 0);
     } catch (error) {
+      toast.error("Đã xảy ra lỗi khi tải thông tin sản phẩm", { position: "top-right", autoClose: 3000 })
       console.error("Error searching products:", error);
     }
   };
+  const loadMoreOnLoai = async (loaiSanPham, maSanPhamHienTai, currentPage) => {
+    try {
+      dispatch(setLoading(true))
+      const response = await axios.get(`http://localhost:8080/sanPham/layTheoLoai/${loaiSanPham}`, {
+        params: { maSanPhamHienTai: maSanPhamHienTai, pageNumber: currentPage, pageSize: 20 }
+      });
+
+      setSameTypeProducts(response.data);
+      dispatch(setSuccess(true))
+    } catch (error) {
+      console.error("Error loading more products of the same type:", error);
+    }
+  };
+
 
   const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
-
-    // Kiểm tra token trước khi thêm sản phẩm vào giỏ hàng
     if (!token) {
       // todo
       alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
-      navigate("/login"); 
+      navigate("/login");
       return;
     }
 
@@ -75,7 +99,7 @@ const ProductDetail = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:8080/gioHang/themSanPham', {
+      await axios.post('http://localhost:8080/gioHang/themSanPham', {
         loaiBaoBi: selectedBaoBi,
         loaiDinhMucLyThuyet: selectedDinhMuc,
         maSanPham: product.maSanPham,
@@ -144,12 +168,12 @@ const ProductDetail = () => {
     }
   }, [selectedBaoBi, selectedMau, selectedDinhMuc, product]);
 
-  // tai san pham
   useEffect(() => {
     if (maSanPham) {
+      window.scrollTo(0, 0)
       viewDetail();
     }
-  }, []);
+  }, [maSanPham]);
 
   return (
     <Container className="productDetail">
@@ -164,11 +188,11 @@ const ProductDetail = () => {
           <Row id="productName" className="productName my-2">{product.ten}</Row>
           <Row className="saleFigures my-2">
             <Col className="p-0">
-              <span>Đã bán: 200 </span>
+              <span>Đã bán: {product.soLuongDaBan} </span>
               <span>Đánh giá: 100</span>
             </Col>
           </Row>
-          <Row id="productPrice" className="productPrice my-2"  >
+          <Row id="productPrice" className="priColorText productPrice my-2"  >
             {selectedMau && selectedBaoBi && selectedDinhMuc ? (
               <Col className="p-0">
                 {price.toLocaleString()} <small style={{ fontSize: '24px' }}>VNĐ</small>
@@ -316,10 +340,17 @@ const ProductDetail = () => {
           </Row>
         </Col>
       </Row >
-      <Row
-        className="commentContainer hasScrollBar p-3"
-      >
-        <h3 className="danhGiaTitle mb-3">ĐÁNH GIÁ SẢN PHẨM</h3>
+      <Row className="productDetailContainer p-3">
+        <h5 className="mb-3">CHI TIẾT SẢN PHẨM</h5>
+        <span>Loại sản phẩm: <span className="priColorText">{product.loai}</span></span>
+        <span>Số lượng hàng còn lại: {sumSoLuong}</span>
+        <span>Tính năng: {product.tinhNang}</span>
+        <span>Nhà sản xuất: {product.tenNhaSanXuat}</span>
+        <span> Mô tả: {product.moTa || "Đang cập nhật"} </span>
+
+      </Row>
+      <Row className="commentContainer hasScrollBar p-3">
+        <h5 className="danhGiaTitle mb-3">ĐÁNH GIÁ SẢN PHẨM</h5>
         {danhGia && danhGia.length > 0 ? (
           danhGia.map((rating, index) => (
             <Row key={`${rating.tenDangNhapKhachHang}-${index}`}>
@@ -341,10 +372,21 @@ const ProductDetail = () => {
             </Row>
           ))
         ) : (
-          <Col>No reviews available</Col>
+          <Col>Chưa có đánh giá nào</Col>
         )}
       </Row>
-      <ToastContainer/>
+      <Row className="sanPhamCungLoaiContainer p-3 loading-container">
+        <Loading />
+        <h5 className="mb-3">CÁC SẢN PHẨM CÙNG LOẠI</h5>
+        {sameTypeProducts ? (
+          <>
+            <MoreProducts products={sameTypeProducts} />
+          </>
+        ) : (
+          <span>Không có sản phẩm cùng loại</span>
+        )}
+      </Row>
+      <ToastContainer />
     </Container >
   );
 };

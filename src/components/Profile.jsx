@@ -288,7 +288,7 @@ function Profile() {
                         {isEditing && (
                             <Button
                                 style={{ minWidth: '100px' }}
-                                className='w100 priColor btn'
+                                className='w100 sndColor btn'
                                 onClick={cancelEdit}>
                                 Hủy
                             </Button>
@@ -297,7 +297,7 @@ function Profile() {
                     <Col>
                         <Button
                             style={{ minWidth: '100px' }}
-                            className="btn sndColor"
+                            className="btn priColor"
                             variant="primary"
                             onClick={isEditing ? handleSave : handleEdit}
                         >
