@@ -5,32 +5,20 @@ import { KEYS } from '~/constants/keys';
 import { getAllProducts } from '~/services';
 
 export default function Warehouse() {
-    const [sumSoLuong, setSumSoLuong] = useState(0);
     const { data, error, isLoading } = useQuery({
         queryKey: [KEYS.GET_ALL_PRODUCTS],
         queryFn: () => getAllProducts(),
         staleTime: 1000 * 60 * 5,
     });
 
-    // const totalSoLuong = data?.data?.chiTietSanPhamResList.reduce(
-    //     (total, item) => total + item.soLuong,
-    //     0
-    // );
-    // useEffect(() => {
-    //     if (data?.data?.chiTietSanPhamResList) {
-    //         const totalSoLuong = data.data.chiTietSanPhamResList.reduce(
-    //             (total, item) => total + item.soLuong,
-    //             0
-    //         );
-    //         console.log(totalSoLuong);
-
-    //         setSumSoLuong('totalSoLuong');
-    //     }
-    // });
-    // setSumSoLuong(totalSoLuong);
-
     return (
-        <div>
+        <div
+            style={{
+                maxHeight: '80vh' /* Chiều cao tối đa của bảng */,
+                overflowY: 'auto' /* Cuộn dọc khi dữ liệu quá nhiều */,
+                width: '100%',
+            }}
+        >
             <Table
                 style={{
                     width: '100%',
@@ -92,24 +80,31 @@ export default function Warehouse() {
                 </thead>
                 <tbody>
                     {!isLoading &&
-                        data?.data?.map((prod, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{prod.ten}</td>
-                                <td>{prod.loai}</td>
+                        data?.data?.map((prod, index) => {
+                            const totalSoLuong =
+                                prod.chiTietSanPhamResList.reduce(
+                                    (total, item) => total + item.soLuong,
+                                    0
+                                );
 
-                                <td>{prod.chiTietSanPhamResLis[0]?.soLuong}</td>
-                                <td>
-                                    <Button
-                                        className="rounded"
-                                        variant="info"
-                                        onClick={() => deleteClick(prod)}
-                                    >
-                                        Chi Tiết
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
+                            return (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{prod.ten}</td>
+                                    <td>{prod.loai}</td>
+                                    <td>{totalSoLuong}</td>
+                                    <td>
+                                        <Button
+                                            className="rounded"
+                                            variant="info"
+                                            onClick={() => deleteClick(prod)}
+                                        >
+                                            Chi Tiết
+                                        </Button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                 </tbody>
             </Table>
         </div>

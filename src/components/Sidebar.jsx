@@ -9,11 +9,12 @@ import { UilSignOutAlt, UilBars } from '@iconscout/react-unicons'; // Make sure 
 import { motion } from 'framer-motion';
 import { ASIDE_NAV } from '~/constants'; // Ensure this is the correct path
 import { Col, Nav } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
     const [selected, setSelected] = useState(0);
     const [expanded, setExpanded] = useState(true); // Fixed typo from setExpaned to setExpanded
-
+    const navigate = useNavigate();
     const sidebarVariants = {
         true: {
             left: '0',
@@ -73,7 +74,7 @@ const Sidebar = () => {
                         </Nav.Link>
                     ))}
                     {/* Sign-out Icon */}
-                    <div className="menuItem">
+                    <div className="menuItem" onClick={() => navigate('/')}>
                         <UilSignOutAlt />
                     </div>
                 </div>
