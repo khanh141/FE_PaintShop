@@ -75,6 +75,24 @@ body {
             background-color: #555; // Darken the scrollbar thumb on hover
         }
     }
+    #loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc(100% + 48px);
+        height: calc(100% + 48px);
+        margin: -24px;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        pointer-events: none;
+    }
+    .loading-container {
+        position: relative;
+        overflow: hidden;
+    }
     .productList {
         .cardCol {
             flex: 0 0 20%; // Each column takes 20% of the row
@@ -372,24 +390,6 @@ body {
                 }
             }
         }
-    }
-    #loading-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: calc(100% + 48px); /* Add 24px padding on both sides */
-        height: calc(100% + 48px); /* Add 24px padding on both top and bottom */
-        margin: -24px; /* Offset the overlay to cover the padding */
-        background-color: rgba(0, 0, 0, 0.3);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10;
-        pointer-events: none;
-    }
-    .loading-container {
-        position: relative;
-        overflow: hidden;
     }
 
     @keyframes fadeIn {
