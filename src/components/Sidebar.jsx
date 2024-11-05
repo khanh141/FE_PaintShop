@@ -38,11 +38,15 @@ const Sidebar = () => {
                     {ASIDE_NAV.map((item, index) => (
                         <Nav.Link
                             key={index}
-                            href={item.path}
-                            className={`text-black fs-5 rounded-pill px-3 my-2 menuItem ${selected === index ? 'active' : ''
-                                }`}
+                            // href={item.path}
+                            className={`text-black fs-5 rounded-pill px-3 my-2 menuItem ${
+                                selected === index ? 'active' : ''
+                            }`}
                             aria-current="page"
-                            onClick={() => setSelected(index)}
+                            onClick={() => {
+                                setSelected(index);
+                                navigate(item.path);
+                            }}
                         >
                             <item.icon />
                             <span>{item.title}</span>

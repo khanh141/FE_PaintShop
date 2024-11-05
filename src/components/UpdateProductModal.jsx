@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 
 function UpdateProductModal({ show, onHide, productData, onSave }) {
     const [formData, setFormData] = useState({
+        maSanPham: '',
         loai: '',
         ten: '',
         tinhNang: '',
@@ -13,6 +14,10 @@ function UpdateProductModal({ show, onHide, productData, onSave }) {
         mau: '',
         loaiDinhMucLyThuyet: '',
         soLuong: '',
+        maBaoBi: '',
+        maDinhMucLyThuyet: '',
+        maSanPham: '',
+        maMau: '',
     });
 
     const [options, setOptions] = useState({
@@ -21,25 +26,24 @@ function UpdateProductModal({ show, onHide, productData, onSave }) {
         loaiDinhMucLyThuyet: [],
     });
 
+    // Khởi tạo formData và options khi nhận được productData
     useEffect(() => {
         if (productData) {
             setFormData({
+                maSanPham: productData.maSanPham,
                 loai: productData.loai || '',
                 ten: productData.ten || '',
                 tinhNang: productData.tinhNang || '',
                 moTa: productData.moTa || '',
                 hinhAnh: productData.hinhAnh || '',
                 tenNhaSanXuat: productData.tenNhaSanXuat || '',
-                loaiBaoBi:
-                    productData.chiTietSanPhamResList[0]?.loaiBaoBi || '',
-                mau: productData.chiTietSanPhamResList[0]?.mau || '',
-                loaiDinhMucLyThuyet:
-                    productData.chiTietSanPhamResList[0]?.loaiDinhMucLyThuyet ||
-                    '',
-                soLuong: productData.soLuong || '',
+                loaiBaoBi: productData.loaiBaoBi || '', // Thêm giá trị ban đầu
+                mau: productData.mau || '', // Thêm giá trị ban đầu
+                loaiDinhMucLyThuyet: productData.loaiDinhMucLyThuyet || '', // Thêm giá trị ban đầu
+                soLuong: productData.soLuong || '', // Thêm giá trị ban đầu
             });
 
-            // Load options from chiTietSanPhamResList
+            // Khởi tạo tất cả options dựa trên chiTietSanPhamResList ban đầu
             setOptions({
                 loaiBaoBi: Array.from(
                     new Set(
@@ -66,45 +70,59 @@ function UpdateProductModal({ show, onHide, productData, onSave }) {
         }
     }, [productData]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-
+    // Cập nhật các options khi một trong ba trường thay đổi mà không làm mất giá trị hiện tại của formData
     useEffect(() => {
-        // Load the related data based on selected values
-        const selectedLoaiBaoBi = formData.loaiBaoBi;
-        const selectedMau = formData.mau;
-        const selectedLoaiDinhMucLyThuyet = formData.loaiDinhMucLyThuyet;
-
-        if (selectedLoaiBaoBi || selectedMau || selectedLoaiDinhMucLyThuyet) {
+        if (productData) {
             const filteredList = productData.chiTietSanPhamResList.filter(
                 (item) =>
-                    (selectedLoaiBaoBi
-                        ? item.loaiBaoBi === selectedLoaiBaoBi
-                        : true) &&
-                    (selectedMau ? item.mau === selectedMau : true) &&
-                    (selectedLoaiDinhMucLyThuyet
-                        ? item.loaiDinhMucLyThuyet ===
-                          selectedLoaiDinhMucLyThuyet
-                        : true)
+                    (!formData.loaiBaoBi ||
+                        item.loaiBaoBi === formData.loaiBaoBi) &&
+                    (!formData.mau || item.mau === formData.mau) &&
+                    (!formData.loaiDinhMucLyThuyet ||
+                        item.loaiDinhMucLyThuyet ===
+                            formData.loaiDinhMucLyThuyet)
             );
 
-            // Update the formData based on the filtered list
-            if (filteredList.length > 0) {
-                setFormData((prevState) => ({
-                    ...prevState,
-                    ten: filteredList[0].ten || prevState.ten,
-                    tinhNang: filteredList[0].tinhNang || prevState.tinhNang,
-                    moTa: filteredList[0].moTa || prevState.moTa,
-                    hinhAnh: filteredList[0].hinhAnh || prevState.hinhAnh,
-                    tenNhaSanXuat:
-                        filteredList[0].tenNhaSanXuat ||
-                        prevState.tenNhaSanXuat,
-                    soLuong: filteredList[0].soLuong || prevState.soLuong,
+            setOptions({
+                loaiBaoBi: Array.from(
+                    new Set(filteredList.map((item) => item.loaiBaoBi))
+                ),
+                mau: Array.from(new Set(filteredList.map((item) => item.mau))),
+                loaiDinhMucLyThuyet: Array.from(
+                    new Set(
+                        filteredList.map((item) => item.loaiDinhMucLyThuyet)
+                    )
+                ),
+            });
+        }
+    }, [
+        formData.loaiBaoBi,
+        formData.mau,
+        formData.loaiDinhMucLyThuyet,
+        productData,
+    ]);
+
+    useEffect(() => {
+        if (
+            formData.loaiBaoBi &&
+            formData.mau &&
+            formData.loaiDinhMucLyThuyet
+        ) {
+            const selectedDetail = productData.chiTietSanPhamResList.find(
+                (item) =>
+                    item.loaiBaoBi === formData.loaiBaoBi &&
+                    item.mau === formData.mau &&
+                    item.loaiDinhMucLyThuyet === formData.loaiDinhMucLyThuyet
+            );
+            console.log(selectedDetail);
+
+            if (selectedDetail) {
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    maBaoBi: selectedDetail.maBaoBi,
+                    maDinhMucLyThuyet: selectedDetail.maDinhMucLyThuyet,
+                    maMau: selectedDetail.maMau,
+                    soLuong: selectedDetail.soLuong,
                 }));
             }
         }
@@ -114,9 +132,18 @@ function UpdateProductModal({ show, onHide, productData, onSave }) {
         formData.loaiDinhMucLyThuyet,
         productData,
     ]);
+    // Xử lý sự thay đổi của các trường
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
 
     const handleSave = () => {
         onSave(formData);
+
         onHide();
     };
 

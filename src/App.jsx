@@ -29,6 +29,7 @@ import ProfilePage from './pages/ProfilePage.jsx';
 import PurchasePage from './pages/PurchasePage.jsx';
 import axios from 'axios';
 import { refreshToken } from './services/auth.service.js';
+import { ToastContainer } from 'react-toastify';
 import AdminForms from './pages/AdminImportForm.jsx';
 import AdminImportForm from './pages/AdminImportForm.jsx';
 import AdminExportForm from './pages/AdminExportForm.jsx';
@@ -122,7 +123,10 @@ function App() {
                             }
                         />
                         {/* <Route path='/product/:productId' element={<ProductDetail />}></Route> */}
-                        <Route path="/productDetail/:maSanPham" element={<ProductDetail />} />
+                        <Route
+                            path="/productDetail/:maSanPham"
+                            element={<ProductDetail />}
+                        />
                         <Route path="/profile" element={<ProfilePage />} />
                     </Route>
                     {/* localhost/admin */}
@@ -137,6 +141,7 @@ function App() {
                     </Route>
                 </Routes>
             </BrowserRouter>
+            <ToastContainer />
         </div>
     );
 }

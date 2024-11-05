@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { KEYS } from '~/constants/keys';
 import { getAllProducts } from '~/services';
+import { getAllKho } from '~/services/warehouse.service';
 
 export default function Warehouse() {
     const { data, error, isLoading } = useQuery({
-        queryKey: [KEYS.GET_ALL_PRODUCTS],
-        queryFn: () => getAllProducts(),
+        queryKey: [KEYS.GET_ALL_KHO],
+        queryFn: () => getAllKho(),
         staleTime: 1000 * 60 * 5,
     });
 
@@ -19,6 +20,7 @@ export default function Warehouse() {
                 width: '100%',
             }}
         >
+            <Button>Thêm Kho</Button>
             <Table
                 style={{
                     width: '100%',
@@ -46,7 +48,7 @@ export default function Warehouse() {
                                 zIndex: 1,
                             }}
                         >
-                            Tên sản phẩm
+                            Mã kho
                         </th>
                         <th
                             style={{
@@ -56,7 +58,7 @@ export default function Warehouse() {
                                 zIndex: 1,
                             }}
                         >
-                            Loại
+                            Địa chỉ
                         </th>
                         <th
                             style={{
@@ -66,7 +68,7 @@ export default function Warehouse() {
                                 zIndex: 1,
                             }}
                         >
-                            Số lượng
+                            Diện tích
                         </th>
                         <th
                             style={{
@@ -75,11 +77,23 @@ export default function Warehouse() {
                                 backgroundColor: '#f0f0f0',
                                 zIndex: 1,
                             }}
-                        ></th>
+                        >
+                            Số lượng khu
+                        </th>
+                        <th
+                            style={{
+                                position: 'sticky',
+                                top: 0,
+                                backgroundColor: '#f0f0f0',
+                                zIndex: 1,
+                            }}
+                        >
+                            Số lượng sản phẩm
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {!isLoading &&
+                    {/* {!isLoading &&
                         data?.data?.map((prod, index) => {
                             const totalSoLuong =
                                 prod.chiTietSanPhamResList.reduce(
@@ -104,7 +118,18 @@ export default function Warehouse() {
                                     </td>
                                 </tr>
                             );
-                        })}
+                        })} */}
+                    {!isLoading &&
+                        data?.data?.map((prod, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{prod.maKho}</td>
+                                <td>{prod.diaChi}</td>
+                                <td>{prod.dienTich} m2</td>
+                                <td>{prod.soLuongKhu}</td>
+                                <td>{prod.soLuong}</td>
+                            </tr>
+                        ))}
                 </tbody>
             </Table>
         </div>

@@ -28,7 +28,6 @@ export default function Login() {
 
     const dispatch = useDispatch();
 
-
     const { tenDangNhap: currentTenDangNhap, quyen } = useSelector(
         (store) => store.user
     );
@@ -45,7 +44,7 @@ export default function Login() {
             return;
         }
         try {
-            dispatch(setLoading(true))
+            dispatch(setLoading(true));
             const response = await axios.post(
                 'http://localhost:8080/taiKhoan/dangNhap',
                 { tenDangNhap, matKhau }
@@ -56,11 +55,11 @@ export default function Login() {
             dispatch(setUser(decodedToken.sub, decodedToken.scope));
 
             if (decodedToken.scope == 'quanTriVien') {
-                navigate('/admin/products');
-                dispatch(setSuccess(true))
+                navigate('/');
+                dispatch(setSuccess(true));
             } else navigate('/');
         } catch (error) {
-            dispatch(setLoading(false))
+            dispatch(setLoading(false));
             const errorMessage = error.response?.data || 'Lỗi không xác định';
             setErrors(translateError(errorMessage));
         }

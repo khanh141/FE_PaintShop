@@ -1,6 +1,7 @@
 import { Col } from 'react-bootstrap';
 import OrderTables from '../components/Order';
 import Cards from '~/components/Cards/Cards';
+import Table from '../components/Table';
 
 function Dashboard() {
     return (
@@ -8,6 +9,7 @@ function Dashboard() {
             <div>
                 <h1 className="text-center mb-5">Dash Board</h1>
                 <Cards />
+                <Table />
                 {/* <OrderTables /> */}
             </div>
         </Col>

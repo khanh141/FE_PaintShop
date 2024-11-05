@@ -1,10 +1,10 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Navbar, Container, Nav, Row, Col } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch, useSelector } from "react-redux";
-import { setSearchTerm } from "../redux/ProductReducer";
-import { clearUser } from "../redux/UserSlice"; // Import the clearUser action
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Navbar, Container, Nav, Row, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchTerm } from '../redux/ProductReducer';
+import { clearUser } from '../redux/UserSlice'; // Import the clearUser action
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -17,7 +17,7 @@ export default function NavigationBar() {
     const dispatch = useDispatch();
 
     const quyen = useSelector((state) => state.user.quyen);
-    const navbarHeight = "90px";
+    const navbarHeight = '90px';
 
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn); // Use Redux state
 
@@ -29,7 +29,7 @@ export default function NavigationBar() {
     const handleLogout = async () => {
         try {
             await axios.post('http://localhost:8080/taiKhoan/dangXuat', {
-                token: localStorage.getItem('token')
+                token: localStorage.getItem('token'),
             });
             localStorage.removeItem('token');
             dispatch(clearUser());
@@ -77,7 +77,11 @@ export default function NavigationBar() {
                     </Navbar.Toggle>
                     <Navbar.Collapse id="navbarSupportedContent">
                         <Row className="align-items-center w-100">
-                            <Col xs={2} sm={4} className="d-flex justify-content-center inputCol">
+                            <Col
+                                xs={2}
+                                sm={4}
+                                className="d-flex justify-content-center inputCol"
+                            >
                                 <div className="input-group">
                                     <input
                                         id="input"
@@ -104,7 +108,8 @@ export default function NavigationBar() {
                             </Col>
                             <Col xs={10} sm={8} className="d-flex linksCol">
                                 <Nav className="linksContainer">
-                                    {quyen === "nhanVien" ? (
+                                    {quyen === 'nhanVien' ||
+                                    quyen === 'quanTriVien' ? (
                                         <Nav.Item className="px-2">
                                             <Link
                                                 className="nav-link text-black fs-5"
@@ -115,7 +120,9 @@ export default function NavigationBar() {
                                                 </span>
                                             </Link>
                                         </Nav.Item>
-                                    ) : (<></>)}
+                                    ) : (
+                                        <></>
+                                    )}
                                     <Nav.Item className="px-2">
                                         <Link
                                             className="nav-link btn btn-link text-black fs-5"
