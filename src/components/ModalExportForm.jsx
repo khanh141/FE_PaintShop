@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import styles from '../assets/css/ModalAddProduct.module.scss';
 import { Col, Row, Form } from 'react-bootstrap';
+
 
 function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
     const [thongTinKhach, setThongTinKhach] = useState({ sdt: '', hoTen: '', diaChi: '' });
     const [sanPhamMuaDtoList, setSanPhamMuaDtoList] = useState([{ maSanPham: '', chiTietSanPhamReq: {} }]);
-    const [lyDo, setLyDo] = useState('');
+    const lyDo = "muaHang";
 
     const handleSanPhamChange = (productIndex, e) => {
         const selectedMaSanPham = e.target.value;
@@ -18,11 +18,18 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
             updatedList[productIndex] = {
                 ...updatedList[productIndex],
                 maSanPham: selectedMaSanPham,
-                chiTietSanPhamReq: selectedProduct ? selectedProduct.chiTietSanPhamResList[0] : {},
+                chiTietSanPhamReq: {
+                    maBaoBi: "",
+                    maMau: "",
+                    maLoaiDinhMucLyThuyet: "",
+                    giaTien: selectedProduct ? selectedProduct.chiTietSanPhamResList[0].giaTien : "",
+                    soLuong: ""
+                },
             };
             return updatedList;
         });
     };
+
 
     const handleDetailChange = (productIndex, field, value) => {
         setSanPhamMuaDtoList(prevList => {
@@ -153,12 +160,22 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                 className='w-100'
                                             >
                                                 <option value="">Chọn loại bao bì</option>
-                                                {sanPhamData.data.find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
-                                                    ?.chiTietSanPhamResList.map((ct, index) => (
-                                                        <option key={`${ct.maBaoBi}-${index}`} value={ct.maBaoBi}>
-                                                            {ct.loaiBaoBi}
+                                                {Array.from(
+                                                    new Set(
+                                                        sanPhamData.data
+                                                            .find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
+                                                            ?.chiTietSanPhamResList.map(ct => ct.maBaoBi)
+                                                    )
+                                                ).map(uniqueMaBaoBi => {
+                                                    const baoBiDetail = sanPhamData.data
+                                                        .find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
+                                                        ?.chiTietSanPhamResList.find(ct => ct.maBaoBi === uniqueMaBaoBi);
+                                                    return (
+                                                        <option key={uniqueMaBaoBi} value={uniqueMaBaoBi}>
+                                                            {baoBiDetail?.loaiBaoBi}
                                                         </option>
-                                                    ))}
+                                                    );
+                                                })}
                                             </select>
                                         </label>
 
@@ -173,12 +190,22 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                 className='w-100'
                                             >
                                                 <option value="">Chọn màu</option>
-                                                {sanPhamData.data.find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
-                                                    ?.chiTietSanPhamResList.map((ct, index) => (
-                                                        <option key={`${ct.mau}-${index}`} value={ct.mau}>
-                                                            {ct.mau}
+                                                {Array.from(
+                                                    new Set(
+                                                        sanPhamData.data
+                                                            .find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
+                                                            ?.chiTietSanPhamResList.map(ct => ct.maMau)
+                                                    )
+                                                ).map(uniqueMaMau => {
+                                                    const mauDetail = sanPhamData.data
+                                                        .find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
+                                                        ?.chiTietSanPhamResList.find(ct => ct.maMau === uniqueMaMau);
+                                                    return (
+                                                        <option key={uniqueMaMau} value={uniqueMaMau}>
+                                                            {mauDetail?.mau}
                                                         </option>
-                                                    ))}
+                                                    );
+                                                })}
                                             </select>
                                         </label>
 
@@ -193,13 +220,37 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                 className='w-100'
                                             >
                                                 <option value="">Chọn loại định mức</option>
-                                                {sanPhamData.data.find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
-                                                    ?.chiTietSanPhamResList.map((ct, index) => (
-                                                        <option key={`${ct.maDinhMucLyThuyet}-${index}`} value={ct.maDinhMucLyThuyet}>
-                                                            {ct.maDinhMucLyThuyet}
+                                                {Array.from(
+                                                    new Set(
+                                                        sanPhamData.data
+                                                            .find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
+                                                            ?.chiTietSanPhamResList.map(ct => ct.maDinhMucLyThuyet)
+                                                    )
+                                                ).map(uniqueMaDinhMucLyThuyet => {
+                                                    const dinhMucDetail = sanPhamData.data
+                                                        .find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
+                                                        ?.chiTietSanPhamResList.find(ct => ct.maDinhMucLyThuyet === uniqueMaDinhMucLyThuyet);
+                                                    return (
+                                                        <option key={uniqueMaDinhMucLyThuyet} value={uniqueMaDinhMucLyThuyet}>
+                                                            {dinhMucDetail?.loaiDinhMucLyThuyet}
                                                         </option>
-                                                    ))}
+                                                    );
+                                                })}
                                             </select>
+                                        </label>
+                                        <label className='w-100'>
+                                            Số lượng
+                                            <input
+                                                required
+                                                type="number"
+                                                min="1"
+                                                value={product.chiTietSanPhamReq.soLuong || ''}
+                                                onChange={(e) =>
+                                                    handleDetailChange(productIndex, 'soLuong', e.target.value)
+                                                }
+                                                placeholder="Số lượng"
+                                                className='w-100'
+                                            />
                                         </label>
                                     </div>
                                     <Button className='mt-3' variant="danger" onClick={() => handleRemoveProduct(productIndex)}>
