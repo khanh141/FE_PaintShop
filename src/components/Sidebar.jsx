@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { ASIDE_NAV } from '~/constants';
 import { Col, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { GoSignOut } from "react-icons/go";
-import { FaBars } from "react-icons/fa";
+import { GoSignOut } from 'react-icons/go';
+import { FaBars } from 'react-icons/fa';
 
 const Sidebar = () => {
     const [selected, setSelected] = useState(0);
@@ -40,7 +40,9 @@ const Sidebar = () => {
                             key={index}
                             // href={item.path}
                             className={`text-black fs-5 rounded-pill px-3 my-2 menuItem ${
-                                selected === index ? 'active' : ''
+                                selected === index
+                                    ? 'menuItem active'
+                                    : 'menuItem'
                             }`}
                             aria-current="page"
                             onClick={() => {
