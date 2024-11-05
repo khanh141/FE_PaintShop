@@ -56,7 +56,31 @@ const cardSlice = createSlice({
                 isChecked: newSelectAll,
             }));
         },
+        // Thêm sản phẩm vào Redux
+        addProduct: (state, action) => {
+            const newProduct = action.payload; // sản phẩm mới từ action
+
+            const existingProduct = state.products.find(
+                (product) =>
+                    product.maSanPham === newProduct.maSanPham &&
+                    product.chiTietSanPham.mau === newProduct.chiTietSanPham.mau &&
+                    product.chiTietSanPham.loaiBaoBi === newProduct.chiTietSanPham.loaiBaoBi
+            );
         
+            if (existingProduct) {
+                // Nếu sản phẩm đã tồn tại, có thể tăng số lượng hoặc xử lý khác ở đây
+                existingProduct.soLuong += 1;
+                console.log('Sản phẩm đã được thêm vào giỏ hàng!');
+            } else {
+                state.products.push({
+                    ...newProduct,
+                    isChecked: true,
+                });
+                console.log('Sản phẩm đã được thêm vào giỏ hàng!');
+            }
+            console.log('Current product list:', state.products);
+        },
+
 
         increaseQuantity: (state, action) => {
             const product = state.products.find(
@@ -188,6 +212,9 @@ export const {
     increaseQuantity,
     decreaseQuantity,
     removeProduct,
+    addProduct,
 } = cardSlice.actions;
+
+
 
 export default cardSlice.reducer;

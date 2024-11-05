@@ -1,41 +1,47 @@
-import { icon } from '@fortawesome/fontawesome-svg-core';
-import {
-    UilEstate,
-    UilClipboardAlt,
-    UilUsersAlt,
-    UilPackage,
-    UilChart,
-    UilSignOutAlt,
-} from '@iconscout/react-unicons';
-
+import { UilClipboardAlt } from '@iconscout/react-unicons';
+import { MdDashboard, MdAccountCircle } from 'react-icons/md';
+import { GiPaintBucket } from 'react-icons/gi';
+import { FaClipboardList, FaWarehouse } from 'react-icons/fa';
 import { UilUsdSquare, UilMoneyWithdrawal } from '@iconscout/react-unicons';
+import { MdFormatIndentIncrease, MdFormatIndentDecrease } from 'react-icons/md';
+
 //import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
 export const ASIDE_NAV = [
     {
-        icon: UilEstate,
+        icon: MdDashboard,
         title: 'Dashboard',
         path: '/admin',
     },
     {
-        icon: UilClipboardAlt,
+        icon: GiPaintBucket,
         title: 'Sản phẩm',
         path: '/admin/products',
     },
     {
-        icon: UilClipboardAlt,
+        icon: FaClipboardList,
         title: 'Đơn hàng',
         path: '/admin/adminorder',
     },
     {
-        icon: UilPackage,
+        icon: FaWarehouse,
         title: 'Kho hàng',
         path: '/admin/warehouse',
     },
     {
-        icon: UilChart,
+        icon: MdAccountCircle,
         title: 'Tài khoản',
         path: '/admin/adminaccount',
+    },
+    {
+        icon: MdFormatIndentIncrease,
+        title: 'Phiếu nhập',
+        path: '/admin/importForm',
+    },
+    {
+        icon: MdFormatIndentDecrease,
+        title: 'Phiếu xuất',
+        path: '/admin/exportForm',
     },
 ];
 

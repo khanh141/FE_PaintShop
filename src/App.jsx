@@ -30,6 +30,9 @@ import PurchasePage from './pages/PurchasePage.jsx';
 import axios from 'axios';
 import { refreshToken } from './services/auth.service.js';
 import { ToastContainer } from 'react-toastify';
+import AdminForms from './pages/AdminImportForm.jsx';
+import AdminImportForm from './pages/AdminImportForm.jsx';
+import AdminExportForm from './pages/AdminExportForm.jsx';
 
 function App() {
     const dispatch = useDispatch();
@@ -133,6 +136,8 @@ function App() {
                         <Route path="adminorder" element={<AdminOrder />} />
                         <Route path="warehouse" element={<WarehousePage />} />
                         <Route path="adminaccount" element={<AdminAccount />} />
+                        <Route path="importForm" element={<AdminImportForm />} />
+                        <Route path="exportForm" element={<AdminExportForm />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

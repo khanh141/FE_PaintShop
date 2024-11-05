@@ -8,3 +8,6 @@ export const getAllProducts = async () => {
 export const createProduct = async (data) => {
     return instance.post('/sanPham', data);
 };
+export const createPhieuXuat = async (data) => {
+    return instance.post('/sanPham/xuatHang', data);
+};

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import '../assets/css/SiderBar.scss'; // Ensure the path is correct
-import { UilSignOutAlt, UilBars } from '@iconscout/react-unicons'; // Make sure this import works
+import '../assets/css/SiderBar.scss';
 import { motion } from 'framer-motion';
-import { ASIDE_NAV } from '~/constants'; // Ensure this is the correct path
+import { ASIDE_NAV } from '~/constants';
 import { Col, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { GoSignOut } from "react-icons/go";
+import { FaBars } from "react-icons/fa";
 
 const Sidebar = () => {
     const [selected, setSelected] = useState(0);
-    const [expanded, setExpanded] = useState(true); // Fixed typo from setExpaned to setExpanded
+    const [expanded, setExpanded] = useState(true);
     const navigate = useNavigate();
     const sidebarVariants = {
         true: {
@@ -26,35 +27,15 @@ const Sidebar = () => {
                 style={expanded ? { left: '60%' } : { left: '5%' }}
                 onClick={() => setExpanded(!expanded)} // Fixed typo here as well
             >
-                <UilBars />
+                <FaBars />
             </div>
             <motion.div
                 className="sidebar"
                 variants={sidebarVariants}
                 animate={window.innerWidth <= 768 ? `${expanded}` : ''}
             >
-                {/* Uncomment if you want to display a logo */}
-                {/* <div className="logo">
-                    <img src={Logo} alt="logo" />
-                    <span>
-                        Sh<span>o</span>ps
-                    </span>
-                </div> */}
-
                 <div className="menu">
                     {ASIDE_NAV.map((item, index) => (
-                        // <div
-                        //     className={
-                        //         selected === index
-                        //             ? 'menuItem active'
-                        //             : 'menuItem'
-                        //     }
-                        //     key={index}
-                        //     onClick={() => setSelected(index)}
-                        // >
-                        //     <item.icon />
-                        //     <span>{item.title}</span>
-                        // </div>
                         <Nav.Link
                             key={index}
                             // href={item.path}
@@ -71,9 +52,8 @@ const Sidebar = () => {
                             <span>{item.title}</span>
                         </Nav.Link>
                     ))}
-                    {/* Sign-out Icon */}
                     <div className="menuItem" onClick={() => navigate('/')}>
-                        <UilSignOutAlt />
+                        <GoSignOut />
                     </div>
                 </div>
             </motion.div>
