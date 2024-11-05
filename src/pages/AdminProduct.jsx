@@ -1,16 +1,30 @@
 import { useState } from 'react';
 import ModalAddProduct from '../components/ModalAddProduct';
 import { Col, Button, Table } from 'react-bootstrap';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { KEYS } from '~/constants/keys';
-import { createProduct, getAllProducts } from '~/services';
+import { createProduct, getAllProducts, updateProduct } from '~/services'; // Import thêm hàm updateProduct
 import UpdateProductModal from '~/components/UpdateProductModal';
+import ProductDetailModal from '~/components/ProductDetailModal ';
+import AddProductDetailModal from '~/components/AddProductDetailModal';
+import { toast } from 'react-toastify';
+import {
+    addBaobi,
+    addDinhMucLyThuyet,
+    addMau,
+} from '~/services/productDetail.service';
 
 function AdminProduct() {
     const [isShowModalAddProduct, setIsShowModalAddProduct] = useState(false);
     const [isShowModalUpdateProduct, setIsShowModalUpdateProduct] =
         useState(false);
+    const [isShowProductDetailModal, setIsShowProductDetailModal] =
+        useState(false);
+    const [isShowAddProductDetailModal, setIsShowAddProductDetailModal] =
+        useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
+
+    const queryClient = useQueryClient();
 
     const { data, error, isLoading } = useQuery({
         queryKey: [KEYS.GET_ALL_PRODUCTS],
@@ -18,14 +32,100 @@ function AdminProduct() {
         staleTime: 1000 * 60 * 5,
     });
 
-    const mutation = useMutation({
+    const createMutation = useMutation({
         mutationKey: [KEYS.GET_ALL_PRODUCTS],
         mutationFn: (data) => createProduct(data),
         onSuccess: () => {
+            toast.success('Thêm sản phẩm thành công', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            queryClient.invalidateQueries([KEYS.GET_ALL_PRODUCTS]); // Tự động làm mới dữ liệu sau khi thêm sản phẩm mới
             setIsShowModalAddProduct(false);
         },
         onError: (error) => {
             console.error(error);
+            toast.error('Thêm sản phẩm thất bại', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+        },
+    });
+
+    const updateMutation = useMutation({
+        mutationFn: ({ maSanPham, ttSanPhamMoi, ttChiTietSanPhamMoi }) =>
+            updateProduct(maSanPham, ttSanPhamMoi, ttChiTietSanPhamMoi),
+        onSuccess: () => {
+            toast.success('Cập nhập sản phẩm thành công', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            queryClient.invalidateQueries([KEYS.GET_ALL_PRODUCTS]);
+            setIsShowModalUpdateProduct(false);
+        },
+        onError: (error) => {
+            console.error(error);
+            toast.error('Cập nhật sản phẩm thất bại', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+        },
+    });
+
+    const createBaobiMutation = useMutation({
+        mutationFn: (data) => addBaobi(data),
+        onSuccess: () => {
+            toast.success('Thêm bao bì thành công', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            queryClient.invalidateQueries([KEYS.GET_ALL_PRODUCTS]);
+            setIsShowModalUpdateProduct(false);
+        },
+        onError: (error) => {
+            console.error(error);
+            toast.error('Thêm bao bì thất bại', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+        },
+    });
+
+    const createMauMutation = useMutation({
+        mutationFn: (data) => addMau(data),
+        onSuccess: () => {
+            toast.success('Thêm màu thành công', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            queryClient.invalidateQueries([KEYS.GET_ALL_PRODUCTS]);
+            setIsShowModalUpdateProduct(false);
+        },
+        onError: (error) => {
+            console.error(error);
+            toast.error('Thêm màu thất bại', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+        },
+    });
+
+    const createDinhMucLyThuyetMutation = useMutation({
+        mutationFn: (data) => addDinhMucLyThuyet(data),
+        onSuccess: () => {
+            toast.success('Thêm định mức lý thuyết thành công', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            queryClient.invalidateQueries([KEYS.GET_ALL_PRODUCTS]);
+            setIsShowModalUpdateProduct(false);
+        },
+        onError: (error) => {
+            console.error(error);
+            toast.error('Thêm định mức lý thuyết thất bại', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
         },
     });
 
@@ -36,12 +136,68 @@ function AdminProduct() {
         formData.forEach((value, key) => {
             Object.assign(data, { [key]: value });
         });
-        mutation.mutate(data);
+        createMutation.mutate(data);
     };
 
     const handleUpdateProductClick = (prod) => {
         setSelectedProduct(prod);
         setIsShowModalUpdateProduct(true);
+    };
+    const handleProductDetailModal = (prod) => {
+        setSelectedProduct(prod);
+        setIsShowProductDetailModal(true);
+    };
+    const handleAddProductDetailModal = (productDetail) => {
+        let data = {}; // Khởi tạo data trước khối if
+
+        if (productDetail.loaiChiTiet === 'Bao bì') {
+            data = {
+                loaiBaoBi: productDetail.moTa,
+            };
+            createBaobiMutation.mutate(data);
+        } else if (productDetail.loaiChiTiet === 'Màu') {
+            data = {
+                mau: productDetail.moTa,
+            };
+            createMauMutation.mutate(data);
+        } else {
+            data = {
+                dinhMuc: productDetail.moTa,
+            };
+        }
+
+        console.log(data);
+        console.log(productDetail);
+    };
+
+    const handleSaveUpdatedProduct = (updatedProduct) => {
+        const ttSanPhamMoi = {
+            loai: updatedProduct.loai,
+            ten: updatedProduct.ten,
+            tinhNang: updatedProduct.tinhNang,
+            moTa: updatedProduct.moTa,
+            hinhAnh: updatedProduct.hinhAnh,
+            nhaSanXuatId: updatedProduct.tenNhaSanXuat,
+        };
+
+        const maBaoBi = updatedProduct.maBaoBi;
+        const maDinhMucLyThuyet = updatedProduct.maDinhMucLyThuyet;
+        const maSanPham = updatedProduct.maSanPham;
+        const maMau = updatedProduct.maMau;
+        const soLuong = updatedProduct.soLuong;
+        const ttChiTietSanPhamMoi = {
+            [`${maBaoBi}-${maDinhMucLyThuyet}-${maSanPham}-${maMau}`]: soLuong,
+        };
+
+        console.log(ttSanPhamMoi);
+        console.log(ttChiTietSanPhamMoi);
+
+        // Đóng gói tất cả dữ liệu vào một đối tượng duy nhất
+        updateMutation.mutate({
+            maSanPham: updatedProduct.maSanPham,
+            ttSanPhamMoi,
+            ttChiTietSanPhamMoi,
+        });
     };
 
     return (
@@ -53,6 +209,12 @@ function AdminProduct() {
                     onClick={() => setIsShowModalAddProduct(true)}
                 >
                     Thêm sản phẩm
+                </Button>
+                <Button
+                    className="mt-4 rounded"
+                    onClick={() => setIsShowAddProductDetailModal(true)}
+                >
+                    Thêm chi tiết sản phẩm
                 </Button>
                 <div
                     style={{
@@ -139,11 +301,15 @@ function AdminProduct() {
                                             <Button
                                                 className="rounded"
                                                 variant="info"
+                                                onClick={() =>
+                                                    handleProductDetailModal(
+                                                        prod
+                                                    )
+                                                }
                                             >
                                                 Chi Tiết
                                             </Button>
                                         </td>
-
                                         <td>
                                             <Button
                                                 className="rounded"
@@ -162,17 +328,23 @@ function AdminProduct() {
                         </tbody>
                     </Table>
                 </div>
-                <UpdateProductModal
-                    show={isShowModalUpdateProduct}
-                    onHide={() => setIsShowModalUpdateProduct(false)} // Đổi tên prop từ handleClose thành onHide
-                    productData={selectedProduct} // Truyền dữ liệu sản phẩm đã chọn
-                    onSave={(updatedProduct) => {
-                        // Xử lý khi lưu sản phẩm đã cập nhật
-                        console.log('Updated Product:', updatedProduct);
-                        setIsShowModalUpdateProduct(false);
-                    }}
+                <AddProductDetailModal
+                    show={isShowAddProductDetailModal}
+                    onHide={() => setIsShowAddProductDetailModal(false)}
+                    onSave={handleAddProductDetailModal}
+                />
+                <ProductDetailModal
+                    show={isShowProductDetailModal}
+                    onHide={() => setIsShowProductDetailModal(false)}
+                    product={selectedProduct}
                 />
 
+                <UpdateProductModal
+                    show={isShowModalUpdateProduct}
+                    onHide={() => setIsShowModalUpdateProduct(false)}
+                    productData={selectedProduct}
+                    onSave={handleSaveUpdatedProduct} // Truyền hàm cập nhật sản phẩm vào modal
+                />
                 <ModalAddProduct
                     show={isShowModalAddProduct}
                     onHide={() => setIsShowModalAddProduct(false)}
