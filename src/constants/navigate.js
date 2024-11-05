@@ -1,5 +1,6 @@
 import { UilClipboardAlt } from '@iconscout/react-unicons';
 import { MdDashboard, MdAccountCircle } from 'react-icons/md';
+import { BiDollar } from 'react-icons/bi';
 import { GiPaintBucket } from 'react-icons/gi';
 import { FaClipboardList, FaWarehouse } from 'react-icons/fa';
 import { UilUsdSquare, UilMoneyWithdrawal } from '@iconscout/react-unicons';
@@ -55,7 +56,7 @@ export const cardsData = [
         },
         barValue: 100,
         value: '1.000.000',
-        png: UilUsdSquare,
+        png: FaClipboardList,
         series: [
             {
                 name: 'Tổng tiền',
@@ -70,7 +71,7 @@ export const cardsData = [
         },
         barValue: 100,
         value: '1.000.000',
-        png: UilMoneyWithdrawal,
+        png: FaWarehouse,
         series: [
             {
                 name: 'Doanh thu',
@@ -86,7 +87,7 @@ export const cardsData = [
         },
         barValue: 100,
         value: '1.000.000',
-        png: UilClipboardAlt,
+        png: MdAccountCircle,
         series: [
             {
                 name: 'Chi phí',
