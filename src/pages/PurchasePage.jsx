@@ -4,7 +4,7 @@ import { Table, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import InvoiceModal from '../components/ModalReceipt.jsx'; // Import the InvoiceModal component
+import InvoiceModal from '../components/ModalReceipt.jsx';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 
@@ -31,9 +31,10 @@ export default function PurchasePage() {
     }, [location.search, navigate]);
 
     const selectedProducts = products.filter(product => product.isChecked);
-
+    console.log("Sản phẩm trong giỏ hàng:", products);
+    
     const calculateTotal = () => {
-        return selectedProducts.reduce((total, product) => total + product.gia * product.soLuong, 0);
+        return selectedProducts.reduce((total, product) => total + product.chiTietSanPham.giaTien * product.chiTietSanPham.soLuong, 0);
     };
 
     const handleSelectMethod = (method) => {
@@ -106,7 +107,6 @@ export default function PurchasePage() {
                 setDiaChi(response.data.khachHangResDto.diaChi);
                 setHoTen(response.data.khachHangResDto.hoTen);
             } catch (error) {
-                console.error('Error fetching user info:', error);
                 toast.error("Không thể lấy thông tin người dùng", { position: "top-right" });
             }
         };
@@ -154,10 +154,10 @@ export default function PurchasePage() {
                         selectedProducts.map((product) => (
                             <tr key={product.id}>
                                 <td>{product.ten}</td>
-                                <td>{product.gia.toLocaleString('vi-VN')} đ</td>
-                                <td>{product.soLuong}</td>
+                                <td>{product.chiTietSanPham.giaTien.toLocaleString('vi-VN')} đ</td>
+                                <td>{product.chiTietSanPham.soLuong}</td>
                                 <td>
-                                    {(product.gia * product.soLuong).toLocaleString('vi-VN')} đ
+                                    {(product.chiTietSanPham.giaTien* product.chiTietSanPham.soLuong ).toLocaleString('vi-VN')} đ
                                 </td>
                             </tr>
                         ))
