@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Col, Row, Form } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 
 function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
     const [thongTinKhach, setThongTinKhach] = useState({
@@ -44,11 +44,12 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
             const updatedList = [...prevList];
             updatedList[productIndex].chiTietSanPhamReq = {
                 ...updatedList[productIndex].chiTietSanPhamReq,
-                [field]: value,
+                [field]: value, // Update only the specific field (either chiTietSanPham or soLuong)
             };
             return updatedList;
         });
     };
+
 
     const handleAddProduct = () => {
         setSanPhamMuaDtoList([
@@ -56,9 +57,7 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
             {
                 maSanPham: '',
                 chiTietSanPhamReq: {
-                    maLoaiBaoBi: '',
-                    maMau: '',
-                    maLoaiDinhMucLyThuyet: '',
+                    chiTietSanPham: '',
                     giaTien: '',
                     soLuong: '',
                 },
@@ -175,235 +174,61 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                         </select>
                                     </label>
 
-                                    <div>
-                                        {/* Single detail for each product */}
-                                        <label className="w-100">
-                                            Loại bao bì
-                                            <select
-                                                required
-                                                value={
-                                                    product.chiTietSanPhamReq
-                                                        .maBaoBi || ''
-                                                }
-                                                onChange={(e) =>
-                                                    handleDetailChange(
-                                                        productIndex,
-                                                        'maBaoBi',
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className="w-100"
-                                            >
-                                                <option value="">
-                                                    Chọn loại bao bì
-                                                </option>
-                                                {Array.from(
-                                                    new Set(
-                                                        sanPhamData.data
-                                                            .find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.map(
-                                                                (ct) =>
-                                                                    ct.maBaoBi
-                                                            )
-                                                    )
-                                                ).map((uniqueMaBaoBi) => {
-                                                    const baoBiDetail =
-                                                        sanPhamData.data
-                                                            .find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.find(
-                                                                (ct) =>
-                                                                    ct.maBaoBi ===
-                                                                    uniqueMaBaoBi
-                                                            );
-                                                    return (
+                                    {/* Single detail for each product */}
+                                    <label className="w-100">
+                                        Chọn chi tiết sản phẩm
+                                        <select
+                                            required
+                                            value={product.chiTietSanPhamReq.chiTietSanPham || ''}
+                                            onChange={(e) =>
+                                                handleDetailChange(
+                                                    productIndex,
+                                                    'chiTietSanPham',
+                                                    e.target.value
+                                                )
+                                            }
+                                            className="w-100"
+                                        >
+                                            <option value="">
+                                                Chọn chi tiết sản phẩm
+                                            </option>
+                                            {sanPhamData.data
+                                                .find(
+                                                    (sp) =>
+                                                        sp.maSanPham === parseInt(product.maSanPham, 10)
+                                                )
+                                                ?.chiTietSanPhamResList.map(
+                                                    (ct, index) => (
                                                         <option
-                                                            key={uniqueMaBaoBi}
-                                                            value={
-                                                                uniqueMaBaoBi
-                                                            }
+                                                            key={index}
+                                                            value={ct.maChiTietSanPham}
                                                         >
-                                                            {
-                                                                baoBiDetail?.loaiBaoBi
-                                                            }
+                                                            {`${ct.loaiBaoBi} - ${ct.mau} - ${ct.loaiDinhMucLyThuyet} - Số lượng trong kho: ${ct.soLuong}`}
                                                         </option>
-                                                    );
-                                                })}
-                                            </select>
-                                        </label>
-
-                                        <label className="w-100">
-                                            Màu
-                                            <select
-                                                required
-                                                value={
-                                                    product.chiTietSanPhamReq
-                                                        .maMau || ''
-                                                }
-                                                onChange={(e) =>
-                                                    handleDetailChange(
-                                                        productIndex,
-                                                        'maMau',
-                                                        e.target.value
                                                     )
-                                                }
-                                                className="w-100"
-                                            >
-                                                <option value="">
-                                                    Chọn màu
-                                                </option>
-                                                {Array.from(
-                                                    new Set(
-                                                        sanPhamData.data
-                                                            .find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.map(
-                                                                (ct) => ct.maMau
-                                                            )
-                                                    )
-                                                ).map((uniqueMaMau) => {
-                                                    const mauDetail =
-                                                        sanPhamData.data
-                                                            .find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.find(
-                                                                (ct) =>
-                                                                    ct.maMau ===
-                                                                    uniqueMaMau
-                                                            );
-                                                    return (
-                                                        <option
-                                                            key={uniqueMaMau}
-                                                            value={uniqueMaMau}
-                                                        >
-                                                            {mauDetail?.mau}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
-                                        </label>
-
-                                        <label className="w-100">
-                                            Loại định mức lý thuyết
-                                            <select
-                                                required
-                                                value={
-                                                    product.chiTietSanPhamReq
-                                                        .maLoaiDinhMucLyThuyet ||
-                                                    ''
-                                                }
-                                                onChange={(e) =>
-                                                    handleDetailChange(
-                                                        productIndex,
-                                                        'maLoaiDinhMucLyThuyet',
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className="w-100"
-                                            >
-                                                <option value="">
-                                                    Chọn loại định mức
-                                                </option>
-                                                {Array.from(
-                                                    new Set(
-                                                        sanPhamData.data
-                                                            .find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.map(
-                                                                (ct) =>
-                                                                    ct.maDinhMucLyThuyet
-                                                            )
-                                                    )
-                                                ).map(
-                                                    (
-                                                        uniqueMaDinhMucLyThuyet
-                                                    ) => {
-                                                        const dinhMucDetail =
-                                                            sanPhamData.data
-                                                                .find(
-                                                                    (sp) =>
-                                                                        sp.maSanPham ===
-                                                                        parseInt(
-                                                                            product.maSanPham,
-                                                                            10
-                                                                        )
-                                                                )
-                                                                ?.chiTietSanPhamResList.find(
-                                                                    (ct) =>
-                                                                        ct.maDinhMucLyThuyet ===
-                                                                        uniqueMaDinhMucLyThuyet
-                                                                );
-                                                        return (
-                                                            <option
-                                                                key={
-                                                                    uniqueMaDinhMucLyThuyet
-                                                                }
-                                                                value={
-                                                                    uniqueMaDinhMucLyThuyet
-                                                                }
-                                                            >
-                                                                {
-                                                                    dinhMucDetail?.loaiDinhMucLyThuyet
-                                                                }
-                                                            </option>
-                                                        );
-                                                    }
                                                 )}
-                                            </select>
-                                        </label>
-                                        <label className="w-100">
-                                            Số lượng
-                                            <input
-                                                required
-                                                type="number"
-                                                min="1"
-                                                value={
-                                                    product.chiTietSanPhamReq
-                                                        .soLuong || ''
-                                                }
-                                                onChange={(e) =>
-                                                    handleDetailChange(
-                                                        productIndex,
-                                                        'soLuong',
-                                                        e.target.value
-                                                    )
-                                                }
-                                                placeholder="Số lượng"
-                                                className="w-100"
-                                            />
-                                        </label>
-                                    </div>
+                                        </select>
+                                    </label>
+
+
+                                    <label className="w-100">
+                                        Số lượng
+                                        <input
+                                            required
+                                            type="number"
+                                            min="1"
+                                            value={
+                                                product.chiTietSanPhamReq
+                                                    .soLuong || ''
+                                            }
+                                            onChange={(e) =>
+                                                handleDetailChange(productIndex, "soLuong", e.target.value)
+                                            }
+                                            placeholder="Số lượng"
+                                            className="w-100"
+                                        />
+                                    </label>
+
                                     <Button
                                         className="mt-3"
                                         variant="danger"

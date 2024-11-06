@@ -14,6 +14,14 @@ function AdminExportForm() {
     const [selectedProductDetails, setSelectedProductDetails] = useState(null);
     const queryClient = useQueryClient();
 
+    const translateError = (error) => {
+        const translations = {
+            'San pham het hang': 'Sản phẩm hết hàng',
+            'San pham khong du so luong dat': 'Sản phẩm không đủ số lượng'
+        };
+        return translations[error] || error;
+    };
+
     const {
         data: phieuXuatData,
         isLoading,
@@ -41,10 +49,9 @@ function AdminExportForm() {
             setIsShowModalAddProduct(false);
         },
         onError: (error) => {
-            // Kiểm tra nếu có phản hồi từ BE
             const errorMessage =
-                error.response?.data?.message || 'Xuất hàng không thành công';
-            toast.error(errorMessage, {
+                error.response.data || 'Xuất hàng không thành công';
+            toast.error(translateError(errorMessage), {
                 position: 'top-right',
                 autoClose: 3000,
             });
@@ -66,8 +73,8 @@ function AdminExportForm() {
                         ? [
                             {
                                 maLoaiBaoBi:
-                                    sanPham.chiTietSanPhamReq.maBaoBi, // Lấy từ sanPham
-                                maMau: sanPham.chiTietSanPhamReq.maMau, // Lấy từ sanPham
+                                    sanPham.chiTietSanPhamReq.maBaoBi,
+                                maMau: sanPham.chiTietSanPhamReq.maMau,
                                 maLoaiDinhMucLyThuyet:
                                     sanPham.chiTietSanPhamReq
                                         .maLoaiDinhMucLyThuyet,
@@ -75,15 +82,13 @@ function AdminExportForm() {
                                 soLuong: sanPham.chiTietSanPhamReq.soLuong,
                             },
                         ]
-                        : [], // Khởi tạo mảng trống nếu chiTietSanPhamReq không tồn tại
+                        : [],
                 }))
-                : [], // Khởi tạo mảng trống nếu sanPhamMuaDtoList không phải là mảng
+                : [],
             lyDo: formData.lyDo,
         };
 
-        console.log(formData);
-
-        console.log(dataToSend);
+        console.log("Thong tin gui: ", dataToSend);
 
         mutation.mutate(dataToSend);
     };
