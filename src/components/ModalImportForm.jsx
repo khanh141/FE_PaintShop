@@ -136,7 +136,52 @@ function ModalImportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                 )}
                                             </select>
                                         </label>
+                                        {/* Single detail for each product */}
                                         <label className="w-100">
+                                            Chọn chi tiết sản phẩm
+                                            <select
+                                                required
+                                                value={
+                                                    product.chiTietSanPhamReq
+                                                        .chiTietSanPham || ''
+                                                }
+                                                onChange={(e) =>
+                                                    handleDetailChange(
+                                                        productIndex,
+                                                        'chiTietSanPham',
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className="w-100"
+                                            >
+                                                <option value="">
+                                                    Chọn chi tiết sản phẩm
+                                                </option>
+                                                {sanPhamData.data
+                                                    .find(
+                                                        (sp) =>
+                                                            sp.maSanPham ===
+                                                            parseInt(
+                                                                product.maSanPham,
+                                                                10
+                                                            )
+                                                    )
+                                                    ?.chiTietSanPhamResList.map(
+                                                        (ct, index) => (
+                                                            <option
+                                                                key={index}
+                                                                value={
+                                                                    ct.maChiTietSanPham
+                                                                }
+                                                            >
+                                                                {`${ct.loaiBaoBi} - ${ct.mau} - ${ct.loaiDinhMucLyThuyet} - Số lượng trong kho: ${ct.soLuong}`}
+                                                            </option>
+                                                        )
+                                                    )}
+                                            </select>
+                                        </label>
+
+                                        {/* <label className="w-100">
                                             Màu
                                             <select
                                                 required
@@ -197,9 +242,9 @@ function ModalImportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                     );
                                                 })}
                                             </select>
-                                        </label>
+                                        </label> */}
 
-                                        <label className="w-100">
+                                        {/* <label className="w-100">
                                             Loại định mức lý thuyết
                                             <select
                                                 required
@@ -272,9 +317,9 @@ function ModalImportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                     }
                                                 )}
                                             </select>
-                                        </label>
+                                        </label> */}
 
-                                        <label className="w-100">
+                                        {/* <label className="w-100">
                                             Loại bao bì
                                             <select
                                                 required
@@ -321,7 +366,7 @@ function ModalImportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                     );
                                                 })}
                                             </select>
-                                        </label>
+                                        </label> */}
                                         <label className="w-100">
                                             Nhà sản xuất
                                             <input
