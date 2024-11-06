@@ -197,9 +197,9 @@ function AdminExportForm() {
                                     </td>
                                     <td>{phieu.lyDo}</td>
                                     <td>
-                                        {phieu.tongTien.toLocaleString()} VND
+                                        {phieu?.tongTien?.toLocaleString()} VND
                                     </td>
-                                    <td>{phieu.thongTinKhach.soDienThoai}</td>
+                                    <td>{phieu?.thongTinKhach?.soDienThoai}</td>
                                     <td>
                                         <Button
                                             onClick={() =>

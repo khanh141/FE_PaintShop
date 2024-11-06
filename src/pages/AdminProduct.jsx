@@ -205,13 +205,13 @@ function AdminProduct() {
             <h1 className="text-center mb-5">Quản Lý Sản Phẩm</h1>
             <div>
                 <Button
-                    className="mt-4 rounded"
+                    className="mt-4 rounded mb-2"
                     onClick={() => setIsShowModalAddProduct(true)}
                 >
                     Thêm sản phẩm
                 </Button>
                 <Button
-                    className="mt-4 rounded"
+                    className="mt-4 rounded mb-2 ms-3"
                     onClick={() => setIsShowAddProductDetailModal(true)}
                 >
                     Thêm chi tiết sản phẩm

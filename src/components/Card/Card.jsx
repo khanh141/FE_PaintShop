@@ -35,15 +35,15 @@ const convertToVietnamTime = (utcDateStr) => {
 
 // Cập nhật lại mảng categories với múi giờ Việt Nam
 const vietnamCategories = [
-    '2018-09-19T00:00:00.000Z',
-    '2018-09-20T01:30:00.000Z',
-    '2018-09-21T02:30:00.000Z',
-    '2018-09-22T03:30:00.000Z',
-    '2018-09-23T04:30:00.000Z',
-    '2018-09-24T05:30:00.000Z',
-    '2018-09-25T06:30:00.000Z',
-    '2018-09-26T07:30:00.000Z',
-    '2018-09-27T08:30:00.000Z',
+    '2024-11-01T00:00:00.000Z',
+    '2024-11-02T01:30:00.000Z',
+    '2024-11-03T02:30:00.000Z',
+    '2024-11-04T03:30:00.000Z',
+    '2024-11-05T04:30:00.000Z',
+    '2024-11-06T05:30:00.000Z',
+    '2024-11-07T06:30:00.000Z',
+    '2024-11-07T07:30:00.000Z',
+    '2024-11-08T08:30:00.000Z',
 ];
 // ].map(convertToVietnamTime);
 
@@ -79,6 +79,8 @@ function CompactCard({ param, setExpanded, layoutId }) {
 
 // Expanded Card
 function ExpandedCard({ param, setExpanded, layoutId }) {
+    console.log(param.dataTime);
+
     const data = {
         options: {
             chart: {
@@ -114,7 +116,12 @@ function ExpandedCard({ param, setExpanded, layoutId }) {
             },
             xaxis: {
                 type: 'datetime',
-                categories: param.dataTime, // Dữ liệu thời gian
+                categories: param.dataTime,
+                // tickAmount: param.dataTime.length,
+                min: new Date(param.dataTime[0]).getTime(),
+                max: new Date(
+                    param.dataTime[param.dataTime.length - 1]
+                ).getTime(),
                 labels: {
                     formatter: function (value) {
                         const date = new Date(value);
@@ -126,15 +133,11 @@ function ExpandedCard({ param, setExpanded, layoutId }) {
                     },
                     show: true,
                     style: {
-                        colors: ['#000'], // Màu sắc cho nhãn
-                        fontSize: '12px', // Kích thước chữ cho nhãn
+                        colors: ['#000'],
+                        fontSize: '12px',
                     },
                 },
-                tickAmount: param.dataTime.length, // Đảm bảo có đủ ticks cho từng ngày
-                min: new Date(param.dataTime[0]).getTime(), // Ngày đầu tiên
-                max: new Date(
-                    param.dataTime[param.dataTime.length - 1]
-                ).getTime(), // Ngày cuối cùng
+                endOnTick: true, // Đảm bảo trục x dừng ở điểm cuối cùng
             },
         },
     };

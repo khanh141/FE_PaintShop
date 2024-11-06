@@ -1,7 +1,7 @@
 import { Col } from 'react-bootstrap';
 import OrderTables from '../components/Order';
 import Cards from '~/components/Cards/Cards';
-import Table from '../components/Table';
+import Table from '../components/TableDaboard';
 
 function Dashboard() {
     return (

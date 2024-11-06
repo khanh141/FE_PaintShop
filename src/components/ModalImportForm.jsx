@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Col, Row, Form } from 'react-bootstrap';
 
-function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
+function ModalImportForm({ show, onHide, onSubmit, sanPhamData }) {
     const [thongTinKhach, setThongTinKhach] = useState({
         sdt: '',
         hoTen: '',
@@ -92,159 +92,50 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
         >
             <form onSubmit={handleSubmit}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Thêm phiếu xuất</Modal.Title>
+                    <Modal.Title>Nhập hàng</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="addPhieuXuatForm">
                     <Col>
-                        {/* Customer Information */}
-                        <Row className="thongTinKhach">
-                            <h5>Thông tin khách</h5>
-                            <div className="d-flex gap-2">
-                                <label className="w-100">
-                                    Số điện thoại khách
-                                    <input
-                                        required
-                                        type="text"
-                                        name="sdt"
-                                        value={thongTinKhach.sdt}
-                                        onChange={handleChangeCustomer}
-                                        placeholder="Số điện thoại"
-                                        className="w-100"
-                                    />
-                                </label>
-                                <label className="w-100">
-                                    Họ tên
-                                    <input
-                                        required
-                                        type="text"
-                                        name="hoTen"
-                                        value={thongTinKhach.hoTen}
-                                        onChange={handleChangeCustomer}
-                                        placeholder="Họ tên"
-                                        className="w-100"
-                                    />
-                                </label>
-                            </div>
-                            <div>
-                                <label className="w-100 ">
-                                    Địa chỉ
-                                    <input
-                                        required
-                                        type="text"
-                                        name="diaChi"
-                                        value={thongTinKhach.diaChi}
-                                        onChange={handleChangeCustomer}
-                                        placeholder="Địa chỉ"
-                                        className="w-100"
-                                    />
-                                </label>
-                            </div>
-                        </Row>
-
-                        {/* Products Selection */}
                         <Row className="sanPhamMua">
-                            <h5 className="mt-2">Chọn sản phẩm mua</h5>
-                            {sanPhamMuaDtoList.map((product, productIndex) => (
-                                <div key={productIndex}>
-                                    <label className="w-100">
-                                        Tên sản phẩm
-                                        <select
-                                            required
-                                            value={product.maSanPham || ''}
-                                            onChange={(e) =>
-                                                handleSanPhamChange(
-                                                    productIndex,
-                                                    e
-                                                )
-                                            }
-                                            className="w-100"
-                                        >
-                                            <option value="">
-                                                Chọn sản phẩm
-                                            </option>
-                                            {sanPhamData?.data?.map(
-                                                (sp, index) => (
-                                                    <option
-                                                        key={`${sp.maSanPham}-${index}`}
-                                                        value={sp.maSanPham}
-                                                    >
-                                                        {sp.ten}
-                                                    </option>
-                                                )
-                                            )}
-                                        </select>
-                                    </label>
+                            <h5 className="mt-2">Thông tin nhập hàng</h5>
+                            {sanPhamMuaDtoList.map((product, productIndex) => {
+                                // Xác định sản phẩm (sp) dựa trên maSanPham của product
+                                const sp = sanPhamData?.data?.find(
+                                    (item) =>
+                                        item.maSanPham ===
+                                        parseInt(product.maSanPham, 10)
+                                );
 
-                                    <div>
-                                        {/* Single detail for each product */}
+                                return (
+                                    <div key={productIndex}>
                                         <label className="w-100">
-                                            Loại bao bì
+                                            Tên sản phẩm
                                             <select
                                                 required
-                                                value={
-                                                    product.chiTietSanPhamReq
-                                                        .maBaoBi || ''
-                                                }
+                                                value={product.maSanPham || ''}
                                                 onChange={(e) =>
-                                                    handleDetailChange(
+                                                    handleSanPhamChange(
                                                         productIndex,
-                                                        'maBaoBi',
-                                                        e.target.value
+                                                        e
                                                     )
                                                 }
                                                 className="w-100"
                                             >
                                                 <option value="">
-                                                    Chọn loại bao bì
+                                                    Chọn sản phẩm
                                                 </option>
-                                                {Array.from(
-                                                    new Set(
-                                                        sanPhamData?.data
-                                                            ?.find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.map(
-                                                                (ct) =>
-                                                                    ct.maBaoBi
-                                                            )
-                                                    )
-                                                ).map((uniqueMaBaoBi) => {
-                                                    const baoBiDetail =
-                                                        sanPhamData.data
-                                                            .find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.find(
-                                                                (ct) =>
-                                                                    ct.maBaoBi ===
-                                                                    uniqueMaBaoBi
-                                                            );
-                                                    return (
+                                                {sanPhamData?.data?.map(
+                                                    (sp, index) => (
                                                         <option
-                                                            key={uniqueMaBaoBi}
-                                                            value={
-                                                                uniqueMaBaoBi
-                                                            }
+                                                            key={`${sp.maSanPham}-${index}`}
+                                                            value={sp.maSanPham}
                                                         >
-                                                            {
-                                                                baoBiDetail?.loaiBaoBi
-                                                            }
+                                                            {sp.ten}
                                                         </option>
-                                                    );
-                                                })}
+                                                    )
+                                                )}
                                             </select>
                                         </label>
-
                                         <label className="w-100">
                                             Màu
                                             <select
@@ -282,8 +173,8 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                     )
                                                 ).map((uniqueMaMau) => {
                                                     const mauDetail =
-                                                        sanPhamData.data
-                                                            .find(
+                                                        sanPhamData?.data
+                                                            ?.find(
                                                                 (sp) =>
                                                                     sp.maSanPham ===
                                                                     parseInt(
@@ -382,6 +273,65 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                 )}
                                             </select>
                                         </label>
+
+                                        <label className="w-100">
+                                            Loại bao bì
+                                            <select
+                                                required
+                                                value={
+                                                    product.chiTietSanPhamReq
+                                                        ?.maBaoBi || ''
+                                                }
+                                                onChange={(e) =>
+                                                    handleDetailChange(
+                                                        productIndex,
+                                                        'maBaoBi',
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className="w-100"
+                                            >
+                                                <option value="">
+                                                    Chọn loại bao bì
+                                                </option>
+                                                {Array.from(
+                                                    new Set(
+                                                        sp?.chiTietSanPhamResList.map(
+                                                            (ct) => ct.maBaoBi
+                                                        )
+                                                    )
+                                                ).map((uniqueMaBaoBi) => {
+                                                    const baoBiDetail =
+                                                        sp?.chiTietSanPhamResList.find(
+                                                            (ct) =>
+                                                                ct.maBaoBi ===
+                                                                uniqueMaBaoBi
+                                                        );
+                                                    return (
+                                                        <option
+                                                            key={uniqueMaBaoBi}
+                                                            value={
+                                                                uniqueMaBaoBi
+                                                            }
+                                                        >
+                                                            {
+                                                                baoBiDetail?.loaiBaoBi
+                                                            }
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+                                        </label>
+                                        <label className="w-100">
+                                            Nhà sản xuất
+                                            <input
+                                                type="text"
+                                                name={`nhaSanXuat_${productIndex}`}
+                                                placeholder="Nhà sản xuất"
+                                                value={sp?.tenNhaSanXuat || ''} // Giá trị nhà sản xuất
+                                                readOnly
+                                            />
+                                        </label>
                                         <label className="w-100">
                                             Số lượng
                                             <input
@@ -403,23 +353,50 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                 className="w-100"
                                             />
                                         </label>
+                                        <label className="w-100">
+                                            Giá tiền
+                                            <input
+                                                required
+                                                type="number"
+                                                min="1"
+                                                value={
+                                                    product.chiTietSanPhamReq
+                                                        .soLuong || ''
+                                                }
+                                                onChange={(e) =>
+                                                    handleDetailChange(
+                                                        productIndex,
+                                                        'giaTien',
+                                                        e.target.value
+                                                    )
+                                                }
+                                                placeholder="Giá tiền"
+                                                className="w-100"
+                                            />
+                                        </label>
+
+                                        {/* Các trường màu, định mức lý thuyết, số lượng, giá tiền tương tự */}
+                                        {/* ... */}
+
+                                        {/* <Button
+                                            className="mt-3"
+                                            variant="danger"
+                                            onClick={() =>
+                                                handleRemoveProduct(
+                                                    productIndex
+                                                )
+                                            }
+                                        >
+                                            Xóa sản phẩm
+                                        </Button> */}
+                                        <hr />
                                     </div>
-                                    <Button
-                                        className="mt-3"
-                                        variant="danger"
-                                        onClick={() =>
-                                            handleRemoveProduct(productIndex)
-                                        }
-                                    >
-                                        Xóa sản phẩm
-                                    </Button>
-                                    <hr />
-                                </div>
-                            ))}
+                                );
+                            })}
                         </Row>
-                        <Button variant="primary" onClick={handleAddProduct}>
+                        {/* <Button variant="primary" onClick={handleAddProduct}>
                             Thêm sản phẩm
-                        </Button>
+                        </Button> */}
                     </Col>
                 </Modal.Body>
                 <Modal.Footer>
@@ -431,4 +408,4 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
     );
 }
 
-export default ModalExportForm;
+export default ModalImportForm;
