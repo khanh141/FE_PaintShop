@@ -50,7 +50,6 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
         });
     };
 
-
     const handleAddProduct = () => {
         setSanPhamMuaDtoList([
             ...sanPhamMuaDtoList,
@@ -174,69 +173,15 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                         </select>
                                     </label>
 
-<<<<<<< HEAD
-                                    <div>
-                                        {/* Single detail for each product */}
-                                        <label className="w-100">
-                                            Loại bao bì
-                                            <select
-                                                required
-                                                value={
-                                                    product.chiTietSanPhamReq
-                                                        .maBaoBi || ''
-                                                }
-                                                onChange={(e) =>
-                                                    handleDetailChange(
-                                                        productIndex,
-                                                        'maBaoBi',
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className="w-100"
-                                            >
-                                                <option value="">
-                                                    Chọn loại bao bì
-                                                </option>
-                                                {Array.from(
-                                                    new Set(
-                                                        sanPhamData?.data
-                                                            ?.find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.map(
-                                                                (ct) =>
-                                                                    ct.maBaoBi
-                                                            )
-                                                    )
-                                                ).map((uniqueMaBaoBi) => {
-                                                    const baoBiDetail =
-                                                        sanPhamData.data
-                                                            .find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.find(
-                                                                (ct) =>
-                                                                    ct.maBaoBi ===
-                                                                    uniqueMaBaoBi
-                                                            );
-                                                    return (
-=======
                                     {/* Single detail for each product */}
                                     <label className="w-100">
                                         Chọn chi tiết sản phẩm
                                         <select
                                             required
-                                            value={product.chiTietSanPhamReq.chiTietSanPham || ''}
+                                            value={
+                                                product.chiTietSanPhamReq
+                                                    .chiTietSanPham || ''
+                                            }
                                             onChange={(e) =>
                                                 handleDetailChange(
                                                     productIndex,
@@ -252,145 +197,26 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                             {sanPhamData.data
                                                 .find(
                                                     (sp) =>
-                                                        sp.maSanPham === parseInt(product.maSanPham, 10)
+                                                        sp.maSanPham ===
+                                                        parseInt(
+                                                            product.maSanPham,
+                                                            10
+                                                        )
                                                 )
                                                 ?.chiTietSanPhamResList.map(
                                                     (ct, index) => (
->>>>>>> 40ddd7ca164cca614b1e2c26d175f7b3000c1734
                                                         <option
                                                             key={index}
-                                                            value={ct.maChiTietSanPham}
+                                                            value={
+                                                                ct.maChiTietSanPham
+                                                            }
                                                         >
                                                             {`${ct.loaiBaoBi} - ${ct.mau} - ${ct.loaiDinhMucLyThuyet} - Số lượng trong kho: ${ct.soLuong}`}
                                                         </option>
                                                     )
-<<<<<<< HEAD
-                                                }
-                                                className="w-100"
-                                            >
-                                                <option value="">
-                                                    Chọn màu
-                                                </option>
-                                                {Array.from(
-                                                    new Set(
-                                                        sanPhamData?.data
-                                                            ?.find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.map(
-                                                                (ct) => ct.maMau
-                                                            )
-                                                    )
-                                                ).map((uniqueMaMau) => {
-                                                    const mauDetail =
-                                                        sanPhamData.data
-                                                            .find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.find(
-                                                                (ct) =>
-                                                                    ct.maMau ===
-                                                                    uniqueMaMau
-                                                            );
-                                                    return (
-                                                        <option
-                                                            key={uniqueMaMau}
-                                                            value={uniqueMaMau}
-                                                        >
-                                                            {mauDetail?.mau}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
-                                        </label>
-
-                                        <label className="w-100">
-                                            Loại định mức lý thuyết
-                                            <select
-                                                required
-                                                value={
-                                                    product.chiTietSanPhamReq
-                                                        .maLoaiDinhMucLyThuyet ||
-                                                    ''
-                                                }
-                                                onChange={(e) =>
-                                                    handleDetailChange(
-                                                        productIndex,
-                                                        'maLoaiDinhMucLyThuyet',
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className="w-100"
-                                            >
-                                                <option value="">
-                                                    Chọn loại định mức
-                                                </option>
-                                                {Array.from(
-                                                    new Set(
-                                                        sanPhamData?.data
-                                                            ?.find(
-                                                                (sp) =>
-                                                                    sp.maSanPham ===
-                                                                    parseInt(
-                                                                        product.maSanPham,
-                                                                        10
-                                                                    )
-                                                            )
-                                                            ?.chiTietSanPhamResList.map(
-                                                                (ct) =>
-                                                                    ct.maDinhMucLyThuyet
-                                                            )
-                                                    )
-                                                ).map(
-                                                    (
-                                                        uniqueMaDinhMucLyThuyet
-                                                    ) => {
-                                                        const dinhMucDetail =
-                                                            sanPhamData.data
-                                                                .find(
-                                                                    (sp) =>
-                                                                        sp.maSanPham ===
-                                                                        parseInt(
-                                                                            product.maSanPham,
-                                                                            10
-                                                                        )
-                                                                )
-                                                                ?.chiTietSanPhamResList.find(
-                                                                    (ct) =>
-                                                                        ct.maDinhMucLyThuyet ===
-                                                                        uniqueMaDinhMucLyThuyet
-                                                                );
-                                                        return (
-                                                            <option
-                                                                key={
-                                                                    uniqueMaDinhMucLyThuyet
-                                                                }
-                                                                value={
-                                                                    uniqueMaDinhMucLyThuyet
-                                                                }
-                                                            >
-                                                                {
-                                                                    dinhMucDetail?.loaiDinhMucLyThuyet
-                                                                }
-                                                            </option>
-                                                        );
-                                                    }
-=======
->>>>>>> 40ddd7ca164cca614b1e2c26d175f7b3000c1734
                                                 )}
                                         </select>
                                     </label>
-
 
                                     <label className="w-100">
                                         Số lượng
@@ -403,7 +229,11 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                                     .soLuong || ''
                                             }
                                             onChange={(e) =>
-                                                handleDetailChange(productIndex, "soLuong", e.target.value)
+                                                handleDetailChange(
+                                                    productIndex,
+                                                    'soLuong',
+                                                    e.target.value
+                                                )
                                             }
                                             placeholder="Số lượng"
                                             className="w-100"
