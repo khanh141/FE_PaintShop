@@ -20,8 +20,9 @@ export default function Warehouse() {
                 width: '100%',
             }}
         >
-            <Button>Thêm Kho</Button>
+            <Button className='priColor'>Thêm Kho</Button>
             <Table
+                className='mt-4'
                 style={{
                     width: '100%',
                     borderCollapse: 'collapse',

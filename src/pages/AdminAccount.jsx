@@ -36,13 +36,13 @@ function AdminAccount() {
             <div>
                 <h1 className="text-center mb-5">Quản lý tài khoản</h1>
                 <Button
-                    className="mt-4 rounded"
+                    className="mt-4 rounded priColor"
                     onClick={() => setIsShowRegistrationModal(true)}
                 >
                     Thêm nhân viên
                 </Button>
 
-                <Table>
+                <Table className='mt-4'>
                     <thead>
                         <tr>
                             <th>STT</th>
@@ -60,7 +60,7 @@ function AdminAccount() {
                                     <td>{prod.tenDangNhap}</td>
                                     <td>{prod.quyens}</td>
                                     <td>
-                                        <Button>Chi Tiết</Button>
+                                        <Button className='priColor'>Chi Tiết</Button>
                                     </td>
                                 </tr>
                             ))}
