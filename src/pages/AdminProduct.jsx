@@ -204,19 +204,22 @@ function AdminProduct() {
         <Col sm={12} md={12} lg={10} xl={10}>
             <h1 className="text-center mb-5">Quản Lý Sản Phẩm</h1>
             <div>
-                <Button
-                    className="mt-4 rounded"
-                    onClick={() => setIsShowModalAddProduct(true)}
-                >
-                    Thêm sản phẩm
-                </Button>
-                <Button
-                    className="mt-4 rounded"
-                    onClick={() => setIsShowAddProductDetailModal(true)}
-                >
-                    Thêm chi tiết sản phẩm
-                </Button>
+                <div >
+                    <Button
+                        className="mt-4 rounded me-4 priColor"
+                        onClick={() => setIsShowModalAddProduct(true)}
+                    >
+                        Thêm sản phẩm
+                    </Button>
+                    <Button
+                        className="mt-4 rounded priColor"
+                        onClick={() => setIsShowAddProductDetailModal(true)}
+                    >
+                        Thêm chi tiết sản phẩm
+                    </Button>
+                </div>
                 <div
+                    className='mt-4'
                     style={{
                         maxHeight: '80vh',
                         overflowY: 'auto',

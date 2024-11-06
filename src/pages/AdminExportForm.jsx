@@ -61,22 +61,22 @@ function AdminExportForm() {
             },
             sanPhamMuaDtoList: Array.isArray(formData.sanPhamMuaDtoList)
                 ? formData.sanPhamMuaDtoList.map((sanPham) => ({
-                      maSanPham: sanPham.maSanPham,
-                      chiTietSanPhamReqList: sanPham.chiTietSanPhamReq
-                          ? [
-                                {
-                                    maLoaiBaoBi:
-                                        sanPham.chiTietSanPhamReq.maBaoBi, // Lấy từ sanPham
-                                    maMau: sanPham.chiTietSanPhamReq.maMau, // Lấy từ sanPham
-                                    maLoaiDinhMucLyThuyet:
-                                        sanPham.chiTietSanPhamReq
-                                            .maLoaiDinhMucLyThuyet,
-                                    giaTien: sanPham.chiTietSanPhamReq.giaTien,
-                                    soLuong: sanPham.chiTietSanPhamReq.soLuong,
-                                },
-                            ]
-                          : [], // Khởi tạo mảng trống nếu chiTietSanPhamReq không tồn tại
-                  }))
+                    maSanPham: sanPham.maSanPham,
+                    chiTietSanPhamReqList: sanPham.chiTietSanPhamReq
+                        ? [
+                            {
+                                maLoaiBaoBi:
+                                    sanPham.chiTietSanPhamReq.maBaoBi, // Lấy từ sanPham
+                                maMau: sanPham.chiTietSanPhamReq.maMau, // Lấy từ sanPham
+                                maLoaiDinhMucLyThuyet:
+                                    sanPham.chiTietSanPhamReq
+                                        .maLoaiDinhMucLyThuyet,
+                                giaTien: sanPham.chiTietSanPhamReq.giaTien,
+                                soLuong: sanPham.chiTietSanPhamReq.soLuong,
+                            },
+                        ]
+                        : [], // Khởi tạo mảng trống nếu chiTietSanPhamReq không tồn tại
+                }))
                 : [], // Khởi tạo mảng trống nếu sanPhamMuaDtoList không phải là mảng
             lyDo: formData.lyDo,
         };
@@ -102,7 +102,7 @@ function AdminExportForm() {
         <Col sm={12} md={12} lg={10} xl={10}>
             <h1 className="text-center mb-5">Quản Lý Sản Phẩm</h1>
             <Button
-                className="mt-4 rounded"
+                className="mt-4 rounded priColor"
                 onClick={() => setIsShowModalAddProduct(true)}
             >
                 Tạo phiếu xuất
@@ -110,6 +110,7 @@ function AdminExportForm() {
 
             <div
                 style={{ maxHeight: '80vh', overflowY: 'auto', width: '100%' }}
+                className='mt-4'
             >
                 <Table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
@@ -202,6 +203,7 @@ function AdminExportForm() {
                                     <td>{phieu.thongTinKhach.soDienThoai}</td>
                                     <td>
                                         <Button
+                                            className='priColor'
                                             onClick={() =>
                                                 handleShowDetails(phieu)
                                             }
