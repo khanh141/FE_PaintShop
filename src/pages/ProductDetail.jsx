@@ -235,10 +235,10 @@ const ProductDetail = () => {
         tenNhaSanXuat: newProduct.tenNhaSanXuat,
         tinhNang: newProduct.tinhNang
       }));
-      toast.success('mua hàng thành công!'); // Thông báo thành công
+      toast.success('mua hàng thành công!', { position: "top-right", autoClose: 3000 }); // Thông báo thành công
       navigate('/purchase');
     } catch (error) {
-      toast.error('Mua hàng thất bại!'); // Thông báo thất bại
+      toast.error('Mua hàng thất bại!', { position: "top-right", autoClose: 3000 }); // Thông báo thất bại
     }
   }
 
