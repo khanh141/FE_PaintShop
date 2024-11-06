@@ -10,8 +10,6 @@ const MoreProducts = ({ products }) => {
     }
     const imageUrl = "/images/product.jpg"
 
-    console.log(products)
-
     var settings = {
         infinite: true,
         speed: 1200,

@@ -14,7 +14,7 @@ export default function PurchasePage() {
     const [selectedMethod, setSelectedMethod] = useState("");
     const [showInvoice, setShowInvoice] = useState(false);
     const navigate = useNavigate();
-    const [diaChi, setDiaChi] = useState(""); 
+    const [diaChi, setDiaChi] = useState("");
     const [hoTen, setHoTen] = useState("");
     const location = useLocation();
 
@@ -31,8 +31,6 @@ export default function PurchasePage() {
     }, [location.search, navigate]);
 
     const selectedProducts = products.filter(product => product.isChecked);
-    console.log("Sản phẩm trong giỏ hàng:", products);
-    
     const calculateTotal = () => {
         return selectedProducts.reduce((total, product) => total + product.chiTietSanPham.giaTien * product.chiTietSanPham.soLuong, 0);
     };
@@ -77,18 +75,16 @@ export default function PurchasePage() {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            console.log('Order Response:', response.data);
-
             if (selectedMethod === "Chuyển khoản") {
                 // Initiate payment via VNPay if selected method is "Chuyển khoản"
                 const amount = response.data;
                 const bankCode = "NCB";
                 await handlePayByVNPay(amount, bankCode, token);
             }
-          else if (selectedMethod === "Tiền mặt") {
-            setShowInvoice(true);
-          toast.success("Đặt hàng thành công", { position: "top-right", autoClose: 3000 })
-        }
+            else if (selectedMethod === "Tiền mặt") {
+                setShowInvoice(true);
+                toast.success("Đặt hàng thành công", { position: "top-right", autoClose: 3000 })
+            }
         } catch (error) {
             console.error('Error:', error);
             toast.error("Đã xảy ra lỗi khi đặt hàng vui lòng thử lại", { position: "top-right", autoClose: 2000 });
@@ -110,7 +106,7 @@ export default function PurchasePage() {
                 toast.error("Không thể lấy thông tin người dùng", { position: "top-right" });
             }
         };
-    
+
         fetchUserInfo();
     }, []);
 
@@ -131,9 +127,9 @@ export default function PurchasePage() {
             toast.error(error.message, { position: "top-right", autoClose: 3000 });
         }
     };
-  
-  const handleInvoiceConfirm = () => {
-        setShowInvoice(false); 
+
+    const handleInvoiceConfirm = () => {
+        setShowInvoice(false);
         // navigate("/cart")
     };
 
@@ -157,7 +153,7 @@ export default function PurchasePage() {
                                 <td>{product.chiTietSanPham.giaTien.toLocaleString('vi-VN')} đ</td>
                                 <td>{product.chiTietSanPham.soLuong}</td>
                                 <td>
-                                    {(product.chiTietSanPham.giaTien* product.chiTietSanPham.soLuong ).toLocaleString('vi-VN')} đ
+                                    {(product.chiTietSanPham.giaTien * product.chiTietSanPham.soLuong).toLocaleString('vi-VN')} đ
                                 </td>
                             </tr>
                         ))
