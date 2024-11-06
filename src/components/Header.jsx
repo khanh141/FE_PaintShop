@@ -109,7 +109,7 @@ export default function NavigationBar() {
                             <Col xs={10} sm={8} className="d-flex linksCol">
                                 <Nav className="linksContainer">
                                     {quyen === 'nhanVien' ||
-                                    quyen === 'quanTriVien' ? (
+                                        quyen === 'quanTriVien' ? (
                                         <Nav.Item className="px-2">
                                             <Link
                                                 className="nav-link text-black fs-5"
@@ -145,16 +145,19 @@ export default function NavigationBar() {
                                                     </span>
                                                 </Link>
                                             </Nav.Item>
-                                            {location.pathname !== '/cart' && (
-                                                <Nav.Item className="px-2">
-                                                    <Link
-                                                        className="nav-link text-black fs-5"
-                                                        to="/cart"
-                                                    >
-                                                        <FaShoppingCart />
-                                                    </Link>
-                                                </Nav.Item>
-                                            )}
+                                            {location.pathname !== '/cart'
+                                                && quyen !== 'nhanVien'
+                                                && quyen !== 'quanTriVien'
+                                                && (
+                                                    <Nav.Item className="px-2">
+                                                        <Link
+                                                            className="nav-link text-black fs-5"
+                                                            to="/cart"
+                                                        >
+                                                            <FaShoppingCart />
+                                                        </Link>
+                                                    </Nav.Item>
+                                                )}
                                             <Nav.Item className="px-2 fs-5">
                                                 <Link
                                                     className="nav-link text-black fs-5"

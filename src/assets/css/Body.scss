@@ -29,6 +29,9 @@ body {
             border-color: var(--secondary-color);
         }
     }
+    .container {
+        border-radius: 4px;
+    }
     .sndColor {
         background-color: var(--secondary-color);
         border-color: var(--secondary-color);
@@ -55,6 +58,13 @@ body {
     }
     a {
         text-decoration: none;
+    }
+    button:disabled {
+        background-color: var(--secondary-color) !important;
+        border-color: var(--secondary-color) !important;
+        color: #777;
+        cursor: not-allowed;
+        opacity: 0.4;
     }
     background-repeat: no-repeat;
     background-size: cover;
@@ -289,6 +299,109 @@ body {
     }
     .authForm {
         background-color: var(--white-color);
+    }
+    .cartContainer {
+        #cartTable {
+            tr {
+                vertical-align: middle;
+                .checkBoxCol,
+                .giaTienCol,
+                .soLuongCol,
+                .tongTienCol,
+                .thaoTacCol {
+                    text-align: center;
+                }
+                .imageCol {
+                    width: 60px;
+                }
+                .tenCol {
+                    div {
+                        display: flex;
+                        flex-direction: column;
+                        .chiTietSanPham {
+                            display: flex;
+                            flex-direction: row;
+                            gap: 20px;
+                            small {
+                                color: gray;
+                            }
+                        }
+                    }
+                }
+                .thaoTacCol {
+                    width: max-content !important;
+                    span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: inherit;
+                        height: 100px;
+                        width: 100%;
+                        &:hover {
+                            color: var(--primary-color);
+                        }
+                    }
+                }
+            }
+            tbody tr {
+                height: 100px;
+                border-top: 1px solid var(--primary-color);
+
+                // Override border color for cells
+                td,
+                th {
+                    border-color: var(--primary-color) !important;
+                }
+            }
+        }
+        .sumMoneyContainer {
+            div {
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                gap: 20px;
+                span {
+                    margin: 0;
+                    strong {
+                        font-size: 1.4em;
+                    }
+                }
+                background-color: var(--background-color);
+                height: max-content;
+                padding: 10px;
+                button {
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+    .confirmModal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+    }
+
+    .confirmModal-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: white;
+        padding: 20px;
+        height: 200px;
+        border-radius: 8px;
+        text-align: center;
+        .btnGroup {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
     }
 }
 

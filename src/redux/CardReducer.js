@@ -18,7 +18,6 @@ export const fetchProducts = createAsyncThunk(
                     headers: { Authorization: `Bearer ${token}` },
                 }
             );
-            console.log(response.data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);
@@ -29,7 +28,7 @@ export const fetchProducts = createAsyncThunk(
 const cardSlice = createSlice({
     name: 'cart',
     initialState,
-    reducers: {    
+    reducers: {
         toggleCheckbox: (state, action) => {
             const { maSanPham, mau, loaiBaoBi } = action.payload;
             state.products = state.products.map((product) => {
@@ -42,14 +41,16 @@ const cardSlice = createSlice({
                 }
                 return product;
             });
-        
+
             // Cập nhật `selectAll` nếu tất cả sản phẩm đã được chọn
-            state.selectAll = state.products.every((product) => product.isChecked);
+            state.selectAll = state.products.every(
+                (product) => product.isChecked
+            );
         },
         toggleSelectAll: (state) => {
             const newSelectAll = !state.selectAll;
             state.selectAll = newSelectAll;
-        
+
             // Cập nhật `isChecked` cho từng sản phẩm theo `selectAll`
             state.products = state.products.map((product) => ({
                 ...product,
@@ -63,24 +64,21 @@ const cardSlice = createSlice({
             const existingProduct = state.products.find(
                 (product) =>
                     product.maSanPham === newProduct.maSanPham &&
-                    product.chiTietSanPham.mau === newProduct.chiTietSanPham.mau &&
-                    product.chiTietSanPham.loaiBaoBi === newProduct.chiTietSanPham.loaiBaoBi
+                    product.chiTietSanPham.mau ===
+                        newProduct.chiTietSanPham.mau &&
+                    product.chiTietSanPham.loaiBaoBi ===
+                        newProduct.chiTietSanPham.loaiBaoBi
             );
-        
+
             if (existingProduct) {
-                // Nếu sản phẩm đã tồn tại, có thể tăng số lượng hoặc xử lý khác ở đây
                 existingProduct.soLuong += 1;
-                console.log('Sản phẩm đã được thêm vào giỏ hàng!');
             } else {
                 state.products.push({
                     ...newProduct,
                     isChecked: true,
                 });
-                console.log('Sản phẩm đã được thêm vào giỏ hàng!');
             }
-            console.log('Current product list:', state.products);
         },
-
 
         increaseQuantity: (state, action) => {
             const product = state.products.find(
@@ -122,6 +120,20 @@ const cardSlice = createSlice({
                     )
             );
         },
+        setProductQuantity: (state, action) => {
+            const cartProduct = state.products.find(
+                (p) =>
+                    p.maSanPham === action.payload.maSanPham &&
+                    p.chiTietSanPham.loaiDinhMucLyThuyet ===
+                        action.payload.chiTietSanPham.loaiDinhMucLyThuyet &&
+                    p.chiTietSanPham.loaiBaoBi ===
+                        action.payload.chiTietSanPham.loaiBaoBi &&
+                    p.chiTietSanPham.mau === action.payload.chiTietSanPham.mau
+            );
+            if (cartProduct) {
+                cartProduct.soLuong = action.payload.soLuong;
+            }
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchProducts.fulfilled, (state, action) => {
@@ -130,9 +142,11 @@ const cardSlice = createSlice({
                 acc[product.id] = product.isChecked || false;
                 return acc;
             }, {});
-            state.selectAll = action.payload.every((product) => product.isChecked); // Cập nhật `selectAll`
+            state.selectAll = action.payload.every(
+                (product) => product.isChecked
+            ); // Cập nhật `selectAll`
         });
-    }    
+    },
 });
 
 // Action để tăng số lượng sản phẩm
@@ -163,27 +177,22 @@ export const decreaseProductQuantity =
     (product, tenDangNhap) => async (dispatch) => {
         const token = localStorage.getItem('token');
         if (product.soLuong === 1) {
-            const confirmDelete = window.confirm(
-                'Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?'
-            );
-            if (confirmDelete) {
-                try {
-                    const response = await axios.post(
-                        'http://localhost:8080/gioHang/xoaSanPham',
-                        {
-                            ...product.chiTietSanPham,
-                            maSanPham: product.maSanPham,
-                            tenDangNhap,
-                            soLuong: 1,
-                        },
-                        { headers: { Authorization: `Bearer ${token}` } }
-                    );
-                    if (response.data === 'Xoa thanh cong ma san pham') {
-                        dispatch(removeProduct(product));
-                    }
-                } catch (error) {
-                    console.error('Error deleting product:', error);
+            try {
+                const response = await axios.post(
+                    'http://localhost:8080/gioHang/xoaSanPham',
+                    {
+                        ...product.chiTietSanPham,
+                        maSanPham: product.maSanPham,
+                        tenDangNhap,
+                        soLuong: 1,
+                    },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+                if (response.data === 'Xoa thanh cong ma san pham') {
+                    dispatch(removeProduct(product));
                 }
+            } catch (error) {
+                console.error('Error deleting product:', error);
             }
         } else {
             try {
@@ -206,6 +215,17 @@ export const decreaseProductQuantity =
         }
     };
 
+export const removeProductFromCart =
+    (product, tenDangNhap) => async (dispatch) => {
+        const token = localStorage.getItem('token');
+        try {
+            dispatch(setProductQuantity({ product, soLuong: 1 }));
+            dispatch(decreaseProductQuantity(product, tenDangNhap));
+        } catch (error) {
+            console.error('Error removing product from cart:', error);
+        }
+    };
+
 export const {
     toggleCheckbox,
     toggleSelectAll,
@@ -213,8 +233,7 @@ export const {
     decreaseQuantity,
     removeProduct,
     addProduct,
+    setProductQuantity,
 } = cardSlice.actions;
-
-
 
 export default cardSlice.reducer;

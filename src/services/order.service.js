@@ -17,7 +17,6 @@ export const updateProduct = async (
     ttSanPhamMoi,
     ttChiTietSanPhamMoi
 ) => {
-    console.log(ttSanPhamMoi);
     const formData = new FormData();
     if (ttSanPhamMoi && Object.keys(ttSanPhamMoi).length > 0) {
         formData.append(

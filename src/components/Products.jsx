@@ -90,6 +90,7 @@ const ProductsContainer = () => {
                             name={product.ten}
                             type={product.loai}
                             giatien={product.chiTietSanPhamResList[0]?.giaTien}
+                            soLuongDaBan={product.soLuongDaBan}
                         />
                     </Col>
                 ))}
