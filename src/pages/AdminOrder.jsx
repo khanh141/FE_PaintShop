@@ -119,7 +119,7 @@ function AdminOrder() {
                                         onClick={() => approveOrder(prod)}
                                         disabled={
                                             prod.trangThai ===
-                                                'Đang Giao Hàng' ||
+                                            'Đang Giao Hàng' ||
                                             prod.trangThai === 'Hủy'
                                         }
                                     >
@@ -131,7 +131,7 @@ function AdminOrder() {
                                         onClick={() => cancelOrder(prod)}
                                         disabled={
                                             prod.trangThai ===
-                                                'Đang Giao Hàng' ||
+                                            'Đang Giao Hàng' ||
                                             prod.trangThai === 'Hủy'
                                         }
                                     >

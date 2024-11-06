@@ -51,13 +51,17 @@ function AdminAccount() {
             <div>
                 <h1 className="text-center mb-5">Quản lý tài khoản</h1>
                 <Button
-                    className="mt-4 rounded"
+                    className="mt-4 rounded priColor"
                     onClick={() => setIsShowRegistrationModal(true)}
                 >
                     Thêm nhân viên
                 </Button>
 
+<<<<<<< HEAD
                 <Table style={{ width: '100%', borderCollapse: 'collapse' }}>
+=======
+                <Table className='mt-4'>
+>>>>>>> 40ddd7ca164cca614b1e2c26d175f7b3000c1734
                     <thead>
                         <tr>
                             <th
@@ -111,6 +115,7 @@ function AdminAccount() {
                     <tbody>
                         {/* Render account data */}
                         {!isLoading &&
+<<<<<<< HEAD
                             data?.data?.map(
                                 (prod, index) =>
                                     prod?.quyens[0] !== 'quanTriVien' && (
@@ -148,6 +153,18 @@ function AdminAccount() {
                                         </tr>
                                     )
                             )}
+=======
+                            data?.data?.map((prod, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{prod.tenDangNhap}</td>
+                                    <td>{prod.quyens}</td>
+                                    <td>
+                                        <Button className='priColor'>Chi Tiết</Button>
+                                    </td>
+                                </tr>
+                            ))}
+>>>>>>> 40ddd7ca164cca614b1e2c26d175f7b3000c1734
                     </tbody>
                 </Table>
 

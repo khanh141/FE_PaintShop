@@ -14,6 +14,14 @@ function AdminExportForm() {
     const [selectedProductDetails, setSelectedProductDetails] = useState(null);
     const queryClient = useQueryClient();
 
+    const translateError = (error) => {
+        const translations = {
+            'San pham het hang': 'Sản phẩm hết hàng',
+            'San pham khong du so luong dat': 'Sản phẩm không đủ số lượng'
+        };
+        return translations[error] || error;
+    };
+
     const {
         data: phieuXuatData,
         isLoading,
@@ -41,10 +49,9 @@ function AdminExportForm() {
             setIsShowModalAddProduct(false);
         },
         onError: (error) => {
-            // Kiểm tra nếu có phản hồi từ BE
             const errorMessage =
-                error.response?.data?.message || 'Xuất hàng không thành công';
-            toast.error(errorMessage, {
+                error.response.data || 'Xuất hàng không thành công';
+            toast.error(translateError(errorMessage), {
                 position: 'top-right',
                 autoClose: 3000,
             });
@@ -61,29 +68,27 @@ function AdminExportForm() {
             },
             sanPhamMuaDtoList: Array.isArray(formData.sanPhamMuaDtoList)
                 ? formData.sanPhamMuaDtoList.map((sanPham) => ({
-                      maSanPham: sanPham.maSanPham,
-                      chiTietSanPhamReqList: sanPham.chiTietSanPhamReq
-                          ? [
-                                {
-                                    maLoaiBaoBi:
-                                        sanPham.chiTietSanPhamReq.maBaoBi, // Lấy từ sanPham
-                                    maMau: sanPham.chiTietSanPhamReq.maMau, // Lấy từ sanPham
-                                    maLoaiDinhMucLyThuyet:
-                                        sanPham.chiTietSanPhamReq
-                                            .maLoaiDinhMucLyThuyet,
-                                    giaTien: sanPham.chiTietSanPhamReq.giaTien,
-                                    soLuong: sanPham.chiTietSanPhamReq.soLuong,
-                                },
-                            ]
-                          : [], // Khởi tạo mảng trống nếu chiTietSanPhamReq không tồn tại
-                  }))
-                : [], // Khởi tạo mảng trống nếu sanPhamMuaDtoList không phải là mảng
+                    maSanPham: sanPham.maSanPham,
+                    chiTietSanPhamReqList: sanPham.chiTietSanPhamReq
+                        ? [
+                            {
+                                maLoaiBaoBi:
+                                    sanPham.chiTietSanPhamReq.maBaoBi,
+                                maMau: sanPham.chiTietSanPhamReq.maMau,
+                                maLoaiDinhMucLyThuyet:
+                                    sanPham.chiTietSanPhamReq
+                                        .maLoaiDinhMucLyThuyet,
+                                giaTien: sanPham.chiTietSanPhamReq.giaTien,
+                                soLuong: sanPham.chiTietSanPhamReq.soLuong,
+                            },
+                        ]
+                        : [],
+                }))
+                : [],
             lyDo: formData.lyDo,
         };
 
-        console.log(formData);
-
-        console.log(dataToSend);
+        console.log("Thong tin gui: ", dataToSend);
 
         mutation.mutate(dataToSend);
     };
@@ -102,7 +107,7 @@ function AdminExportForm() {
         <Col sm={12} md={12} lg={10} xl={10}>
             <h1 className="text-center mb-5">Quản Lý Sản Phẩm</h1>
             <Button
-                className="mt-4 rounded"
+                className="mt-4 rounded priColor"
                 onClick={() => setIsShowModalAddProduct(true)}
             >
                 Tạo phiếu xuất
@@ -110,6 +115,7 @@ function AdminExportForm() {
 
             <div
                 style={{ maxHeight: '80vh', overflowY: 'auto', width: '100%' }}
+                className='mt-4'
             >
                 <Table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
@@ -202,6 +208,7 @@ function AdminExportForm() {
                                     <td>{phieu?.thongTinKhach?.soDienThoai}</td>
                                     <td>
                                         <Button
+                                            className='priColor'
                                             onClick={() =>
                                                 handleShowDetails(phieu)
                                             }

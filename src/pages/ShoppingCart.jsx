@@ -1,133 +1,31 @@
-// import React, { useEffect } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
-// import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css'; 
-// import {
-//   fetchProducts,
-//   increaseProductQuantity,
-//   decreaseProductQuantity,
-//   toggleSelectAll,
-//   toggleCheckbox,
-// } from '../redux/CardReducer.js';
-// import { Table, Image, Button, Container, Row, Col } from 'react-bootstrap';
-
-// export default function ShoppingCart() {
-//   const dispatch = useDispatch();
-//   const { products, selectAll } = useSelector((state) => state.cart);
-//   const tenDangNhap = useSelector((state) => state.user.tenDangNhap);
-
-//   const navigate = useNavigate();
-//   useEffect(() => {
-//     dispatch(fetchProducts(tenDangNhap));
-//   }, [dispatch, tenDangNhap]);
-
-//   const calculateTotal = () => {
-//     return products.reduce((total, product) => {
-//       return product.isChecked ? total + product.chiTietSanPham.giaTien * product.soLuong : total;
-//     }, 0);
-//   };
-
-//   const handlePurchase = () => {
-//     navigate('/purchase');
-//   };
-
-//   return (
-//     <Container>
-//       <h2>Giỏ hàng</h2>
-//       <Table striped bordered hover>
-//         <thead>
-//           <tr>
-//             <th>
-//               <input
-//                 type="checkbox"
-//                 checked={selectAll}
-//                 onChange={() => dispatch(toggleSelectAll())}
-//               />
-//             </th>
-//             <th>Hình ảnh</th>
-//             <th>Sản phẩm</th>
-//             <th>Giá</th>
-//             <th>Số lượng</th>
-//             <th>Tổng tiền</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {products.map((product) => (
-//             <tr key={product.id}>
-//               <td>
-//                 <input
-//                   type="checkbox"
-//                   checked={product.isChecked || false}
-//                   onChange={() => dispatch(toggleCheckbox({
-//                     maSanPham: product.maSanPham,
-//                     mau: product.chiTietSanPham.mau,
-//                     loaiBaoBi: product.chiTietSanPham.loaiBaoBi
-//                   }))}
-//                 />
-//               </td>
-//               <td>
-//                 <Image src={product.image} width={50} height={50} />
-//               </td>
-//               <td>{product.ten}</td>
-//               <td>{product.chiTietSanPham.giaTien.toLocaleString('vi-VN')} đ</td>
-//               <td>
-//                 <div style={{ display: 'inline-block', textAlign: 'center', margin: '0 10px' }}>
-//                   <Button
-//                     style={{ border: 'none' }}
-//                     variant="outline-secondary"
-//                     onClick={() => dispatch(decreaseProductQuantity(product, tenDangNhap))} // Gọi đúng hàm
-//                   >
-//                     -
-//                   </Button>
-//                   <span>{product.soLuong}</span>
-//                   <Button
-//                     style={{ border: 'none' }}
-//                     variant="outline-secondary"
-//                     onClick={() => dispatch(increaseProductQuantity(product, tenDangNhap))} // Gọi đúng hàm
-//                   >
-//                     +
-//                   </Button>
-//                 </div>
-//               </td>
-//               <td>{(product.chiTietSanPham.giaTien * product.soLuong).toLocaleString('vi-VN')} đ</td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </Table>
-//       <Row className="justify-content-end">
-//         <Col md={3} className="text-right">
-//           <h4>Tổng cộng: {calculateTotal().toLocaleString('vi-VN')} đ</h4>
-//           <Button onClick={handlePurchase} >Mua hàng</Button>
-//         </Col>
-//       </Row>
-//     </Container>
-//   );
-// }
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
+import 'react-toastify/dist/ReactToastify.css';
 import {
   fetchProducts,
   increaseProductQuantity,
   decreaseProductQuantity,
   toggleSelectAll,
   toggleCheckbox,
+  removeProductFromCart
 } from '../redux/CardReducer.js';
 import { Table, Image, Button, Container, Row, Col } from 'react-bootstrap';
+import ConfirmationModal from '~/components/ConfirmationModal.jsx';
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
   const { products, selectAll } = useSelector((state) => state.cart);
   const tenDangNhap = useSelector((state) => state.user.tenDangNhap);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    dispatch(fetchProducts(tenDangNhap));
+    if (tenDangNhap) {
+      dispatch(fetchProducts(tenDangNhap));
+    }
   }, [dispatch, tenDangNhap]);
 
   const calculateTotal = () => {
@@ -137,6 +35,19 @@ export default function ShoppingCart() {
   };
 
   const handlePurchase = () => {
+    const anyProductChecked = products.some((product) => product.isChecked);
+
+    if (!anyProductChecked) {
+      toast.error('Bạn vẫn chưa chọn sản phẩm nào để mua', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+      setIsButtonDisabled(true);
+      setTimeout(() => {
+        setIsButtonDisabled(false);
+      }, 4000);
+      return;
+    }
     navigate('/purchase');
   };
 
@@ -148,42 +59,63 @@ export default function ShoppingCart() {
     }));
   };
 
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => setModalOpen(true);
+  const handleCloseModal = () => setModalOpen(false);
+
+  const handleConfirmRemove = (product) => {
+    dispatch(removeProductFromCart(product, tenDangNhap));
+    setModalOpen(false);
+  };
+
   return (
-    <Container>
+    <Container className='mt-4 cartContainer'>
       <h2>Giỏ hàng</h2>
-      <Table striped bordered hover>
+      <Table striped hover id='cartTable'>
         <thead>
           <tr>
-            <th>
+            <th className='checkBoxCol'>
               <input
                 type="checkbox"
                 checked={selectAll}
                 onChange={() => dispatch(toggleSelectAll())}
               />
             </th>
-            <th>Hình ảnh</th>
-            <th>Sản phẩm</th>
-            <th>Giá</th>
-            <th>Số lượng</th>
-            <th>Tổng tiền</th>
+            <th className='imageCol'></th>
+            <th className='tenCol'>Sản phẩm</th>
+            <th className='giaTienCol'>Giá</th>
+            <th className='soLuongCol'>Số lượng</th>
+            <th className='tongTienCol'>Tổng tiền</th>
+            <th className='thaoTacCol'>Thao tác</th>
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr key={product.id} onClick={() => handleRowClick(product)} style={{ cursor: 'pointer' }}>
-              <td>
+          {products.map((product, index) => (
+            <tr key={`${product.id}-${index}`} onClick={() => handleRowClick(product)} style={{ cursor: 'pointer' }}>
+              <td className='checkBoxCol'>
                 <input
                   type="checkbox"
                   checked={product.isChecked || false}
-                  onChange={(e) => e.stopPropagation()} // Ngăn chặn sự kiện nhấp chuột tràn xuống hàng
+                  onChange={(e) => e.stopPropagation()}
                 />
               </td>
-              <td>
+              <td className='imageCol'>
                 <Image src={product.image} width={50} height={50} />
               </td>
-              <td>{product.ten}</td>
-              <td>{product.chiTietSanPham.giaTien.toLocaleString('vi-VN')} đ</td>
-              <td>
+              <td className='tenCol'>
+                <div>
+                  <span className='tenSanPham'>{product.ten}</span>
+                  <div className='chiTietSanPham'>
+                    <small>{product.chiTietSanPham.loaiBaoBi}</small>
+                    <small>{product.chiTietSanPham.loaiDinhMucLyThuyet}</small>
+                    <small>{product.chiTietSanPham.mau}</small>
+                  </div>
+                </div>
+
+              </td>
+              <td className='giaTienCol'>{product.chiTietSanPham.giaTien.toLocaleString('vi-VN')} đ</td>
+              <td className='soLuongCol'>
                 <div style={{ display: 'inline-block', textAlign: 'center', margin: '0 10px' }}>
                   <Button
                     style={{ border: 'none' }}
@@ -208,17 +140,40 @@ export default function ShoppingCart() {
                   </Button>
                 </div>
               </td>
-              <td>{(product.chiTietSanPham.giaTien * product.soLuong).toLocaleString('vi-VN')} đ</td>
+              <td className='tongTienCol'>{(product.chiTietSanPham.giaTien * product.soLuong).toLocaleString('vi-VN')} đ</td>
+              <td className="thaoTacCol">
+                <span
+                  className="xoaSanPham"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenModal();
+                  }}
+                >
+                  Xóa
+                </span>
+
+                <ConfirmationModal
+                  isOpen={isModalOpen}
+                  onClose={handleCloseModal}
+                  onConfirm={() => handleConfirmRemove(product)}
+                  message="Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?"
+                />
+              </td>
+
             </tr>
           ))}
         </tbody>
       </Table>
-      <Row className="justify-content-end">
-        <Col md={3} className="text-right">
-          <h4>Tổng cộng: {calculateTotal().toLocaleString('vi-VN')} đ</h4>
-          <Button onClick={handlePurchase}>Mua hàng</Button>
-        </Col>
-      </Row>
+      <Col className="justify-content-end sumMoneyContainer">
+        <div md={3} className="text-right">
+          <span>Tổng cộng: <strong className='priColorText'>{calculateTotal().toLocaleString('vi-VN')}</strong> đ</span>
+          <Button
+            className='priColor'
+            onClick={handlePurchase}
+            disabled={isButtonDisabled}
+          >Mua hàng</Button>
+        </div>
+      </Col>
     </Container>
   );
 }

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import React from 'react';
-export default function Card({ id, image, name, type, tinhnang, mota, giatien, soluong }) {
+export default function Card({ id, image, name, type, giatien, soLuongDaBan }) {
   if (!id) {
     console.error("Product ID is undefined or invalid.");
   }
+
   return (
     <div className="mt-3 cardContainer">
       <div className="card">
@@ -21,7 +22,12 @@ export default function Card({ id, image, name, type, tinhnang, mota, giatien, s
               )}
             </span>
 
-            <span className="card-text">{type}</span>
+            <div className="d-flex justify-content-between">
+              <span className="card-text">{type}</span>
+              {soLuongDaBan > 0 &&
+                <span>Đã bán: {soLuongDaBan}</span>
+              }
+            </div>
           </div>
         </Link>
       </div>
