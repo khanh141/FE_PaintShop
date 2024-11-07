@@ -189,7 +189,7 @@ function AdminExportForm() {
                         </tr>
                     </thead>
                     <tbody>
-                        {!isLoading &&
+                        {!isLoading && phieuXuatData &&
                             phieuXuatData?.data?.map((phieu, index) => (
                                 <tr key={phieu.maPhieuXuat}>
                                     <td>{index + 1}</td>

@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Aside from '../components/Aside';
-import { Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import '../assets/css/App.css';
 
