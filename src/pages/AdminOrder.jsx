@@ -67,7 +67,7 @@ function AdminOrder() {
             {/* Combobox lọc đơn hàng theo trạng thái (hiển thị nằm ngang với nhãn) */}
             <Form.Group as={Row} className="align-items-center mb-3">
                 <Form.Label column sm="auto">
-                    Lọc theo trạng thái:
+                    <h4>Lọc theo trạng thái:</h4>
                 </Form.Label>
                 <Col sm="auto">
                     <Form.Control
@@ -109,7 +109,7 @@ function AdminOrder() {
                                         ? 'Chờ Duyệt'
                                         : prod.trangThai}
                                 </td>
-                                <td>{prod.tongTien} VND</td>
+                                <td>{prod.tongTien.toLocaleString()} VND</td>
                                 <td>{prod.soSao}</td>
                                 <td>{prod.danhGia}</td>
                                 <td>

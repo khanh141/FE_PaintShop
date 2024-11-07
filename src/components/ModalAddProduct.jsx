@@ -128,7 +128,7 @@ function ModalAddProduct(props) {
                             placeholder="Số lượng"
                         />
                     </label>
-                    <label>
+                    {/* <label>
                         Mã nhân viên
                         <input
                             required
@@ -136,7 +136,7 @@ function ModalAddProduct(props) {
                             name="maNhanVien"
                             placeholder="Mã nhân viên"
                         />
-                    </label>
+                    </label> */}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={props.onHide} type="button">

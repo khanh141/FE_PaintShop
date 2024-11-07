@@ -7,6 +7,7 @@ import { createProduct, getAllProducts, updateProduct } from '~/services'; // Im
 import UpdateProductModal from '~/components/UpdateProductModal';
 import ProductDetailModal from '~/components/ProductDetailModal ';
 import AddProductDetailModal from '~/components/AddProductDetailModal';
+import RemoveProductDetailModal from '~/components/RemoveProductDetailModal';
 import { toast } from 'react-toastify';
 import {
     addBaobi,
@@ -22,6 +23,9 @@ function AdminProduct() {
         useState(false);
     const [isShowAddProductDetailModal, setIsShowAddProductDetailModal] =
         useState(false);
+    const [isShowRemovePRoductDetailModal, setIsShowRemovePRoductDetailModal] =
+        useState(false);
+
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const queryClient = useQueryClient();
@@ -147,6 +151,8 @@ function AdminProduct() {
         setSelectedProduct(prod);
         setIsShowProductDetailModal(true);
     };
+
+
     const handleAddProductDetailModal = (productDetail) => {
         let data = {}; // Khởi tạo data trước khối if
 
@@ -204,20 +210,26 @@ function AdminProduct() {
         <Col sm={12} md={12} lg={10} xl={10}>
             <h1 className="text-center mb-5">Quản Lý Sản Phẩm</h1>
             <div>
-                <div >
-                    <Button
-                        className="mt-4 rounded me-4 priColor"
-                        onClick={() => setIsShowModalAddProduct(true)}
-                    >
-                        Thêm sản phẩm
-                    </Button>
-                    <Button
-                        className="mt-4 rounded priColor"
-                        onClick={() => setIsShowAddProductDetailModal(true)}
-                    >
-                        Thêm chi tiết sản phẩm
-                    </Button>
-                </div>
+                <Button
+                    className="mt-4 rounded mb-2"
+
+                    onClick={() => setIsShowModalAddProduct(true)}
+                >
+                    Thêm sản phẩm
+                </Button>
+                <Button
+                    className="mt-4 rounded mb-2 ms-3"
+
+                    onClick={() => setIsShowAddProductDetailModal(true)}
+                >
+                    Thêm chi tiết sản phẩm
+                </Button>
+                <Button
+                    className="mt-4 mb-1 mx-1 rounded"
+                    onClick={() => setIsShowRemovePRoductDetailModal(true)}
+                >
+                    Xoá chi tiết sản phẩm
+                </Button>
                 <div
                     className='mt-4'
                     style={{
@@ -352,6 +364,11 @@ function AdminProduct() {
                     show={isShowModalAddProduct}
                     onHide={() => setIsShowModalAddProduct(false)}
                     onSubmit={handleAddProduct}
+                />
+                <RemoveProductDetailModal
+                    show={isShowRemovePRoductDetailModal}
+                    onHide={() => setIsShowRemovePRoductDetailModal(false)}
+                    // onSubmit={handleRemoveProductDetail}
                 />
             </div>
         </Col>
