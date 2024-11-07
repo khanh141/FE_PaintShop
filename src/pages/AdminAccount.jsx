@@ -51,13 +51,12 @@ function AdminAccount() {
             <div>
                 <h1 className="text-center mb-5">Quản lý tài khoản</h1>
                 <Button
-                    className="mt-4 rounded"
+                    className="mt-4 rounded priColor"
                     onClick={() => setIsShowRegistrationModal(true)}
                 >
                     Thêm nhân viên
                 </Button>
-
-                <Table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <Table className='mt-4' style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
                         <tr>
                             <th

@@ -72,12 +72,9 @@ function AdminExportForm() {
                     chiTietSanPhamReqList: sanPham.chiTietSanPhamReq
                         ? [
                             {
-                                maLoaiBaoBi:
-                                    sanPham.chiTietSanPhamReq.maBaoBi,
-                                maMau: sanPham.chiTietSanPhamReq.maMau,
-                                maLoaiDinhMucLyThuyet:
-                                    sanPham.chiTietSanPhamReq
-                                        .maLoaiDinhMucLyThuyet,
+                                loaiBaoBi: sanPham.chiTietSanPhamReq.loaiBaoBi,
+                                mau: sanPham.chiTietSanPhamReq.mau,
+                                loaiDinhMucLyThuyet: sanPham.chiTietSanPhamReq.dinhMuc,
                                 giaTien: sanPham.chiTietSanPhamReq.giaTien,
                                 soLuong: sanPham.chiTietSanPhamReq.soLuong,
                             },
@@ -87,11 +84,12 @@ function AdminExportForm() {
                 : [],
             lyDo: formData.lyDo,
         };
-
+        setIsShowModalAddProduct(false)
         console.log("Thong tin gui: ", dataToSend);
 
         mutation.mutate(dataToSend);
     };
+
 
     const handleShowDetails = (phieu) => {
         setSelectedProductDetails(phieu);
@@ -203,9 +201,9 @@ function AdminExportForm() {
                                     </td>
                                     <td>{phieu.lyDo}</td>
                                     <td>
-                                        {phieu?.tongTien?.toLocaleString()} VND
+                                        {phieu.tongTien.toLocaleString()} VND
                                     </td>
-                                    <td>{phieu?.thongTinKhach?.soDienThoai}</td>
+                                    <td>{phieu.thongTinKhach.soDienThoai}</td>
                                     <td>
                                         <Button
                                             className='priColor'

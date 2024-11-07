@@ -231,6 +231,7 @@ function AdminProduct() {
                     Xoá chi tiết sản phẩm
                 </Button>
                 <div
+                    className='mt-4'
                     style={{
                         maxHeight: '80vh',
                         overflowY: 'auto',
