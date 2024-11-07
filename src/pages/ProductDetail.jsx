@@ -198,7 +198,7 @@ const ProductDetail = () => {
       });
       toast.success("Thêm sản phẩm vào giỏ hàng thành công", { position: "top-right", autoClose: 3000 })
     } catch (error) {
-      // toast.error("Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng", { position: "top-right", autoClose: 3000 })
+      toast.error("Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng", { position: "top-right", autoClose: 3000 })
     }
     try {
       const selectedDetail = product.chiTietSanPhamResList?.find(
@@ -263,11 +263,11 @@ const ProductDetail = () => {
       <Row >
         <Col xs={12} lg={5} className="productImagesContainer p-2">
           <div id="image" className="w-100 h-100">
-            <img src={imageUrl} alt="" className="img-fluid" />
+            <img src={`/images/products/${product.hinhAnh}.png`} alt="" className="img-fluid" />
           </div>
 
         </Col>
-        <Col xs={12} lg={7} className="productInformation ">
+        <Col xs={12} lg={7} className="productInformationb ">
           <Row id="productName" className="productName my-2">{product.ten}</Row>
           <Row className="saleFigures my-2">
             <Col className="p-0">
@@ -284,7 +284,7 @@ const ProductDetail = () => {
           </Row>
           <Row id="productPrice" className="priColorText productPrice my-2"  >
             {selectedMau && selectedBaoBi && selectedDinhMuc ? (
-              <Col className="p-0">
+              <Col className="px-0">
                 {price.toLocaleString()} <small style={{ fontSize: '24px' }}>VNĐ</small>
               </Col>
             ) : (
