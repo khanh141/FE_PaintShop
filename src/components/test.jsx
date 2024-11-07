@@ -4,86 +4,115 @@ import Modal from 'react-bootstrap/Modal';
 import { Col, Row } from 'react-bootstrap';
 
 function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
-    const [quantity, setQuantity] = useState({});
     const [thongTinKhach, setThongTinKhach] = useState({
         sdt: '',
         hoTen: '',
         diaChi: '',
     });
-    const [sanPhamMuaDtoList, setSanPhamMuaDtoList] = useState([
-        { maSanPham: '', chiTietSanPhamReq: { chiTietSanPham: '', soLuong: '' } },
-    ]);
-    const lyDo = 'muaHang';
+    const [sanPhamMuaDtoList, setSanPhamMuaDtoList] = useState([{ maSanPham: '', chiTietSanPhamReq: { loaiBaoBi: '', mau: '', dinhMuc: '', giaTien: 0, soLuong: 1 } }]);
+    const [tongTien, setTongTien] = useState(0);
+    const [availableMau, setAvailableMau] = useState([]);
+    const [availableDinhMuc, setAvailableDinhMuc] = useState([]);
 
-    const handleSanPhamChange = (productIndex, e) => {
-        const selectedMaSanPham = e.target.value;
-        const selectedProduct = sanPhamData.data.find(
-            (sp) => sp.maSanPham === parseInt(selectedMaSanPham, 10)
-        );
+    // Load loaiBaoBi when maSanPham is selected
+    const handleSanPhamChange = (productIndex, event) => {
+        const newSanPhamMuaDtoList = [...sanPhamMuaDtoList];
+        const maSanPham = event.target.value;
+        newSanPhamMuaDtoList[productIndex].maSanPham = maSanPham;
+        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq = { loaiBaoBi: '', mau: '', dinhMuc: '', giaTien: 0, soLuong: 1 };
 
-        setSanPhamMuaDtoList((prevList) => {
-            const updatedList = [...prevList];
-            updatedList[productIndex] = {
-                ...updatedList[productIndex],
-                maSanPham: selectedMaSanPham,
-                chiTietSanPhamReq: {
-                    chiTietSanPham: '',
-                    soLuong: selectedProduct.soLuong,
-                    giaTien: selectedProduct
-                        ? selectedProduct.chiTietSanPhamResList[0].giaTien
-                        : '',
-                },
-            };
-            return updatedList;
-        });
+        setSanPhamMuaDtoList(newSanPhamMuaDtoList);
     };
 
-    const handleDetailChange = (productIndex, value) => {
-        // Find the selected product and its detailed item
-        const selectedProduct = sanPhamMuaDtoList[productIndex];
-        const selectedSanPham = sanPhamData.data.find(
-            (sp) => sp.maSanPham === parseInt(selectedProduct.maSanPham, 10)
-        );
-        const selectedChiTiet = selectedSanPham?.chiTietSanPhamResList.find(
-            (ct) => ct.maChiTietSanPham === value
-        );
-        console.log(selectedSanPham)
+    // Load mau when loaiBaoBi is selected
+    const handleBaoBiChange = (productIndex, event) => {
+        const newSanPhamMuaDtoList = [...sanPhamMuaDtoList];
+        const selectedBaoBi = event.target.value;
+        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.loaiBaoBi = selectedBaoBi;
+        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.mau = '';
+        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.dinhMuc = '';
 
-        // Update the state with selected chiTietSanPham, soLuong, and giaTien
-        setSanPhamMuaDtoList((prevList) => {
-            const updatedList = [...prevList];
-            updatedList[productIndex].chiTietSanPhamReq = {
-                ...updatedList[productIndex].chiTietSanPhamReq,
-                chiTietSanPham: value,
-                soLuong: selectedChiTiet ? selectedChiTiet.soLuong : 0, // Set soLuong if found
-                giaTien: selectedChiTiet ? selectedChiTiet.giaTien : 0,  // Set giaTien if found
-            };
-            return updatedList;
-        });
+        // Update available colors based on selected baoBi
+        const availableColors = sanPhamData.data
+            .find(sp => sp.maSanPham === parseInt(newSanPhamMuaDtoList[productIndex].maSanPham, 10))
+            ?.chiTietSanPhamResList
+            .filter(ct => ct.loaiBaoBi === selectedBaoBi)
+            .map(ct => ct.mau) || [];
+
+        setAvailableMau(availableColors);
+        setAvailableDinhMuc([]); // Reset dinhMuc when loaiBaoBi changes
+        setSanPhamMuaDtoList(newSanPhamMuaDtoList);
     };
 
+    // Load dinhMuc when mau is selected
+    const handleMauChange = (productIndex, event) => {
+        const newSanPhamMuaDtoList = [...sanPhamMuaDtoList];
+        const selectedMau = event.target.value;
+        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.mau = selectedMau;
+        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.dinhMuc = '';
 
-    const handleAddProduct = () => {
-        setSanPhamMuaDtoList([
-            ...sanPhamMuaDtoList,
-            { maSanPham: '', chiTietSanPhamReq: { chiTietSanPham: '', soLuong: '' } },
-        ]);
+        // Update available dinhMuc options based on selected mau
+        const availableDinhMucOptions = sanPhamData.data
+            .find(sp => sp.maSanPham === parseInt(newSanPhamMuaDtoList[productIndex].maSanPham, 10))
+            ?.chiTietSanPhamResList
+            .filter(ct => ct.loaiBaoBi === newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.loaiBaoBi && ct.mau === selectedMau)
+            .map(ct => ct.loaiDinhMucLyThuyet) || [];
+
+        setAvailableDinhMuc(availableDinhMucOptions);
+        setSanPhamMuaDtoList(newSanPhamMuaDtoList);
     };
 
-    const handleRemoveProduct = (index) => {
-        setSanPhamMuaDtoList((prevList) => prevList.filter((_, i) => i !== index));
+    // Update selected dinhMuc
+    // Update selected dinhMuc and giaTien
+    const handleDinhMucChange = (productIndex, event) => {
+        const newSanPhamMuaDtoList = [...sanPhamMuaDtoList];
+        const selectedDinhMuc = event.target.value;
+        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.dinhMuc = selectedDinhMuc;
+
+        // Find giaTien for the selected loaiBaoBi, mau, and dinhMuc
+        const selectedSanPham = sanPhamData.data.find(sp => sp.maSanPham === parseInt(newSanPhamMuaDtoList[productIndex].maSanPham, 10));
+        const matchingChiTiet = selectedSanPham?.chiTietSanPhamResList.find(ct =>
+            ct.loaiBaoBi === newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.loaiBaoBi &&
+            ct.mau === newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.mau &&
+            ct.loaiDinhMucLyThuyet === selectedDinhMuc
+        );
+
+        if (matchingChiTiet) {
+            newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.giaTien = matchingChiTiet.giaTien;
+        } else {
+            newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.giaTien = 0; // Reset if no match found
+        }
+
+        setSanPhamMuaDtoList(newSanPhamMuaDtoList);
     };
 
     const handleChangeCustomer = (e) => {
         const { name, value } = e.target;
         setThongTinKhach((prev) => ({ ...prev, [name]: value }));
     };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSubmit({ thongTinKhach, sanPhamMuaDtoList, lyDo });
+    const handleRemoveProduct = (index) => {
+        const newSanPhamMuaDtoList = sanPhamMuaDtoList.filter((_, i) => i !== index);
+        setSanPhamMuaDtoList(newSanPhamMuaDtoList);
+    };
+    const handleAddProduct = () => {
+        setSanPhamMuaDtoList([...sanPhamMuaDtoList, { maSanPham: '', chiTietSanPhamReq: { loaiBaoBi: '', mau: '', dinhMuc: '', soLuong: 1 } }]);
     };
 
+    const handleQuantityChange = (productIndex, quantity) => {
+        const newSanPhamMuaDtoList = [...sanPhamMuaDtoList];
+        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.soLuong = quantity;
+        let giaTienSanPham = newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.giaTien * newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.soLuong;
+        setTongTien(tongTien + giaTienSanPham);
+        setSanPhamMuaDtoList(newSanPhamMuaDtoList);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(sanPhamMuaDtoList)
+        console.log("Tong tien: ", tongTien)
+        // onSubmit({ thongTinKhach, sanPhamMuaDtoList });
+    }
+    // Render Modal
     return (
         <Modal
             show={show}
@@ -92,13 +121,12 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
             size="lg"
             centered
         >
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => handleSubmit(e)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Thêm phiếu xuất</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="addPhieuXuatForm">
                     <Col>
-                        {/* Customer Information */}
                         <Row className="thongTinKhach">
                             <h5>Thông tin khách</h5>
                             <div className="d-flex gap-2">
@@ -128,7 +156,7 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                 </label>
                             </div>
                             <div>
-                                <label className="w-100">
+                                <label className="w-100 ">
                                     Địa chỉ
                                     <input
                                         required
@@ -142,12 +170,10 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                 </label>
                             </div>
                         </Row>
-
-                        {/* Products Selection */}
                         <Row className="sanPhamMua">
                             <h5 className="mt-2">Chọn sản phẩm mua</h5>
                             {sanPhamMuaDtoList.map((product, productIndex) => (
-                                <div key={`${productIndex}-${product.maSanPham}`}>
+                                <div key={productIndex}>
                                     <label className="w-100">
                                         Tên sản phẩm
                                         <select
@@ -157,59 +183,75 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                             className="w-100"
                                         >
                                             <option value="">Chọn sản phẩm</option>
-                                            {sanPhamData.data.map((sp, index) => (
-                                                <option key={`${sp.maSanPham}-${index}`} value={sp.maSanPham}>
-                                                    {sp.ten}
-                                                </option>
+                                            {sanPhamData.data.map(sp => (
+                                                <option key={sp.maSanPham} value={sp.maSanPham}>{sp.ten}</option>
                                             ))}
                                         </select>
                                     </label>
-
                                     <label className="w-100">
-                                        Chọn chi tiết sản phẩm
+                                        Loại bao bì
                                         <select
                                             required
-                                            value={product.chiTietSanPhamReq.chiTietSanPham || ''}
-                                            onChange={(e) => handleDetailChange(productIndex, e.target.value)}
+                                            value={product.chiTietSanPhamReq.loaiBaoBi || ''}
+                                            onChange={(e) => handleBaoBiChange(productIndex, e)}
                                             className="w-100"
                                         >
-                                            <option value="">Chọn chi tiết sản phẩm</option>
+                                            <option value="">Chọn bao bì</option>
+                                            {/* Load available loaiBaoBi based on selected maSanPham */}
                                             {sanPhamData.data
-                                                .find((sp) => sp.maSanPham === parseInt(product.maSanPham, 10))
-                                                ?.chiTietSanPhamResList.map((ct, index) => (
-                                                    <option key={`${ct.maChiTietSanPham}-${index}`} value={ct.maChiTietSanPham}>
-                                                        {`${ct.loaiBaoBi} - ${ct.mau} - ${ct.loaiDinhMucLyThuyet}`}
-                                                    </option>
+                                                .find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
+                                                ?.chiTietSanPhamResList
+                                                .map(ct => (
+                                                    <option key={ct.loaiBaoBi} value={ct.loaiBaoBi}>{ct.loaiBaoBi}</option>
                                                 ))}
                                         </select>
                                     </label>
+                                    <label className="w-100">
+                                        Màu
+                                        <select
+                                            required
+                                            value={product.chiTietSanPhamReq.mau || ''}
+                                            onChange={(e) => handleMauChange(productIndex, e)}
+                                            className="w-100"
+                                        >
+                                            <option value="">Chọn màu</option>
+                                            {availableMau.map(mau => (
+                                                <option key={mau} value={mau}>{mau}</option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                    <label className="w-100">
+                                        Định mức
+                                        <select
+                                            required
+                                            value={product.chiTietSanPhamReq.dinhMuc || ''}
+                                            onChange={(e) => handleDinhMucChange(productIndex, e)}
+                                            className="w-100"
+                                        >
+                                            <option value="">Chọn định mức</option>
+                                            {availableDinhMuc.map(dinhMuc => (
+                                                <option key={dinhMuc} value={dinhMuc}>{dinhMuc}</option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                    <label className="w-100">
+                                        Số lượng
+                                        <input
+                                            required
+                                            type="number"
+                                            min="1"
+                                            value={product.chiTietSanPhamReq.soLuong}
+                                            onChange={(e) => handleQuantityChange(productIndex, e.target.value)}
+                                            className="w-100"
+                                        />
+                                    </label>
 
-                                    <div className='d-flex align-item-center'>
-                                        {/* <span className='d-flex me-4 priColorText w-50'>
-                                            Số lượng trong kho:{' '}
-                                            {product.chiTietSanPhamReq.soLuong || 0}
-                                        </span> */}
-                                        {/* <span className='d-flex me-4 priColorText w-50'>
-                                            Số lượng trong kho:{' '}
-                                            {selectedProductQuantities[`${productIndex}-${product.chiTietSanPhamReq.chiTietSanPham}`] || 0}
-                                        </span> */}
-                                        <label className="w-100">
-                                            Số lượng xuất kho
-                                            <input
-                                                required
-                                                type="number"
-                                                min="1"
-                                                value={product.chiTietSanPhamReq.soLuong || ''}
-                                                onChange={(e) => handleDetailChange(productIndex, 'soLuong', e.target.value)}
-                                                placeholder="Số lượng"
-                                                className="w-100"
-                                            />
-                                        </label>
-                                    </div>
                                     <Button
                                         className="mt-3"
                                         variant="danger"
-                                        onClick={() => handleRemoveProduct(productIndex)}
+                                        onClick={() =>
+                                            handleRemoveProduct(productIndex)
+                                        }
                                     >
                                         Xóa sản phẩm
                                     </Button>
@@ -217,6 +259,7 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                 </div>
                             ))}
                         </Row>
+                        {/* <Button variant="primary" onClick={() => setSanPhamMuaDtoList([...sanPhamMuaDtoList, { maSanPham: '', chiTietSanPhamReq: { loaiBaoBi: '', mau: '', dinhMuc: '', soLuong: 1 } }])}> */}
                         <Button variant="primary" onClick={handleAddProduct}>
                             Thêm sản phẩm
                         </Button>
