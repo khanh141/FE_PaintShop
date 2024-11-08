@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setButtonDisabled, setFilter } from '../redux/ProductReducer';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Row, Col, Button, Container,DropdownButton,Dropdown } from 'react-bootstrap';
+import { Row, Col, Button, Container, DropdownButton, Dropdown } from 'react-bootstrap';
 import Card from './Card';
 import axios from 'axios';
 import Pagination from 'react-bootstrap/Pagination';
@@ -17,11 +17,11 @@ const ProductsContainer = () => {
 
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.filteredProducts);
-    const searchTerm = useSelector((state) => state.products.searchTerm); // Get searchTerm from Redux
+    const searchTerm = useSelector((state) => state.products.searchTerm);
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
     const [firstRender, setFirstRender] = useState(true); // Track first render
-    const [loai,setLoai] = useState(""); 
+    const [loai, setLoai] = useState("");
     const [selectedType, setSelectedType] = useState('Chọn loại sản phẩm');
     // Load all products
     const loadProducts = async () => {
@@ -64,7 +64,8 @@ const ProductsContainer = () => {
             setFirstRender(false);
             return;
         }
-        searchProducts();
+        // todo: mo lai
+        // searchProducts();
     }, [searchTerm]);
 
     useEffect(() => {
@@ -96,85 +97,75 @@ const ProductsContainer = () => {
         currentPage * PRODUCTS_PER_PAGE
     );
 
-    const handleLoadingProductType = async(productType) => {
+    const handleLoadingProductType = async (productType) => {
         try {
             const response = await axios.get(`http://localhost:8080/sanPham/layTatCaSanPhamTheoLoai?loai=${productType}`);
             const products = response.data;
-            console.log("Loaded products:", products);
             dispatch(setFilter(response.data));
-            // Cập nhật state hoặc xử lý dữ liệu trả về từ API
         } catch (error) {
             console.error("Failed to load products:", error);
         }
     }
     const handleSelect = (productType) => {
-        setSelectedType(productType); // Cập nhật loại sản phẩm đã chọn vào state
-        handleLoadingProductType(productType); // Gọi API với loại sản phẩm đã chọn
+        setSelectedType(productType);
+        handleLoadingProductType(productType);
     };
-    
-    const [price, setPrice] = useState(0);
 
-    const handleChange = async (value) => {
-        setPrice(value);
-        // if (price) {
-        //     onPriceChange(value);
-        // }
+    const [price, setPrice] = useState(100000);
+
+    const showProductOnPrice = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/sanPham/layTatCaSanPhamTheoGia?giaTien=${value}`);
+            const response = await axios.get(`http://localhost:8080/sanPham/layTatCaSanPhamTheoGia?giaTien=${price}`);
             const products = response.data;
-            // console.log("Loaded products:", products);
             dispatch(setFilter(products));
-            // Cập nhật state hoặc xử lý dữ liệu trả về từ API
         } catch (error) {
             console.error("Failed to load products:", error);
         }
-
-    };
+    }
 
     return (
-        <Container className="productList loading-container">
-                        
-            <Row className="mt-4">
-                <Col xs="2" >
+        <Container className="productListContainer loading-container">
+            <Row className="mt-4 filterContainer">
+                <Col xs={6} lg={2} className='loaiSanPham'>
                     <DropdownButton
                         id="dropdown-basic-button"
                         title={selectedType}
                         onSelect={handleSelect}
-                        className='w-100 px-0'
+                        className='w-100 px-0 filterButton'
                     >
                         {loai &&
                             loai.map((loais, index) => (
-                                <Dropdown.Item key={index} eventKey={loais}>
+                                <Dropdown.Item key={index} eventKey={loais} className='priColor'>
                                     {loais}
                                 </Dropdown.Item>
                             ))}
                     </DropdownButton>
                 </Col>
-                <Col  xs="2">
-                    <Button onClick={loadProducts} className='w-100 px-0'>Xem Tất Cả</Button>
+                <Col xs={6} lg={2} className='xemTatCa'>
+                    <Button onClick={loadProducts} className='w-100 px-0 filterButton priColor'>Xem tất cả</Button>
                 </Col>
-                <Col>
+                <Col xs={12} lg={8} className='giaSanPham'>
                     <div className="price-range-slider">
-                        <label>Chọn Khoảng Giá</label>
+                        <span>Khoảng giá</span>
                         <RangeSlider
                             value={price}
                             min={100000}
-                            max={10000000}
-                            onChange={(e) => handleChange(e.target.value)}
+                            max={3000000}
+                            onChange={(e) => setPrice(e.target.value)}
                             tooltip="on"
                             tooltipLabel={(currentValue) =>
                                 `${currentValue.toLocaleString('vi-VN')} VND`
                             }
-                            variant="primary"
                         />
                         <div className="price-display">
-                            Giá hiện tại: {price.toLocaleString('vi-VN')} VND
+                            Giá hiện tại:<span className="priColorText"> {Number(price).toLocaleString('vi-VN')} VND</span>
                         </div>
+                        <button onClick={showProductOnPrice} className='apDungBtn sndColor btn'>Áp dụng giá</button>
                     </div>
                 </Col>
             </Row>
             <Loading />
-            <Row>
+            <Row className='productList'>
                 {currentProducts?.map((product, index) => (
                     <Col
                         xs={6}
