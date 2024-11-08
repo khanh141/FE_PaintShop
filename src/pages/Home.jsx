@@ -12,7 +12,7 @@ export default function Home() {
     <div className="homePage">
       <ImageSlides
         images={imagesForHomePage}
-        height="600px" width='100%' interval={null}
+        interval={null}
       />
       <ProductsContainer />
     </div>

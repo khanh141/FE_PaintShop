@@ -156,7 +156,7 @@ body {
                     display: flex;
                     align-items: center;
                     gap: 10px;
-                    span {
+                    .range-slider__wrap {
                         width: 200px;
                         input[type='range'] {
                             width: 100%;
@@ -183,6 +183,13 @@ body {
                     }
                     .apDungBtn {
                         color: var(--white-color);
+                    }
+                    @media (max-width: 998px) {
+                        margin-top: 10px;
+                        span {
+                            &:first-child {
+                            }
+                        }
                     }
                 }
             }
@@ -279,7 +286,9 @@ body {
     }
 
     #imageSlides {
+        max-height: 600px;
         .imageSlideItem {
+            height: 100%;
             img {
                 width: 100%;
                 height: 100%;
