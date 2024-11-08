@@ -1,13 +1,13 @@
 :root {
     --hover-gray-color: rgb(215, 215, 215);
     --primary-color: rgb(255, 106, 0);
-    --primary-light-color: rgb(250, 153, 83);
+    --primary-light-color: rgb(255, 236, 222);
     --secondary-color: #1b2848;
     --white-color: white;
     --background-color: #f5f5f5;
     --text-color: #573e44;
-    --ligh-primary-color: rgb(255, 185, 135);
     --additional-button-color: rgb(0, 98, 0);
+    --light-text-color: rgb(100, 100, 100);
 }
 
 body {
@@ -54,6 +54,9 @@ body {
     }
     .sndColorText {
         color: var(--secondary-color);
+    }
+    .grayColorText {
+        color: var(--light-text-color);
     }
     .whiteBtn {
         background-color: var(--background-color);
@@ -133,6 +136,12 @@ body {
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                        img {
+                            width: 80%;
+                            height: 80%;
+                            object-fit: contain;
+                            object-position: center center;
+                        }
                     }
                     .card-body {
                         display: flex;
@@ -210,15 +219,21 @@ body {
 
     .productDetail {
         margin-top: 20px;
+        overflow: hidden;
         .row {
             background-color: var(--white-color);
             margin-bottom: 20px;
         }
         #image {
+            height: 500px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
+                width: 80%;
+                height: 80%;
+                object-fit: contain;
                 object-position: center;
             }
         }
@@ -230,12 +245,54 @@ body {
             font-size: 2.5rem;
         }
         .productInformation {
-            overflow: hidden;
+            padding-left: 20px;
+            .row {
+                margin-top: 0;
+                margin-bottom: 0;
+                width: 100%;
+            }
+
             .optionBtn {
                 color: var(--secondary-color) !important;
             }
             .chosen {
                 border-color: var(--primary-color) !important;
+            }
+            .buttonGroup {
+                margin-top: 10px;
+                margin-bottom: 20px;
+                .col {
+                    padding: 0;
+                    gap: 10px;
+                    button {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 0;
+                        min-width: max-content;
+                        width: 300px;
+                        height: 50px;
+                        &:hover {
+                            transform: translateY(-1px);
+                        }
+                    }
+                    .addToCartBtn {
+                        background-color: var(--primary-light-color);
+                        border-color: var(--primary-color);
+                        color: var(--primary-color);
+                    }
+                    .buyNowBtn {
+                        background-color: var(--primary-color);
+                        border-color: var(--primary-color);
+                    }
+                }
+            }
+        }
+        .productDetailContainer {
+            div {
+                display: flex;
+                gap: 10px;
+                margin: 6px 0;
             }
         }
         .sanPhamCungLoaiContainer {
@@ -300,16 +357,6 @@ body {
         }
     }
 
-    .productImagesContainer {
-        #imageManifier {
-            width: 600px;
-            height: 600px;
-            position: relative;
-            width: 400px;
-            height: auto;
-            overflow: hidden;
-        }
-    }
     .authForm {
         background-color: var(--white-color);
     }
@@ -471,7 +518,7 @@ body {
 
                 &:hover {
                     cursor: pointer;
-                    background-color: var(--ligh-primary-color);
+                    background-color: var(--primary-light-color);
                 }
 
                 &.active {

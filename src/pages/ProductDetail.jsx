@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import MoreProducts from "~/components/MoreProducts";
 import { setLoading, setSuccess } from "~/redux/AppSlice";
 import Loading from "~/components/Loading";
+import { FaCartPlus } from "react-icons/fa6";
 
 const ProductDetail = () => {
   const { maSanPham } = useParams();
@@ -27,7 +28,6 @@ const ProductDetail = () => {
   const { tenDangNhap } = useSelector((state) => state.user);
   const [sameTypeProducts, setSameTypeProducts] = useState([]);
   const [numOfReview, setNumOfReview] = useState(0);
-  const imageUrl = "/images/product.jpg";
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -262,7 +262,7 @@ const ProductDetail = () => {
     <Container className="productDetail">
       <Row >
         <Col xs={12} lg={5} className="productImagesContainer p-2">
-          <div id="image" className="w-100 h-100">
+          <div id="image">
             <img src={`/images/products/${product.hinhAnh}.png`} alt="" className="img-fluid" />
           </div>
 
@@ -294,10 +294,10 @@ const ProductDetail = () => {
             )}
           </Row>
 
-          <Row>
+          <Row >
             <Col className="p-0">
               <Row className="mb-3">
-                <span style={{ display: "inline-block" }}>
+                <span className="grayColorText" style={{ display: "inline-block" }}>
                   Loại bao bì
                 </span>
                 <Col className="d-flex">
@@ -335,7 +335,7 @@ const ProductDetail = () => {
               </Row>
             </Col>
           </Row>
-          <Row>
+          <Row >
             <Col className="p-0">
               <Row className="mb-3">
                 <span style={{ display: "inline-block" }}>
@@ -376,7 +376,7 @@ const ProductDetail = () => {
               </Row>
             </Col>
           </Row>
-          <Row>
+          <Row >
             <Col className="p-0">
               <Row className="mb-3">
                 <span style={{ display: "inline-block" }}>
@@ -418,13 +418,13 @@ const ProductDetail = () => {
             </Col>
           </Row>
 
-          <Row className="buttonGroup my-2" style={{ width: "400px" }}>
+          <Row className="buttonGroup" style={{ width: "400px" }}>
             <Col style={{ display: "flex", justifyContent: "center" }}>
-              <Button variant="secondary" style={{ margin: "0 4px" }} onClick={handleAddToCart}>
-                Thêm vào giỏ hàng
+              <Button className="addToCartBtn" onClick={handleAddToCart}>
+                <FaCartPlus className="me-2" />Thêm vào giỏ hàng
               </Button>
-              <Button variant="secondary" style={{ margin: "0 4px" }} onClick={handleBuyNow}>
-                Mua hàng
+              <Button className="buyNowBtn" onClick={handleBuyNow}>
+                Mua ngay
               </Button>
             </Col>
           </Row>
@@ -432,11 +432,26 @@ const ProductDetail = () => {
       </Row >
       <Row className="productDetailContainer p-3">
         <h5 className="mb-3">CHI TIẾT SẢN PHẨM</h5>
-        <span>Loại sản phẩm: <span className="priColorText">{product.loai}</span></span>
-        <span>Số lượng hàng còn lại: {sumSoLuong}</span>
-        <span>Tính năng: {product.tinhNang}</span>
-        <span>Nhà sản xuất: {product.tenNhaSanXuat}</span>
-        <span> Mô tả: {product.moTa || "Đang cập nhật"} </span>
+        <div>
+          <span className="grayColorText">Loại sản phẩm:</span>
+          <span className="priColorText">{product.loai}</span>
+        </div>
+        <div>
+          <span className="grayColorText">Số lượng hàng: </span>
+          <span>{sumSoLuong}</span>
+        </div>
+        <div>
+          <span className="grayColorText">Tính năng: </span>
+          <span>{product.tinhNang}</span>
+        </div>
+        <div>
+          <span className="grayColorText">Nhà sản xuất:</span>
+          <span>{product.tenNhaSanXuat}</span>
+        </div>
+        <div>
+          <span className="grayColorText">Mô tả: </span>
+          <span>{product.moTa || "Đang cập nhật"}</span>
+        </div>
 
       </Row>
       <Row className="commentContainer hasScrollBar p-3">
