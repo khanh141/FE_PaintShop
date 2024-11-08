@@ -114,6 +114,7 @@ export default function BasicTable() {
                                 </TableCell>
                                 <TableCell align="left" className="Details">
                                     <Button
+                                        style={makeStyle()}
                                         onClick={() => handleShowDetails(prod)}
                                     >
                                         Chi Tiết

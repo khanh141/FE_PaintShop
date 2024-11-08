@@ -7,3 +7,7 @@ export const getAllAccount = async () => {
 export const createAccountStaff = async (data) => {
     return instance.post('/taiKhoan/dangKy/nhanVien', data);
 };
+
+export const Logout = async (token) => {
+    return instance.post('/taiKhoan/dangXuat', { token });
+};

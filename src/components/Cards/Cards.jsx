@@ -78,7 +78,6 @@ const Cards = () => {
             firstTime: value.firstTime,
         }))
         .sort((a, b) => new Date(a.firstTime) - new Date(b.firstTime));
-    console.log(dataArray2);
 
     // Kiểm tra trạng thái loading
     if (isLoading) {

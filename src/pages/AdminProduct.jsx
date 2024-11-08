@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalAddProduct from '../components/ModalAddProduct';
 import { Col, Button, Table } from 'react-bootstrap';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -7,12 +7,15 @@ import { createProduct, getAllProducts, updateProduct } from '~/services'; // Im
 import UpdateProductModal from '~/components/UpdateProductModal';
 import ProductDetailModal from '~/components/ProductDetailModal ';
 import AddProductDetailModal from '~/components/AddProductDetailModal';
+import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import {
     addBaobi,
     addDinhMucLyThuyet,
     addMau,
 } from '~/services/productDetail.service';
+import RemoveProductDetailModal from '~/components/RemoveProductDetailModal';
+import axios from 'axios';
 
 function AdminProduct() {
     const [isShowModalAddProduct, setIsShowModalAddProduct] = useState(false);
@@ -23,6 +26,8 @@ function AdminProduct() {
     const [isShowAddProductDetailModal, setIsShowAddProductDetailModal] =
         useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [isShowRemovePRoductDetailModal, setIsShowRemovePRoductDetailModal] =
+        useState(false);
 
     const queryClient = useQueryClient();
 
@@ -164,6 +169,7 @@ function AdminProduct() {
             data = {
                 dinhMuc: productDetail.moTa,
             };
+            createDinhMucLyThuyetMutation.mutate(data);
         }
 
         console.log(data);
@@ -189,8 +195,8 @@ function AdminProduct() {
             [`${maBaoBi}-${maDinhMucLyThuyet}-${maSanPham}-${maMau}`]: soLuong,
         };
 
-        console.log(ttSanPhamMoi);
-        console.log(ttChiTietSanPhamMoi);
+        // console.log(ttSanPhamMoi);
+        // console.log(ttChiTietSanPhamMoi);
 
         // Đóng gói tất cả dữ liệu vào một đối tượng duy nhất
         updateMutation.mutate({
@@ -200,25 +206,88 @@ function AdminProduct() {
         });
     };
 
+    const [baoBiOptions, setBaoBiOptions] = useState([]);
+    const [mauOptions, setMauOptions] = useState([]);
+    const [dinhMucOptions, setDinhMucOptions] = useState([]);
+
+    useEffect(() => {
+        const fetchOptions = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const headers = { Authorization: `Bearer ${token}` };
+
+                const [baoBiRes, mauRes, dinhMucRes] = await Promise.all([
+                    axios.get('http://localhost:8080/baoBi/layTatCa', {
+                        headers,
+                    }),
+                    axios.get('http://localhost:8080/mau/layTatCa', {
+                        headers,
+                    }),
+                    axios.get(
+                        'http://localhost:8080/dinhMucLyThuyet/layTatCa',
+                        { headers }
+                    ),
+                ]);
+
+                setBaoBiOptions(baoBiRes.data);
+                setMauOptions(mauRes.data);
+                setDinhMucOptions(dinhMucRes.data);
+                console.log(mauOptions);
+            } catch (error) {
+                console.error('API fetch error:', error);
+            }
+        };
+
+        fetchOptions();
+    }, [
+        createBaobiMutation.isSuccess,
+        createMauMutation.isSuccess,
+        createDinhMucLyThuyetMutation.isSuccess,
+    ]);
+
     return (
         <Col sm={12} md={12} lg={10} xl={10}>
-            <h1 className="text-center mb-5">Quản Lý Sản Phẩm</h1>
+            <h1
+                style={{
+                    fontSize: '2.5rem',
+                    color: '#4a90e2', // Màu xanh dương
+                    marginBottom: '2rem',
+                    marginTop: '2rem',
+                    textAlign: 'center',
+                    paddingBottom: '0.5rem',
+                    letterSpacing: '1px',
+                    borderBottom: '2px solid #ccc',
+                    fontWeight: 'bold',
+                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
+                    background: 'linear-gradient(to right, #4a90e2, #50e3c2)',
+                    WebkitBackgroundClip: 'text',
+                }}
+            >
+                Quản Lý Sản Phẩm
+            </h1>
             <div>
                 <Button
-                    className="mt-4 priColor mb-2"
+                    className="priColor mb-2"
                     onClick={() => setIsShowModalAddProduct(true)}
                 >
                     Thêm sản phẩm
                 </Button>
                 <Button
-                    className="mt-4 priColor mb-2 ms-3"
+                    className="priColor mb-2 ms-3"
                     onClick={() => setIsShowAddProductDetailModal(true)}
                 >
                     Thêm chi tiết sản phẩm
                 </Button>
+                <Button
+                    className="priColor mb-2 ms-3"
+                    onClick={() => setIsShowRemovePRoductDetailModal(true)}
+                >
+                    Xoá chi tiết sản phẩm
+                </Button>
                 <div
+                    className="mt-4 "
                     style={{
-                        maxHeight: '75vh',
+                        maxHeight: '73vh',
                         overflowY: 'auto',
                         width: '100%',
                     }}
@@ -299,7 +368,11 @@ function AdminProduct() {
                                         <td>{prod.tenNhaSanXuat}</td>
                                         <td>
                                             <Button
-                                                className="info"
+                                                style={{
+                                                    background:
+                                                        'rgb(145 254 159 / 47%)',
+                                                    color: 'black',
+                                                }}
                                                 variant="info"
                                                 onClick={() =>
                                                     handleProductDetailModal(
@@ -312,7 +385,12 @@ function AdminProduct() {
                                         </td>
                                         <td>
                                             <Button
-                                                className="priColor"
+                                                style={{
+                                                    background:
+                                                        'rgb(145 254 159 / 47%)',
+                                                    color: 'black',
+                                                }}
+                                                //className="priColor"
                                                 variant="info"
                                                 onClick={() =>
                                                     handleUpdateProductClick(
@@ -350,7 +428,16 @@ function AdminProduct() {
                     onHide={() => setIsShowModalAddProduct(false)}
                     onSubmit={handleAddProduct}
                 />
-            </div>
+                <RemoveProductDetailModal
+                    show={isShowRemovePRoductDetailModal}
+                    onHide={() => setIsShowRemovePRoductDetailModal(false)}
+                    mauOptions={mauOptions}
+                    dinhMucOptions={dinhMucOptions}
+                    baoBiOptions={baoBiOptions}
+                    // onSubmit={handleRemoveProductDetail}
+                />
+            </div>{' '}
+            <ToastContainer />
         </Col>
     );
 }

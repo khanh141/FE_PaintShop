@@ -140,9 +140,9 @@ function ModalAddProduct(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={props.onHide} type="button">
-                        Close
+                        Đóng
                     </Button>
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">Thêm sản phẩm</Button>
                 </Modal.Footer>
             </form>
         </Modal>

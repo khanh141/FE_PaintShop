@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 
 const AddProductDetailModal = ({ show, onHide, onSave }) => {
@@ -15,6 +15,13 @@ const AddProductDetailModal = ({ show, onHide, onSave }) => {
         onSave(newDetail);
         onHide(); // Đóng modal sau khi lưu
     };
+    useEffect(() => {
+        if (show) {
+            // Reset dữ liệu về mặc định khi mở modal
+            setLoaiChiTiet('');
+            setMoTa('');
+        }
+    }, [show]);
 
     return (
         <Modal show={show} onHide={onHide}>

@@ -1,71 +1,100 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const RemoveProductDetailModal = ({ show, onHide }) => {
+import {
+    deleteBaobi,
+    deleteDinhMucLyThuyet,
+    deleteMau,
+} from '~/services/productDetail.service';
+
+const RemoveProductDetailModal = ({
+    show,
+    onHide,
+    mauOptions,
+    baoBiOptions,
+    dinhMucOptions,
+}) => {
     const [loai, setLoai] = useState('');
-    const [baoBiOptions, setBaoBiOptions] = useState([]);
-    const [mauOptions, setMauOptions] = useState([]);
-    const [dinhMucOptions, setDinhMucOptions] = useState([]);
     const [loaiChiTiet, setLoaiChiTiet] = useState('');
 
     useEffect(() => {
-        const fetchOptions = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const headers = { Authorization: `Bearer ${token}` };
+        if (show) {
+            // Reset dữ liệu về mặc định khi mở modal
+            setLoai('');
+            setLoaiChiTiet('');
+        }
+    }, [show]);
 
-                const [ baoBiRes, mauRes, dinhMucRes] = await Promise.all([
-                    axios.get('http://localhost:8080/baoBi/layTatCa', { headers }),
-                    axios.get('http://localhost:8080/mau/layTatCa', { headers }),
-                    axios.get('http://localhost:8080/dinhMucLyThuyet/layTatCa', { headers })
-                ]);
-
-               
-                setBaoBiOptions(baoBiRes.data);
-                setMauOptions(mauRes.data);
-                setDinhMucOptions(dinhMucRes.data);
-                console.log(baoBiRes.data);
-                console.log(mauRes.data);
-                console.log(dinhMucRes.data); 
-            } catch (error) {
-                console.error("API fetch error:", error);
-            }
-        };
-        fetchOptions();
-    }, []);
-                                                           
     const handleDelete = async () => {
-        const token = localStorage.getItem('token');
-        const headers = { Authorization: `Bearer ${token}` };
-        const apiUrl = getApiUrlForDelete(); 
-    
         try {
-            const response = await axios.delete(apiUrl, { headers });
-            toast.success("xoá chi tiết sản phẩm thành công", { position: "top-right", autoClose: 2000 });
-            setTimeout(() => {
-                onHide();
-            }, 2000);
+            let response;
+            if (loaiChiTiet === 'Bao bì') {
+                response = await deleteBaobi(loai);
+                if (response.status === 200) {
+                    toast.success('Xóa bao bì thành công', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                    });
+                    onHide();
+                } else {
+                    toast.error('Xóa bao bì thất bại', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                    });
+                }
+            } else if (loaiChiTiet === 'Màu') {
+                response = await deleteMau(loai);
+                if (response.status === 200) {
+                    toast.success('Xóa màu thành công', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                    });
+                    onHide();
+                } else {
+                    toast.error('Xóa màu thất bại', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                    });
+                }
+            } else {
+                response = await deleteDinhMucLyThuyet(loai);
+                if (response.status === 200) {
+                    toast.success('Xóa định mức lý thuyết thành công', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                    });
+                    onHide();
+                } else {
+                    toast.error('Xóa định mức lý thuyết thất bại', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                    });
+                }
+            }
         } catch (error) {
-            console.error('API error:', error);
-            toast.error("xoá chi tiết sản phẩm thất bại", { position: "top-right", autoClose: 2000 })
+            const errorMessage =
+                error.response &&
+                error.response.data &&
+                error.response.data.message
+                    ? error.response.data.message
+                    : loai + ' đang được sử dụng';
+
+            toast.error(
+                `Lỗi khi xóa ${loaiChiTiet.toLowerCase()}: ${errorMessage}`,
+                {
+                    position: 'top-right',
+                    autoClose: 3000,
+                }
+            );
+            console.error(
+                `Lỗi khi xóa ${loaiChiTiet.toLowerCase()}:`,
+                errorMessage
+            );
         }
     };
-    
-    const getApiUrlForDelete = () => {
-        switch (loaiChiTiet) {
-            case 'Bao bì':
-                return 'http://localhost:8080/baoBi/xoa';  ì
-            case 'Màu':
-                return 'http://localhost:8080/mau/xoa';  
-            case 'Định mức lý thuyết':
-                return 'http://localhost:8080/dinhMucLyThuyet/xoa';  
-            default:
-                return '';  
-        }
-    };
-    
+
     const renderLoaiOptions = () => {
         switch (loaiChiTiet) {
             case 'Bao bì':

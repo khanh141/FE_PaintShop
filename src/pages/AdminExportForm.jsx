@@ -17,7 +17,7 @@ function AdminExportForm() {
     const translateError = (error) => {
         const translations = {
             'San pham het hang': 'Sản phẩm hết hàng',
-            'San pham khong du so luong dat': 'Sản phẩm không đủ số lượng'
+            'San pham khong du so luong dat': 'Sản phẩm không đủ số lượng',
         };
         return translations[error] || error;
     };
@@ -68,28 +68,29 @@ function AdminExportForm() {
             },
             sanPhamMuaDtoList: Array.isArray(formData.sanPhamMuaDtoList)
                 ? formData.sanPhamMuaDtoList.map((sanPham) => ({
-                    maSanPham: sanPham.maSanPham,
-                    chiTietSanPhamReqList: sanPham.chiTietSanPhamReq
-                        ? [
-                            {
-                                loaiBaoBi: sanPham.chiTietSanPhamReq.loaiBaoBi,
-                                mau: sanPham.chiTietSanPhamReq.mau,
-                                loaiDinhMucLyThuyet: sanPham.chiTietSanPhamReq.dinhMuc,
-                                giaTien: sanPham.chiTietSanPhamReq.giaTien,
-                                soLuong: sanPham.chiTietSanPhamReq.soLuong,
-                            },
-                        ]
-                        : [],
-                }))
+                      maSanPham: sanPham.maSanPham,
+                      chiTietSanPhamReqList: sanPham.chiTietSanPhamReq
+                          ? [
+                                {
+                                    loaiBaoBi:
+                                        sanPham.chiTietSanPhamReq.loaiBaoBi,
+                                    mau: sanPham.chiTietSanPhamReq.mau,
+                                    loaiDinhMucLyThuyet:
+                                        sanPham.chiTietSanPhamReq.dinhMuc,
+                                    giaTien: sanPham.chiTietSanPhamReq.giaTien,
+                                    soLuong: sanPham.chiTietSanPhamReq.soLuong,
+                                },
+                            ]
+                          : [],
+                  }))
                 : [],
             lyDo: formData.lyDo,
         };
-        setIsShowModalAddProduct(false)
-        console.log("Thong tin gui: ", dataToSend);
+        setIsShowModalAddProduct(false);
+        console.log('Thong tin gui: ', dataToSend);
 
         mutation.mutate(dataToSend);
     };
-
 
     const handleShowDetails = (phieu) => {
         setSelectedProductDetails(phieu);
@@ -113,7 +114,7 @@ function AdminExportForm() {
 
             <div
                 style={{ maxHeight: '80vh', overflowY: 'auto', width: '100%' }}
-                className='mt-4'
+                className="mt-4"
             >
                 <Table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
@@ -189,7 +190,8 @@ function AdminExportForm() {
                         </tr>
                     </thead>
                     <tbody>
-                        {!isLoading && phieuXuatData &&
+                        {!isLoading &&
+                            phieuXuatData &&
                             phieuXuatData?.data?.map((phieu, index) => (
                                 <tr key={phieu.maPhieuXuat}>
                                     <td>{index + 1}</td>
@@ -206,7 +208,7 @@ function AdminExportForm() {
                                     <td>{phieu.thongTinKhach.soDienThoai}</td>
                                     <td>
                                         <Button
-                                            className='priColor'
+                                            className="priColor"
                                             onClick={() =>
                                                 handleShowDetails(phieu)
                                             }
