@@ -1,14 +1,23 @@
-import { useQuery } from '@tanstack/react-query';
+import {
+    QueryClient,
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { Button, Col, Modal, Table } from 'react-bootstrap';
-import ModalExportForm from '~/components/ModalExportForm';
+import { toast } from 'react-toastify';
 import ModalImportForm from '~/components/ModalImportForm';
 import { KEYS } from '~/constants/keys';
-import { getAllProducts, getThongKePhieuNhap } from '~/services';
+import {
+    createPhieuNhap,
+    getAllProducts,
+    getThongKePhieuNhap,
+} from '~/services';
 
 function AdminImportForm() {
     const [isShowModalImportForm, setIsShowModalImportForm] = useState(false);
-
+    const queryClient = useQueryClient();
     const [showDetailModal, setShowDetailModal] = React.useState(false);
     const [selectedProductDetails, setSelectedProductDetails] = useState(null);
     const {
@@ -16,7 +25,7 @@ function AdminImportForm() {
         isLoading,
         error,
     } = useQuery({
-        queryKey: [KEYS.GET_ALL_PHIEU_XUAT],
+        queryKey: [KEYS.GET_ALL_PHIEU_NHAP],
         queryFn: getThongKePhieuNhap,
     });
 
@@ -26,8 +35,27 @@ function AdminImportForm() {
         staleTime: 1000 * 60 * 5,
     });
 
+    const createMutation = useMutation({
+        mutationKey: [KEYS.GET_ALL_PHIEU_NHAP],
+        mutationFn: (data) => createPhieuNhap(data),
+        onSuccess: () => {
+            toast.success('Thêm phiếu nhập thành công', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            queryClient.invalidateQueries([KEYS.GET_ALL_PHIEU_NHAP]); // Tự động làm mới dữ liệu sau khi thêm sản phẩm mới
+            setIsShowModalImportForm(false);
+        },
+        onError: (error) => {
+            toast.error('Thêm phiếu nhập thất bại', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+        },
+    });
+
     const handleShowDetails = (prod) => {
-        console.log(prod);
+        //console.log(prod);
 
         setSelectedProductDetails(prod);
         setShowDetailModal(true);
@@ -39,117 +67,210 @@ function AdminImportForm() {
     };
     // console.log(phieuNhapData);
 
+    const handleAddPhieuNhap = (formData) => {
+        console.log(formData);
+        const data = {
+            maSanPham: formData[0]?.maSanPham,
+            loaiBaoBi: formData[0]?.loaiBaoBi,
+            dinhMuc: formData[0]?.dinhMuc,
+            mau: formData[0]?.mau,
+            soLuong: formData[0]?.soLuong,
+            giaTien: formData[0]?.giaTien,
+            nhaSanXuat: formData[0]?.nhaSanXuat,
+        };
+        createMutation.mutate(data);
+    };
     return (
         <Col sm={12} md={12} lg={10} xl={10}>
             <h1 className="text-center">Quản Lý Nhập Hàng</h1>
-
-            <div
-                style={{ maxHeight: '80vh', overflowY: 'auto', width: '100%' }}
-            >
+            <div>
                 <Button
-                    className="mt-4 rounded"
+                    className="priColor"
                     onClick={() => setIsShowModalImportForm(true)}
                 >
-                    Nhập hàng
+                    Nhập hàng đã có
                 </Button>
-                <Table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead>
-                        <tr>
-                            <th
-                                style={{
-                                    position: 'sticky',
-                                    top: 0,
-                                    backgroundColor: '#f0f0f0',
-                                    zIndex: 1,
-                                }}
-                            >
-                                STT
-                            </th>
-                            <th
-                                style={{
-                                    position: 'sticky',
-                                    top: 0,
-                                    backgroundColor: '#f0f0f0',
-                                    zIndex: 1,
-                                }}
-                            >
-                                Mã phiếu nhập
-                            </th>
-                            <th
-                                style={{
-                                    position: 'sticky',
-                                    top: 0,
-                                    backgroundColor: '#f0f0f0',
-                                    zIndex: 1,
-                                }}
-                            >
-                                Thời điểm
-                            </th>
-                            <th
-                                style={{
-                                    position: 'sticky',
-                                    top: 0,
-                                    backgroundColor: '#f0f0f0',
-                                    zIndex: 1,
-                                }}
-                            >
-                                Số lượng nhập
-                            </th>
-                            <th
-                                style={{
-                                    position: 'sticky',
-                                    top: 0,
-                                    backgroundColor: '#f0f0f0',
-                                    zIndex: 1,
-                                }}
-                            >
-                                Giá nhập
-                            </th>
-                            <th
-                                style={{
-                                    position: 'sticky',
-                                    top: 0,
-                                    backgroundColor: '#f0f0f0',
-                                    zIndex: 1,
-                                }}
-                            ></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {!isLoading &&
-                            phieuNhapData?.data?.map((prod, index) => (
-                                <tr key={prod.ma}>
-                                    <td>{index + 1}</td>
-                                    <td>{prod.ma}</td>
-                                    <td>
-                                        {new Date(
-                                            prod.thoiDiem
-                                        ).toLocaleString()}
-                                    </td>
-                                    <td>{prod.soLuongNhapThem}</td>
-                                    <td>
-                                        {prod?.chiTietSanPhamResDto?.giaTien?.toLocaleString()}{' '}
-                                        VND
-                                    </td>
 
-                                    <td>
-                                        <Button
-                                            onClick={() =>
-                                                handleShowDetails(prod)
-                                            }
+                <div
+                    className="mt-4"
+                    style={{
+                        maxHeight: '75vh',
+                        overflowY: 'auto',
+                        width: '100%',
+                    }}
+                >
+                    <Table
+                        style={{
+                            width: '100%',
+                            borderCollapse: 'collapse', // Đảm bảo không có khoảng cách giữa các viền
+                        }}
+                    >
+                        <thead>
+                            <tr>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                        border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        padding: '10px 8px',
+                                        fontWeight: 'bold',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    STT
+                                </th>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                        border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        padding: '10px 8px',
+                                        fontWeight: 'bold',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    Mã phiếu nhập
+                                </th>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                        border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        padding: '10px 8px',
+                                        fontWeight: 'bold',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    Thời điểm
+                                </th>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                        border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        padding: '10px 8px',
+                                        fontWeight: 'bold',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    Số lượng nhập
+                                </th>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                        border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        padding: '10px 8px',
+                                        fontWeight: 'bold',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    Giá nhập
+                                </th>
+                                <th
+                                    style={{
+                                        position: 'sticky',
+                                        top: 0,
+                                        backgroundColor: '#f0f0f0',
+                                        zIndex: 1,
+                                        border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        padding: '10px 8px',
+                                        fontWeight: 'bold',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    Hành động
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {!isLoading &&
+                                phieuNhapData?.data?.map((prod, index) => (
+                                    <tr key={prod.ma}>
+                                        <td
+                                            style={{
+                                                textAlign: 'center',
+                                                padding: '8px',
+                                                border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            }}
                                         >
-                                            Chi Tiết
-                                        </Button>
-                                    </td>
-                                </tr>
-                            ))}
-                    </tbody>
-                </Table>
+                                            {index + 1}
+                                        </td>
+                                        <td
+                                            style={{
+                                                textAlign: 'center',
+                                                padding: '8px',
+                                                border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            }}
+                                        >
+                                            {prod.ma}
+                                        </td>
+                                        <td
+                                            style={{
+                                                textAlign: 'center',
+                                                padding: '8px',
+                                                border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            }}
+                                        >
+                                            {new Date(
+                                                prod.thoiDiem
+                                            ).toLocaleString()}
+                                        </td>
+                                        <td
+                                            style={{
+                                                textAlign: 'center',
+                                                padding: '8px',
+                                                border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            }}
+                                        >
+                                            {prod.soLuongNhapThem}
+                                        </td>
+                                        <td
+                                            style={{
+                                                textAlign: 'center',
+                                                padding: '8px',
+                                                border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            }}
+                                        >
+                                            {prod?.chiTietSanPhamResDto?.giaTien?.toLocaleString()}{' '}
+                                            VND
+                                        </td>
+                                        <td
+                                            style={{
+                                                textAlign: 'center',
+                                                padding: '8px',
+                                                border: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            }}
+                                        >
+                                            <Button
+                                                className="info"
+                                                onClick={() =>
+                                                    handleShowDetails(prod)
+                                                }
+                                            >
+                                                Chi Tiết
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </Table>
+                </div>
             </div>
             <ModalImportForm
                 show={isShowModalImportForm}
                 onHide={() => setIsShowModalImportForm(false)}
-                // onSubmit={handleAddPhieuXuat}
+                onSubmit={handleAddPhieuNhap}
                 sanPhamData={sanPhamData}
             />
 

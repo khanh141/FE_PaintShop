@@ -66,8 +66,6 @@ export default function BasicTable() {
         staleTime: 1000 * 60 * 5,
     });
 
-    console.log(data);
-
     return (
         <div className="Table">
             <h3 className="mt-4">Đơn hàng gần đây</h3>

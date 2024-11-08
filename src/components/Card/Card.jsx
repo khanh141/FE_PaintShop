@@ -70,7 +70,15 @@ function CompactCard({ param, setExpanded, layoutId }) {
             </div>
             <div className="detail">
                 <Png />
-                <span>{param.value} VND</span>
+                <span>
+                    {param.value}{' '}
+                    {param.title === 'Bán Hàng'
+                        ? 'VND'
+                        : param.title === 'Xuất Hàng'
+                        ? 'Phiếu Xuất'
+                        : 'Sản phẩm'}
+                </span>
+
                 <span>Trong 1 tuần qua</span>
             </div>
         </motion.div>
@@ -79,8 +87,6 @@ function CompactCard({ param, setExpanded, layoutId }) {
 
 // Expanded Card
 function ExpandedCard({ param, setExpanded, layoutId }) {
-    console.log(param.dataTime);
-
     const data = {
         options: {
             chart: {
