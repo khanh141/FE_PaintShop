@@ -272,7 +272,11 @@ function AdminImportForm() {
                                             }}
                                         >
                                             <Button
-                                                className="info"
+                                                style={{
+                                                    background:
+                                                        'rgb(145 254 159 / 47%)',
+                                                    color: 'black',
+                                                }}
                                                 onClick={() =>
                                                     handleShowDetails(prod)
                                                 }

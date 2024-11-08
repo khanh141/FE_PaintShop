@@ -295,7 +295,8 @@ function AdminProduct() {
                     <Table
                         style={{
                             width: '100%',
-                            borderCollapse: 'collapse',
+                            borderCollapse: 'collapse', // Xóa khoảng cách giữa các ô
+                            border: '1px solid #ddd', // Thêm đường viền xung quanh toàn bộ bảng
                         }}
                     >
                         <thead>
@@ -306,6 +307,10 @@ function AdminProduct() {
                                         top: 0,
                                         backgroundColor: '#f0f0f0',
                                         zIndex: 1,
+                                        padding: '8px',
+                                        textAlign: 'left',
+                                        borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        borderBottom: '2px solid #ddd', // Đường kẻ dưới các tiêu đề
                                     }}
                                 >
                                     STT
@@ -316,6 +321,10 @@ function AdminProduct() {
                                         top: 0,
                                         backgroundColor: '#f0f0f0',
                                         zIndex: 1,
+                                        padding: '8px',
+                                        textAlign: 'left',
+                                        borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        borderBottom: '2px solid #ddd', // Đường kẻ dưới các tiêu đề
                                     }}
                                 >
                                     Tên sản phẩm
@@ -326,6 +335,10 @@ function AdminProduct() {
                                         top: 0,
                                         backgroundColor: '#f0f0f0',
                                         zIndex: 1,
+                                        padding: '8px',
+                                        textAlign: 'left',
+                                        borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        borderBottom: '2px solid #ddd', // Đường kẻ dưới các tiêu đề
                                     }}
                                 >
                                     Loại
@@ -336,6 +349,10 @@ function AdminProduct() {
                                         top: 0,
                                         backgroundColor: '#f0f0f0',
                                         zIndex: 1,
+                                        padding: '8px',
+                                        textAlign: 'left',
+                                        borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        borderBottom: '2px solid #ddd', // Đường kẻ dưới các tiêu đề
                                     }}
                                 >
                                     Tên nhà sản xuất
@@ -346,6 +363,10 @@ function AdminProduct() {
                                         top: 0,
                                         backgroundColor: '#f0f0f0',
                                         zIndex: 1,
+                                        padding: '8px',
+                                        textAlign: 'center',
+                                        borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        borderBottom: '2px solid #ddd', // Đường kẻ dưới các tiêu đề
                                     }}
                                 ></th>
                                 <th
@@ -354,6 +375,10 @@ function AdminProduct() {
                                         top: 0,
                                         backgroundColor: '#f0f0f0',
                                         zIndex: 1,
+                                        padding: '8px',
+                                        textAlign: 'center',
+                                        borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                        borderBottom: '2px solid #ddd', // Đường kẻ dưới các tiêu đề
                                     }}
                                 ></th>
                             </tr>
@@ -362,11 +387,54 @@ function AdminProduct() {
                             {!isLoading &&
                                 data?.data?.map((prod, index) => (
                                     <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{prod.ten}</td>
-                                        <td>{prod.loai}</td>
-                                        <td>{prod.tenNhaSanXuat}</td>
-                                        <td>
+                                        <td
+                                            style={{
+                                                padding: '8px',
+                                                textAlign: 'left',
+                                                borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                                borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                            }}
+                                        >
+                                            {index + 1}
+                                        </td>
+                                        <td
+                                            style={{
+                                                padding: '8px',
+                                                textAlign: 'left',
+                                                borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                                borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                            }}
+                                        >
+                                            {prod.ten}
+                                        </td>
+                                        <td
+                                            style={{
+                                                padding: '8px',
+                                                textAlign: 'left',
+                                                borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                                borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                            }}
+                                        >
+                                            {prod.loai}
+                                        </td>
+                                        <td
+                                            style={{
+                                                padding: '8px',
+                                                textAlign: 'left',
+                                                borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                                borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                            }}
+                                        >
+                                            {prod.tenNhaSanXuat}
+                                        </td>
+                                        <td
+                                            style={{
+                                                padding: '8px',
+                                                textAlign: 'center',
+                                                borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                                borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                            }}
+                                        >
                                             <Button
                                                 style={{
                                                     background:
@@ -383,14 +451,20 @@ function AdminProduct() {
                                                 Chi Tiết
                                             </Button>
                                         </td>
-                                        <td>
+                                        <td
+                                            style={{
+                                                padding: '8px',
+                                                textAlign: 'center',
+                                                borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                                borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                            }}
+                                        >
                                             <Button
                                                 style={{
                                                     background:
                                                         'rgb(145 254 159 / 47%)',
                                                     color: 'black',
                                                 }}
-                                                //className="priColor"
                                                 variant="info"
                                                 onClick={() =>
                                                     handleUpdateProductClick(
