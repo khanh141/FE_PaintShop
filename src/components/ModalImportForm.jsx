@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Col, Row, Form } from 'react-bootstrap';
@@ -189,6 +189,7 @@ function ModalImportForm({ show, onHide, onSubmit, sanPhamData }) {
         console.log('Tong tien: ', tongTien);
         onSubmit(sanPhamMuaDtoList);
     };
+
     return (
         <Modal
             show={show}
@@ -240,25 +241,29 @@ function ModalImportForm({ show, onHide, onSubmit, sanPhamData }) {
                                     >
                                         <option value="">Chọn bao bì</option>
                                         {/* Load available loaiBaoBi based on selected maSanPham */}
-                                        {sanPhamData?.data
-                                            ?.find(
-                                                (sp) =>
-                                                    sp.maSanPham ===
-                                                    parseInt(
-                                                        product.maSanPham,
-                                                        10
+                                        {[
+                                            ...new Set(
+                                                sanPhamData?.data
+                                                    ?.find(
+                                                        (sp) =>
+                                                            sp.maSanPham ===
+                                                            parseInt(
+                                                                product.maSanPham,
+                                                                10
+                                                            )
                                                     )
-                                            )
-                                            ?.chiTietSanPhamResList.map(
-                                                (ct) => (
-                                                    <option
-                                                        key={ct.loaiBaoBi}
-                                                        value={ct.loaiBaoBi}
-                                                    >
-                                                        {ct.loaiBaoBi}
-                                                    </option>
-                                                )
-                                            )}
+                                                    ?.chiTietSanPhamResList.map(
+                                                        (ct) => ct.loaiBaoBi
+                                                    )
+                                            ),
+                                        ].map((loaiBaoBi) => (
+                                            <option
+                                                key={loaiBaoBi}
+                                                value={loaiBaoBi}
+                                            >
+                                                {loaiBaoBi}
+                                            </option>
+                                        ))}
                                     </select>
                                 </label>
                                 <label className="w-100">
@@ -391,9 +396,9 @@ function ModalImportForm({ show, onHide, onSubmit, sanPhamData }) {
                 </Col>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={onHide}>Close</Button>
+                <Button onClick={onHide}>Đóng</Button>
                 <Button type="submit" onClick={handleSubmit}>
-                    Submit
+                    Nhập hàng
                 </Button>
             </Modal.Footer>
         </Modal>

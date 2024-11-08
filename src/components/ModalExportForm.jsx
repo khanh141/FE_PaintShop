@@ -9,12 +9,20 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
         hoTen: '',
         diaChi: '',
     });
-    const [sanPhamMuaDtoList, setSanPhamMuaDtoList] = useState([{
-        maSanPham: '',
-        chiTietSanPhamReq: { loaiBaoBi: '', mau: '', dinhMuc: '', giaTien: 0, soLuong: 1 },
-        availableMau: [],
-        availableDinhMuc: []
-    }]);
+    const [sanPhamMuaDtoList, setSanPhamMuaDtoList] = useState([
+        {
+            maSanPham: '',
+            chiTietSanPhamReq: {
+                loaiBaoBi: '',
+                mau: '',
+                dinhMuc: '',
+                giaTien: 0,
+                soLuong: 1,
+            },
+            availableMau: [],
+            availableDinhMuc: [],
+        },
+    ]);
     const [tongTien, setTongTien] = useState(0);
 
     const handleSanPhamChange = (productIndex, event) => {
@@ -22,11 +30,17 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
         const maSanPham = event.target.value;
         newSanPhamMuaDtoList[productIndex] = {
             maSanPham,
-            chiTietSanPhamReq: { loaiBaoBi: '', mau: '', dinhMuc: '', giaTien: 0, soLuong: 1 },
+            chiTietSanPhamReq: {
+                loaiBaoBi: '',
+                mau: '',
+                dinhMuc: '',
+                giaTien: 0,
+                soLuong: 1,
+            },
             availableMau: [],
-            availableDinhMuc: []
+            availableDinhMuc: [],
         };
-        console.log(newSanPhamMuaDtoList)
+        console.log(newSanPhamMuaDtoList);
 
         setSanPhamMuaDtoList(newSanPhamMuaDtoList);
     };
@@ -34,15 +48,25 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
     const handleBaoBiChange = (productIndex, event) => {
         const newSanPhamMuaDtoList = [...sanPhamMuaDtoList];
         const selectedBaoBi = event.target.value;
-        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.loaiBaoBi = selectedBaoBi;
+        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.loaiBaoBi =
+            selectedBaoBi;
         newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.mau = '';
         newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.dinhMuc = '';
 
-        const availableColors = sanPhamData.data
-            .find(sp => sp.maSanPham === parseInt(newSanPhamMuaDtoList[productIndex].maSanPham, 10))
-            ?.chiTietSanPhamResList
-            .filter(ct => ct.loaiBaoBi === selectedBaoBi)
-            .map(ct => ct.mau) || [];
+        const availableColors =
+            sanPhamData.data
+                .find(
+                    (sp) =>
+                        sp.maSanPham ===
+                        parseInt(
+                            newSanPhamMuaDtoList[productIndex].maSanPham,
+                            10
+                        )
+                )
+                ?.chiTietSanPhamResList.filter(
+                    (ct) => ct.loaiBaoBi === selectedBaoBi
+                )
+                .map((ct) => ct.mau) || [];
 
         newSanPhamMuaDtoList[productIndex].availableMau = availableColors;
         newSanPhamMuaDtoList[productIndex].availableDinhMuc = [];
@@ -55,30 +79,53 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
         newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.mau = selectedMau;
         newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.dinhMuc = '';
 
-        const availableDinhMucOptions = sanPhamData.data
-            .find(sp => sp.maSanPham === parseInt(newSanPhamMuaDtoList[productIndex].maSanPham, 10))
-            ?.chiTietSanPhamResList
-            .filter(ct => ct.loaiBaoBi === newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.loaiBaoBi && ct.mau === selectedMau)
-            .map(ct => ct.loaiDinhMucLyThuyet) || [];
+        const availableDinhMucOptions =
+            sanPhamData.data
+                .find(
+                    (sp) =>
+                        sp.maSanPham ===
+                        parseInt(
+                            newSanPhamMuaDtoList[productIndex].maSanPham,
+                            10
+                        )
+                )
+                ?.chiTietSanPhamResList.filter(
+                    (ct) =>
+                        ct.loaiBaoBi ===
+                            newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq
+                                .loaiBaoBi && ct.mau === selectedMau
+                )
+                .map((ct) => ct.loaiDinhMucLyThuyet) || [];
 
-        newSanPhamMuaDtoList[productIndex].availableDinhMuc = availableDinhMucOptions;
+        newSanPhamMuaDtoList[productIndex].availableDinhMuc =
+            availableDinhMucOptions;
         setSanPhamMuaDtoList(newSanPhamMuaDtoList);
     };
 
     const handleDinhMucChange = (productIndex, event) => {
         const newSanPhamMuaDtoList = [...sanPhamMuaDtoList];
         const selectedDinhMuc = event.target.value;
-        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.dinhMuc = selectedDinhMuc;
+        newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.dinhMuc =
+            selectedDinhMuc;
 
-        const selectedSanPham = sanPhamData.data.find(sp => sp.maSanPham === parseInt(newSanPhamMuaDtoList[productIndex].maSanPham, 10));
-        const matchingChiTiet = selectedSanPham?.chiTietSanPhamResList.find(ct =>
-            ct.loaiBaoBi === newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.loaiBaoBi &&
-            ct.mau === newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.mau &&
-            ct.loaiDinhMucLyThuyet === selectedDinhMuc
+        const selectedSanPham = sanPhamData.data.find(
+            (sp) =>
+                sp.maSanPham ===
+                parseInt(newSanPhamMuaDtoList[productIndex].maSanPham, 10)
+        );
+        const matchingChiTiet = selectedSanPham?.chiTietSanPhamResList.find(
+            (ct) =>
+                ct.loaiBaoBi ===
+                    newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq
+                        .loaiBaoBi &&
+                ct.mau ===
+                    newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.mau &&
+                ct.loaiDinhMucLyThuyet === selectedDinhMuc
         );
 
         if (matchingChiTiet) {
-            newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.giaTien = matchingChiTiet.giaTien;
+            newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.giaTien =
+                matchingChiTiet.giaTien;
         } else {
             newSanPhamMuaDtoList[productIndex].chiTietSanPhamReq.giaTien = 0;
         }
@@ -91,13 +138,28 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
     };
 
     const handleRemoveProduct = (index) => {
-        const newSanPhamMuaDtoList = sanPhamMuaDtoList.filter((_, i) => i !== index);
+        const newSanPhamMuaDtoList = sanPhamMuaDtoList.filter(
+            (_, i) => i !== index
+        );
         setSanPhamMuaDtoList(newSanPhamMuaDtoList);
         calculateTongTien(newSanPhamMuaDtoList);
     };
 
     const handleAddProduct = () => {
-        setSanPhamMuaDtoList([...sanPhamMuaDtoList, { maSanPham: '', chiTietSanPhamReq: { loaiBaoBi: '', mau: '', dinhMuc: '', soLuong: 1 }, availableMau: [], availableDinhMuc: [] }]);
+        setSanPhamMuaDtoList([
+            ...sanPhamMuaDtoList,
+            {
+                maSanPham: '',
+                chiTietSanPhamReq: {
+                    loaiBaoBi: '',
+                    mau: '',
+                    dinhMuc: '',
+                    soLuong: 1,
+                },
+                availableMau: [],
+                availableDinhMuc: [],
+            },
+        ]);
     };
 
     const handleQuantityChange = (productIndex, quantity) => {
@@ -109,7 +171,11 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
 
     const calculateTongTien = (sanPhamMuaDtoList) => {
         const total = sanPhamMuaDtoList.reduce((sum, product) => {
-            return sum + (product.chiTietSanPhamReq.giaTien * product.chiTietSanPhamReq.soLuong);
+            return (
+                sum +
+                product.chiTietSanPhamReq.giaTien *
+                    product.chiTietSanPhamReq.soLuong
+            );
         }, 0);
         setTongTien(total);
     };
@@ -117,26 +183,20 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         onSubmit({ thongTinKhach, sanPhamMuaDtoList });
-    }
+    };
     const handlePriceChange = (index, newPrice) => {
         const newSanPhamMuaDtoList = [...sanPhamMuaDtoList];
         newSanPhamMuaDtoList[index].chiTietSanPhamReq.giaTien = newPrice;
         setSanPhamMuaDtoList(newSanPhamMuaDtoList);
     };
 
-
     useEffect(() => {
         calculateTongTien(sanPhamMuaDtoList);
     }, [sanPhamMuaDtoList]);
+
     // Render Modal
     return (
-        <Modal
-            show={show}
-            onHide={onHide}
-            backdrop="static"
-            size="lg"
-            centered
-        >
+        <Modal show={show} onHide={onHide} backdrop="static" size="lg" centered>
             <form onSubmit={(e) => handleSubmit(e)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Thêm phiếu xuất</Modal.Title>
@@ -195,12 +255,24 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                         <select
                                             required
                                             value={product.maSanPham || ''}
-                                            onChange={(e) => handleSanPhamChange(productIndex, e)}
+                                            onChange={(e) =>
+                                                handleSanPhamChange(
+                                                    productIndex,
+                                                    e
+                                                )
+                                            }
                                             className="w-100"
                                         >
-                                            <option value="">Chọn sản phẩm</option>
-                                            {sanPhamData.data.map(sp => (
-                                                <option key={sp.maSanPham} value={sp.maSanPham}>{sp.ten}</option>
+                                            <option value="">
+                                                Chọn sản phẩm
+                                            </option>
+                                            {sanPhamData.data.map((sp) => (
+                                                <option
+                                                    key={sp.maSanPham}
+                                                    value={sp.maSanPham}
+                                                >
+                                                    {sp.ten}
+                                                </option>
                                             ))}
                                         </select>
                                     </label>
@@ -208,19 +280,44 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                         Loại bao bì
                                         <select
                                             required
-                                            value={product.chiTietSanPhamReq.loaiBaoBi || ''}
-                                            onChange={(e) => handleBaoBiChange(productIndex, e)}
+                                            value={
+                                                product.chiTietSanPhamReq
+                                                    .loaiBaoBi || ''
+                                            }
+                                            onChange={(e) =>
+                                                handleBaoBiChange(
+                                                    productIndex,
+                                                    e
+                                                )
+                                            }
                                             className="w-100"
                                         >
-                                            <option value="">Chọn bao bì</option>
+                                            <option value="">
+                                                Chọn bao bì
+                                            </option>
                                             {/* Load available loaiBaoBi based on selected maSanPham */}
-                                            {[...new Set(
-                                                sanPhamData.data
-                                                    .find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
-                                                    ?.chiTietSanPhamResList
-                                                    .map(ct => ct.loaiBaoBi)
-                                            )].map(loaiBaoBi => (
-                                                <option key={loaiBaoBi} value={loaiBaoBi}>{loaiBaoBi}</option>
+                                            {[
+                                                ...new Set(
+                                                    sanPhamData?.data
+                                                        ?.find(
+                                                            (sp) =>
+                                                                sp.maSanPham ===
+                                                                parseInt(
+                                                                    product.maSanPham,
+                                                                    10
+                                                                )
+                                                        )
+                                                        ?.chiTietSanPhamResList.map(
+                                                            (ct) => ct.loaiBaoBi
+                                                        )
+                                                ),
+                                            ]?.map((loaiBaoBi) => (
+                                                <option
+                                                    key={loaiBaoBi}
+                                                    value={loaiBaoBi}
+                                                >
+                                                    {loaiBaoBi}
+                                                </option>
                                             ))}
                                         </select>
                                     </label>
@@ -228,13 +325,20 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                         Màu
                                         <select
                                             required
-                                            value={product.chiTietSanPhamReq.mau || ''}
-                                            onChange={(e) => handleMauChange(productIndex, e)}
+                                            value={
+                                                product.chiTietSanPhamReq.mau ||
+                                                ''
+                                            }
+                                            onChange={(e) =>
+                                                handleMauChange(productIndex, e)
+                                            }
                                             className="w-100"
                                         >
                                             <option value="">Chọn màu</option>
-                                            {product.availableMau.map(mau => (
-                                                <option key={mau} value={mau}>{mau}</option>
+                                            {product.availableMau.map((mau) => (
+                                                <option key={mau} value={mau}>
+                                                    {mau}
+                                                </option>
                                             ))}
                                         </select>
                                     </label>
@@ -242,25 +346,50 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                         Định mức
                                         <select
                                             required
-                                            value={product.chiTietSanPhamReq.dinhMuc || ''}
-                                            onChange={(e) => handleDinhMucChange(productIndex, e)}
+                                            value={
+                                                product.chiTietSanPhamReq
+                                                    .dinhMuc || ''
+                                            }
+                                            onChange={(e) =>
+                                                handleDinhMucChange(
+                                                    productIndex,
+                                                    e
+                                                )
+                                            }
                                             className="w-100"
                                         >
-                                            <option value="">Chọn định mức</option>
-                                            {product.availableDinhMuc.map(dinhMuc => (
-                                                <option key={dinhMuc} value={dinhMuc}>{dinhMuc}</option>
-                                            ))}
+                                            <option value="">
+                                                Chọn định mức
+                                            </option>
+                                            {product.availableDinhMuc.map(
+                                                (dinhMuc) => (
+                                                    <option
+                                                        key={dinhMuc}
+                                                        value={dinhMuc}
+                                                    >
+                                                        {dinhMuc}
+                                                    </option>
+                                                )
+                                            )}
                                         </select>
                                     </label>
-                                    <div className='d-flex gap-2'>
+                                    <div className="d-flex gap-2">
                                         <label className="w-100">
                                             Số lượng
                                             <input
                                                 required
                                                 type="number"
                                                 min="1"
-                                                value={product.chiTietSanPhamReq.soLuong}
-                                                onChange={(e) => handleQuantityChange(productIndex, e.target.value)}
+                                                value={
+                                                    product.chiTietSanPhamReq
+                                                        .soLuong
+                                                }
+                                                onChange={(e) =>
+                                                    handleQuantityChange(
+                                                        productIndex,
+                                                        e.target.value
+                                                    )
+                                                }
                                                 className="w-100"
                                             />
                                         </label>
@@ -268,9 +397,17 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                             Giá tiền 1 sản phẩm:
                                             <input
                                                 type="number"
-                                                value={(product.chiTietSanPhamReq.giaTien)}
+                                                value={
+                                                    product.chiTietSanPhamReq
+                                                        .giaTien
+                                                }
                                                 readOnly
-                                                onChange={(e) => handlePriceChange(productIndex, e.target.value)}
+                                                onChange={(e) =>
+                                                    handlePriceChange(
+                                                        productIndex,
+                                                        e.target.value
+                                                    )
+                                                }
                                                 className="w-100"
                                             />
                                         </label>
@@ -295,8 +432,8 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                     </Col>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={onHide}>Close</Button>
-                    <Button type="submit">Submit</Button>
+                    <Button onClick={onHide}>Đóng</Button>
+                    <Button type="submit">Xuất hàng</Button>
                 </Modal.Footer>
             </form>
         </Modal>

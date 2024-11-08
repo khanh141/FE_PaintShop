@@ -6,7 +6,7 @@ import { getAllProducts, getThongKePhieuXuat } from '~/services';
 import ModalExportForm from '~/components/ModalExportForm';
 import { useMutation } from '@tanstack/react-query';
 import { createPhieuXuat } from '~/services';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 function AdminExportForm() {
     const [isShowModalAddProduct, setIsShowModalAddProduct] = useState(false);
@@ -41,21 +41,17 @@ function AdminExportForm() {
         mutationKey: [KEYS.GET_ALL_PHIEU_XUAT],
         mutationFn: (data) => createPhieuXuat(data),
         onSuccess: () => {
-            toast.success('Xuất hàng thành công', {
-                position: 'top-right',
-                autoClose: 3000,
-            });
-            queryClient.invalidateQueries([KEYS.GET_ALL_PRODUCTS]);
-            setIsShowModalAddProduct(false);
+            toast.success('Xuất hàng thành công', { position: 'top-right' });
+            queryClient.invalidateQueries([KEYS.GET_ALL_PHIEU_XUAT]);
+            setIsShowModalAddProduct(false); // Ensure the modal is correctly closed
         },
         onError: (error) => {
             const errorMessage =
-                error.response.data || 'Xuất hàng không thành công';
-            toast.error(translateError(errorMessage), {
+                error.response?.data?.message || 'Xuất hàng không thành công';
+            toast.error(errorMessage, {
                 position: 'top-right',
                 autoClose: 3000,
             });
-            console.error(error);
         },
     });
 
@@ -86,8 +82,8 @@ function AdminExportForm() {
                 : [],
             lyDo: formData.lyDo,
         };
-        setIsShowModalAddProduct(false);
-        console.log('Thong tin gui: ', dataToSend);
+        //    setIsShowModalAddProduct(false);
+        //console.log('Thong tin gui: ', dataToSend);
 
         mutation.mutate(dataToSend);
     };
@@ -104,7 +100,24 @@ function AdminExportForm() {
 
     return (
         <Col sm={12} md={12} lg={10} xl={10}>
-            <h1 className="text-center mb-5">Quản Lý Sản Phẩm</h1>
+            <h1
+                style={{
+                    fontSize: '2.5rem',
+                    color: '#4a90e2', // Màu xanh dương
+                    marginBottom: '2rem',
+                    marginTop: '2rem',
+                    textAlign: 'center',
+                    paddingBottom: '0.5rem',
+                    letterSpacing: '1px',
+                    borderBottom: '2px solid #ccc',
+                    fontWeight: 'bold',
+                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
+                    background: 'linear-gradient(to right, #4a90e2, #50e3c2)',
+                    WebkitBackgroundClip: 'text',
+                }}
+            >
+                Quản Lý Sản Phẩm
+            </h1>
             <Button
                 className="mt-4 rounded priColor"
                 onClick={() => setIsShowModalAddProduct(true)}
@@ -125,6 +138,10 @@ function AdminExportForm() {
                                     top: 0,
                                     backgroundColor: '#f0f0f0',
                                     zIndex: 1,
+                                    padding: '8px',
+                                    textAlign: 'left',
+                                    borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                    borderBottom: '2px solid #ddd', // Đường kẻ dưới tiêu đề
                                 }}
                             >
                                 STT
@@ -135,6 +152,10 @@ function AdminExportForm() {
                                     top: 0,
                                     backgroundColor: '#f0f0f0',
                                     zIndex: 1,
+                                    padding: '8px',
+                                    textAlign: 'left',
+                                    borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                    borderBottom: '2px solid #ddd', // Đường kẻ dưới tiêu đề
                                 }}
                             >
                                 Mã phiếu xuất
@@ -145,6 +166,10 @@ function AdminExportForm() {
                                     top: 0,
                                     backgroundColor: '#f0f0f0',
                                     zIndex: 1,
+                                    padding: '8px',
+                                    textAlign: 'left',
+                                    borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                    borderBottom: '2px solid #ddd', // Đường kẻ dưới tiêu đề
                                 }}
                             >
                                 Thời điểm
@@ -155,6 +180,10 @@ function AdminExportForm() {
                                     top: 0,
                                     backgroundColor: '#f0f0f0',
                                     zIndex: 1,
+                                    padding: '8px',
+                                    textAlign: 'left',
+                                    borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                    borderBottom: '2px solid #ddd', // Đường kẻ dưới tiêu đề
                                 }}
                             >
                                 Lý do
@@ -165,6 +194,10 @@ function AdminExportForm() {
                                     top: 0,
                                     backgroundColor: '#f0f0f0',
                                     zIndex: 1,
+                                    padding: '8px',
+                                    textAlign: 'left',
+                                    borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                    borderBottom: '2px solid #ddd', // Đường kẻ dưới tiêu đề
                                 }}
                             >
                                 Tổng tiền
@@ -175,6 +208,10 @@ function AdminExportForm() {
                                     top: 0,
                                     backgroundColor: '#f0f0f0',
                                     zIndex: 1,
+                                    padding: '8px',
+                                    textAlign: 'left',
+                                    borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                    borderBottom: '2px solid #ddd', // Đường kẻ dưới tiêu đề
                                 }}
                             >
                                 Số điện thoại khách
@@ -185,6 +222,9 @@ function AdminExportForm() {
                                     top: 0,
                                     backgroundColor: '#f0f0f0',
                                     zIndex: 1,
+                                    padding: '8px',
+                                    textAlign: 'center',
+                                    borderBottom: '2px solid #ddd', // Đường kẻ dưới tiêu đề
                                 }}
                             ></th>
                         </tr>
@@ -194,21 +234,81 @@ function AdminExportForm() {
                             phieuXuatData &&
                             phieuXuatData?.data?.map((phieu, index) => (
                                 <tr key={phieu.maPhieuXuat}>
-                                    <td>{index + 1}</td>
-                                    <td>{phieu.maPhieuXuat}</td>
-                                    <td>
+                                    <td
+                                        style={{
+                                            padding: '8px',
+                                            textAlign: 'left',
+                                            borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                        }}
+                                    >
+                                        {index + 1}
+                                    </td>
+                                    <td
+                                        style={{
+                                            padding: '8px',
+                                            textAlign: 'left',
+                                            borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                        }}
+                                    >
+                                        {phieu.maPhieuXuat}
+                                    </td>
+                                    <td
+                                        style={{
+                                            padding: '8px',
+                                            textAlign: 'left',
+                                            borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                        }}
+                                    >
                                         {new Date(
                                             phieu.thoiDiem
                                         ).toLocaleString()}
                                     </td>
-                                    <td>{phieu.lyDo}</td>
-                                    <td>
+                                    <td
+                                        style={{
+                                            padding: '8px',
+                                            textAlign: 'left',
+                                            borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                        }}
+                                    >
+                                        {phieu.lyDo}
+                                    </td>
+                                    <td
+                                        style={{
+                                            padding: '8px',
+                                            textAlign: 'left',
+                                            borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                        }}
+                                    >
                                         {phieu.tongTien.toLocaleString()} VND
                                     </td>
-                                    <td>{phieu.thongTinKhach.soDienThoai}</td>
-                                    <td>
+                                    <td
+                                        style={{
+                                            padding: '8px',
+                                            textAlign: 'left',
+                                            borderRight: '1px solid #ddd', // Đường kẻ giữa các cột
+                                            borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                        }}
+                                    >
+                                        {phieu.thongTinKhach.soDienThoai}
+                                    </td>
+                                    <td
+                                        style={{
+                                            padding: '8px',
+                                            textAlign: 'center',
+                                            borderBottom: '1px solid #ddd', // Đường kẻ dưới mỗi dòng
+                                        }}
+                                    >
                                         <Button
-                                            className="priColor"
+                                            style={{
+                                                background:
+                                                    'rgb(145 254 159 / 47%)',
+                                                color: 'black',
+                                            }}
                                             onClick={() =>
                                                 handleShowDetails(phieu)
                                             }
@@ -354,6 +454,7 @@ function AdminExportForm() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <ToastContainer />
         </Col>
     );
 }

@@ -105,10 +105,13 @@ const Cards = () => {
         return acc; // Trả về accumulator
     }, {});
 
-    const dataArray = Object.entries(dataByDate).map(([dateKey, value]) => ({
-        totalAmount: value.totalAmount,
-        firstTime: value.firstTime,
-    }));
+    const dataArray = Object.entries(dataByDate)
+        .map(([dateKey, value]) => ({
+            totalAmount: value.totalAmount,
+            firstTime: value.firstTime,
+        }))
+        .sort((a, b) => new Date(a.firstTime) - new Date(b.firstTime)); // Sắp xếp theo thời gian
+
     // console.log(dataArray);
 
     return (

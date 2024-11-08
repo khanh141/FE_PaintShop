@@ -101,34 +101,177 @@ function AdminOrder() {
                 </Col>
             </Form.Group>
 
-            <Table>
+            <Table
+                style={{
+                    width: '100%',
+                    borderCollapse: 'collapse',
+                }}
+            >
                 <thead>
                     <tr>
-                        <th>STT</th>
-                        <th>Mã đơn hàng</th>
-                        <th>Thời điểm</th>
-                        <th>Trạng thái</th>
-                        <th>Tổng tiền</th>
-                        <th>Số sao</th>
-                        <th>Đánh giá</th>
-                        <th></th>
+                        <th
+                            style={{
+                                padding: '12px 15px',
+                                textAlign: 'left',
+                                border: '1px solid #ddd',
+                                backgroundColor: '#f4f4f4',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            STT
+                        </th>
+                        <th
+                            style={{
+                                padding: '12px 15px',
+                                textAlign: 'left',
+                                border: '1px solid #ddd',
+                                backgroundColor: '#f4f4f4',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Mã đơn hàng
+                        </th>
+                        <th
+                            style={{
+                                padding: '12px 15px',
+                                textAlign: 'left',
+                                border: '1px solid #ddd',
+                                backgroundColor: '#f4f4f4',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Thời điểm
+                        </th>
+                        <th
+                            style={{
+                                padding: '12px 15px',
+                                textAlign: 'left',
+                                border: '1px solid #ddd',
+                                backgroundColor: '#f4f4f4',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Trạng thái
+                        </th>
+                        <th
+                            style={{
+                                padding: '12px 15px',
+                                textAlign: 'left',
+                                border: '1px solid #ddd',
+                                backgroundColor: '#f4f4f4',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Tổng tiền
+                        </th>
+                        <th
+                            style={{
+                                padding: '12px 15px',
+                                textAlign: 'left',
+                                border: '1px solid #ddd',
+                                backgroundColor: '#f4f4f4',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Số sao
+                        </th>
+                        <th
+                            style={{
+                                padding: '12px 15px',
+                                textAlign: 'left',
+                                border: '1px solid #ddd',
+                                backgroundColor: '#f4f4f4',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Đánh giá
+                        </th>
+                        <th
+                            style={{
+                                padding: '12px 15px',
+                                textAlign: 'left',
+                                border: '1px solid #ddd',
+                                backgroundColor: '#f4f4f4',
+                                fontWeight: 'bold',
+                            }}
+                        ></th>
                     </tr>
                 </thead>
                 <tbody>
                     {!isLoading &&
                         filteredData?.map((prod, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{prod.maDonHang}</td>
-                                <td>{formatDate(prod.thoiDiem)}</td>
-                                <td>
+                            <tr
+                                key={index}
+                                style={{
+                                    backgroundColor:
+                                        index % 2 === 0 ? '#f9f9f9' : '#fff',
+                                }}
+                            >
+                                <td
+                                    style={{
+                                        padding: '12px 15px',
+                                        textAlign: 'left',
+                                        border: '1px solid #ddd',
+                                    }}
+                                >
+                                    {index + 1}
+                                </td>
+                                <td
+                                    style={{
+                                        padding: '12px 15px',
+                                        textAlign: 'left',
+                                        border: '1px solid #ddd',
+                                    }}
+                                >
+                                    {prod.maDonHang}
+                                </td>
+                                <td
+                                    style={{
+                                        padding: '12px 15px',
+                                        textAlign: 'left',
+                                        border: '1px solid #ddd',
+                                    }}
+                                >
+                                    {formatDate(prod.thoiDiem)}
+                                </td>
+                                <td
+                                    style={{
+                                        padding: '12px 15px',
+                                        textAlign: 'left',
+                                        border: '1px solid #ddd',
+                                    }}
+                                >
                                     {prod.trangThai === 'Cho_Duyet'
                                         ? 'Chờ Duyệt'
                                         : prod.trangThai}
                                 </td>
-                                <td>{prod.tongTien.toLocaleString()} VND</td>
-                                <td>{prod.soSao}</td>
-                                <td>{prod.danhGia}</td>
+                                <td
+                                    style={{
+                                        padding: '12px 15px',
+                                        textAlign: 'left',
+                                        border: '1px solid #ddd',
+                                    }}
+                                >
+                                    {prod.tongTien.toLocaleString()} VND
+                                </td>
+                                <td
+                                    style={{
+                                        padding: '12px 15px',
+                                        textAlign: 'left',
+                                        border: '1px solid #ddd',
+                                    }}
+                                >
+                                    {prod.soSao}
+                                </td>
+                                <td
+                                    style={{
+                                        padding: '12px 15px',
+                                        textAlign: 'left',
+                                        border: '1px solid #ddd',
+                                    }}
+                                >
+                                    {prod.danhGia}
+                                </td>
                                 <td>
                                     <Button
                                         className="rounded me-2"
