@@ -385,9 +385,9 @@ function ModalImportForm({ show, onHide, onSubmit, sanPhamData }) {
                         ))}
                     </Row>
 
-                    <Button variant="primary" onClick={handleAddProduct}>
+                    {/* <Button variant="primary" onClick={handleAddProduct}>
                         Thêm sản phẩm
-                    </Button>
+                    </Button> */}
                 </Col>
             </Modal.Body>
             <Modal.Footer>

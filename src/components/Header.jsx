@@ -17,15 +17,20 @@ export default function NavigationBar() {
     const dispatch = useDispatch();
 
     const quyen = useSelector((state) => state.user.quyen);
+
     const navbarHeight = '90px';
 
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn); // Use Redux state
-    const isButtonDisabled = useSelector((state) => state.products.isButtonDisabled);
+    //isLoggedIn = false;
+
+    const isButtonDisabled = useSelector(
+        (state) => state.products.isButtonDisabled
+    );
 
     const handleSearch = () => {
         if (!searchTerm.trim()) return;
         if (location.pathname !== '/') {
-            navigate("/");
+            navigate('/');
         }
         dispatch(setSearchTerm(searchTerm));
     };
@@ -55,6 +60,13 @@ export default function NavigationBar() {
         return () => window.removeEventListener('scroll', handleScroll); // Cleanup
     }, []);
 
+    // const reloadUserData = () => {
+    //     // Xóa dữ liệu hiện tại
+
+    //     // Đặt lại dữ liệu người dùng (tuỳ vào dữ liệu bạn cần set)
+    //
+    // };
+
     return (
         <>
             <Navbar
@@ -82,7 +94,6 @@ export default function NavigationBar() {
                     <Navbar.Collapse id="navbarSupportedContent">
                         <Row className="align-items-center w-100">
                             <Col
-
                                 xs={12}
                                 sm={12}
                                 md={6}
@@ -103,7 +114,7 @@ export default function NavigationBar() {
                                                 handleSearch();
                                             }
                                         }}
-                                        autoComplete='off'
+                                        autoComplete="off"
                                     />
                                     <button
                                         className="btn btn-primary priColor"
@@ -115,10 +126,15 @@ export default function NavigationBar() {
                                 </div>
                             </Col>
 
-                            <Col xs={12} sm={12} md={6} className="d-flex linksCol">
+                            <Col
+                                xs={12}
+                                sm={12}
+                                md={6}
+                                className="d-flex linksCol"
+                            >
                                 <Nav className="linksContainer">
                                     {quyen === 'nhanVien' ||
-                                        quyen === 'quanTriVien' ? (
+                                    quyen === 'quanTriVien' ? (
                                         <Nav.Item className="px-2">
                                             <Link
                                                 className="nav-link text-black fs-5"
@@ -154,10 +170,9 @@ export default function NavigationBar() {
                                                     </span>
                                                 </Link>
                                             </Nav.Item>
-                                            {location.pathname !== '/cart'
-                                                && quyen !== 'nhanVien'
-                                                && quyen !== 'quanTriVien'
-                                                && (
+                                            {location.pathname !== '/cart' &&
+                                                quyen !== 'nhanVien' &&
+                                                quyen !== 'quanTriVien' && (
                                                     <Nav.Item className="px-2">
                                                         <Link
                                                             className="nav-link text-black fs-5"

@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { Button, Col, Modal, Table } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import ModalImportForm from '~/components/ModalImportForm';
 import { KEYS } from '~/constants/keys';
 import {
@@ -47,7 +47,9 @@ function AdminImportForm() {
             setIsShowModalImportForm(false);
         },
         onError: (error) => {
-            toast.error('Thêm phiếu nhập thất bại', {
+            const errorMessage =
+                error.response?.data?.message || 'Thêm phiếu nhập thất bại';
+            toast.error(errorMessage, {
                 position: 'top-right',
                 autoClose: 3000,
             });
@@ -82,7 +84,24 @@ function AdminImportForm() {
     };
     return (
         <Col sm={12} md={12} lg={10} xl={10}>
-            <h1 className="text-center">Quản Lý Nhập Hàng</h1>
+            <h1
+                style={{
+                    fontSize: '2.5rem',
+                    color: '#4a90e2', // Màu xanh dương
+                    marginBottom: '2rem',
+                    marginTop: '2rem',
+                    textAlign: 'center',
+                    paddingBottom: '0.5rem',
+                    letterSpacing: '1px',
+                    borderBottom: '2px solid #ccc',
+                    fontWeight: 'bold',
+                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
+                    background: 'linear-gradient(to right, #4a90e2, #50e3c2)',
+                    WebkitBackgroundClip: 'text',
+                }}
+            >
+                Quản Lý Nhập Hàng
+            </h1>
             <div>
                 <Button
                     className="priColor"
@@ -94,7 +113,7 @@ function AdminImportForm() {
                 <div
                     className="mt-4"
                     style={{
-                        maxHeight: '75vh',
+                        maxHeight: '70vh',
                         overflowY: 'auto',
                         width: '100%',
                     }}
@@ -328,6 +347,7 @@ function AdminImportForm() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <ToastContainer />
         </Col>
     );
 }
