@@ -82,8 +82,10 @@ export default function NavigationBar() {
                     <Navbar.Collapse id="navbarSupportedContent">
                         <Row className="align-items-center w-100">
                             <Col
-                                xs={2}
-                                sm={6}
+
+                                xs={12}
+                                sm={12}
+                                md={6}
                                 className="d-flex justify-content-center inputCol"
                             >
                                 <div className="input-group">
@@ -112,7 +114,8 @@ export default function NavigationBar() {
                                     </button>
                                 </div>
                             </Col>
-                            <Col xs={10} sm={6} className="d-flex linksCol">
+
+                            <Col xs={12} sm={12} md={6} className="d-flex linksCol">
                                 <Nav className="linksContainer">
                                     {quyen === 'nhanVien' ||
                                         quyen === 'quanTriVien' ? (
