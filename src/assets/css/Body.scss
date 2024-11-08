@@ -1,13 +1,13 @@
 :root {
     --hover-gray-color: rgb(215, 215, 215);
     --primary-color: rgb(255, 106, 0);
-    --primary-light-color: rgb(250, 153, 83);
+    --primary-light-color: rgb(255, 236, 222);
     --secondary-color: #1b2848;
     --white-color: white;
     --background-color: #f5f5f5;
     --text-color: #573e44;
-    --ligh-primary-color: rgb(255, 185, 135);
     --additional-button-color: rgb(0, 98, 0);
+    --light-text-color: rgb(100, 100, 100);
 }
 
 body {
@@ -54,6 +54,9 @@ body {
     }
     .sndColorText {
         color: var(--secondary-color);
+    }
+    .grayColorText {
+        color: var(--light-text-color);
     }
     .whiteBtn {
         background-color: var(--background-color);
@@ -112,62 +115,147 @@ body {
         position: relative;
         overflow: hidden;
     }
-    .productList {
-        min-height: 340px;
-        .cardCol {
-            flex: 0 0 20%; // Each column takes 20% of the row
-            max-width: 20%;
-            .cardContainer {
-                .card {
-                    height: 323px;
-                    border: none;
-                    border-radius: 2px;
-                    box-shadow: 1px 1px 2px var(--hover-gray-color),
-                        -1px 1px 2px var(--hover-gray-color),
-                        1px -1px 2px var(--hover-gray-color),
-                        -1px -1px 2px var(--hover-gray-color);
-                    overflow: hidden;
-                    .imgContainer {
-                        width: 100%;
-                        height: 200px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
+    .productListContainer {
+        min-height: 380px;
+        .filterContainer {
+            background-color: var(--background-color);
+            height: max-content;
+            padding: 10px 0;
+            .loaiSanPham {
+                padding-right: 0;
+                width: max-content;
+            }
+            #dropdown-basic-button {
+                background-color: var(--primary-color);
+                border-color: var(--primary-color);
+                &:hover {
+                    background-color: var(--secondary-color);
+                    border-color: var(--secondary-color);
+                }
+            }
+            .dropdown-menu {
+                padding: 0;
+                width: 100%;
+                a {
+                    color: var(--white-color);
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    padding-left: 13px;
+                }
+            }
+            .filterButton {
+            }
+            .giaSanPham {
+                width: max-content;
+                border-radius: 6px;
+                .range-slider__tooltip {
+                    display: none;
+                }
+                .price-range-slider {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    .range-slider__wrap {
+                        width: 200px;
+                        input[type='range'] {
+                            width: 100%;
+                            border-radius: 5px;
+                            outline: none;
+
+                            &::-webkit-slider-thumb {
+                                background-color: var(
+                                    --primary-color
+                                ); // Thumb color
+                                cursor: pointer;
+                            }
+
+                            &::-moz-range-thumb {
+                                width: 16px;
+                                height: 16px;
+                                border-radius: 50%;
+                                background-color: var(
+                                    --primary-color
+                                ); // Thumb color
+                                cursor: pointer;
+                            }
+                        }
                     }
-                    .card-body {
-                        display: flex;
-                        flex-direction: column;
+                    .apDungBtn {
+                        color: var(--white-color);
+                    }
+                    @media (max-width: 998px) {
+                        margin-top: 10px;
                         span {
-                            font-size: 14px;
-                        }
-                        .card-title {
-                            display: -webkit-box;
-                            -webkit-line-clamp: 2;
-                            -webkit-box-orient: vertical;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            height: 2.5rem;
-                        }
-                        .price {
-                            color: var(--primary-color);
-                            font-size: 15px;
-                            .vnd {
-                                font-size: 12px;
+                            &:first-child {
                             }
                         }
                     }
                 }
-                &:hover {
-                    transform: translateY(-1px);
+            }
+        }
+        .productList {
+            .cardCol {
+                flex: 0 0 20%; // Each column takes 20% of the row
+                max-width: 20%;
+                .cardContainer {
+                    .card {
+                        height: 323px;
+                        border: none;
+                        border-radius: 2px;
+                        box-shadow: 1px 1px 2px var(--hover-gray-color),
+                            -1px 1px 2px var(--hover-gray-color),
+                            1px -1px 2px var(--hover-gray-color),
+                            -1px -1px 2px var(--hover-gray-color);
+                        overflow: hidden;
+                        .imgContainer {
+                            width: 100%;
+                            height: 200px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            img {
+                                width: 80%;
+                                height: 80%;
+                                object-fit: contain;
+                                object-position: center center;
+                            }
+                        }
+                        .card-body {
+                            display: flex;
+                            flex-direction: column;
+                            span {
+                                font-size: 14px;
+                            }
+                            .card-title {
+                                display: -webkit-box;
+                                -webkit-line-clamp: 2;
+                                -webkit-box-orient: vertical;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                height: 2.5rem;
+                            }
+                            .price {
+                                color: var(--primary-color);
+                                font-size: 15px;
+                                .vnd {
+                                    font-size: 12px;
+                                }
+                            }
+                        }
+                    }
+                    &:hover {
+                        transform: translateY(-1px);
+                    }
                 }
-            }
-            @media (max-width: 768px) {
-                flex: 0 0 33.33%; // Adjust for smaller screens
-                max-width: 33.33%;
-            }
-            @media (max-width: 576px) {
-                flex: 0 0 50%; // Adjust for extra small screens
-                max-width: 50%;
+                @media (max-width: 768px) {
+                    flex: 0 0 33.33%; // Adjust for smaller screens
+                    max-width: 33.33%;
+                }
+                @media (max-width: 576px) {
+                    flex: 0 0 50%; // Adjust for extra small screens
+                    max-width: 50%;
+                }
             }
         }
     }
@@ -198,7 +286,9 @@ body {
     }
 
     #imageSlides {
+        max-height: 600px;
         .imageSlideItem {
+            height: 100%;
             img {
                 width: 100%;
                 height: 100%;
@@ -210,15 +300,21 @@ body {
 
     .productDetail {
         margin-top: 20px;
+        overflow: hidden;
         .row {
             background-color: var(--white-color);
             margin-bottom: 20px;
         }
         #image {
+            height: 500px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
+                width: 80%;
+                height: 80%;
+                object-fit: contain;
                 object-position: center;
             }
         }
@@ -230,12 +326,54 @@ body {
             font-size: 2.5rem;
         }
         .productInformation {
-            overflow: hidden;
+            padding-left: 20px;
+            .row {
+                margin-top: 0;
+                margin-bottom: 0;
+                width: 100%;
+            }
+
             .optionBtn {
                 color: var(--secondary-color) !important;
             }
             .chosen {
                 border-color: var(--primary-color) !important;
+            }
+            .buttonGroup {
+                margin-top: 10px;
+                margin-bottom: 20px;
+                .col {
+                    padding: 0;
+                    gap: 10px;
+                    button {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 0;
+                        min-width: max-content;
+                        width: 300px;
+                        height: 50px;
+                        &:hover {
+                            transform: translateY(-1px);
+                        }
+                    }
+                    .addToCartBtn {
+                        background-color: var(--primary-light-color);
+                        border-color: var(--primary-color);
+                        color: var(--primary-color);
+                    }
+                    .buyNowBtn {
+                        background-color: var(--primary-color);
+                        border-color: var(--primary-color);
+                    }
+                }
+            }
+        }
+        .productDetailContainer {
+            div {
+                display: flex;
+                gap: 10px;
+                margin: 6px 0;
             }
         }
         .sanPhamCungLoaiContainer {
@@ -300,16 +438,6 @@ body {
         }
     }
 
-    .productImagesContainer {
-        #imageManifier {
-            width: 600px;
-            height: 600px;
-            position: relative;
-            width: 400px;
-            height: auto;
-            overflow: hidden;
-        }
-    }
     .authForm {
         background-color: var(--white-color);
     }
@@ -471,7 +599,7 @@ body {
 
                 &:hover {
                     cursor: pointer;
-                    background-color: var(--ligh-primary-color);
+                    background-color: var(--primary-light-color);
                 }
 
                 &.active {

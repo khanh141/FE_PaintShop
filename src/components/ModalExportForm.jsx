@@ -26,6 +26,7 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
             availableMau: [],
             availableDinhMuc: []
         };
+        console.log(newSanPhamMuaDtoList)
 
         setSanPhamMuaDtoList(newSanPhamMuaDtoList);
     };
@@ -213,12 +214,14 @@ function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
                                         >
                                             <option value="">Chọn bao bì</option>
                                             {/* Load available loaiBaoBi based on selected maSanPham */}
-                                            {sanPhamData.data
-                                                .find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
-                                                ?.chiTietSanPhamResList
-                                                .map(ct => (
-                                                    <option key={ct.loaiBaoBi} value={ct.loaiBaoBi}>{ct.loaiBaoBi}</option>
-                                                ))}
+                                            {[...new Set(
+                                                sanPhamData.data
+                                                    .find(sp => sp.maSanPham === parseInt(product.maSanPham, 10))
+                                                    ?.chiTietSanPhamResList
+                                                    .map(ct => ct.loaiBaoBi)
+                                            )].map(loaiBaoBi => (
+                                                <option key={loaiBaoBi} value={loaiBaoBi}>{loaiBaoBi}</option>
+                                            ))}
                                         </select>
                                     </label>
                                     <label className="w-100">
