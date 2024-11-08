@@ -1,30 +1,57 @@
+import React from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { FaHashtag, FaPhoneAlt } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { GrValidate } from "react-icons/gr";
+import { IoPersonCircle } from "react-icons/io5";
 
 export default function Footer() {
   return (
-    <div >
-      <div className="footer row mt-5">
-        <div className="container-fluid">
-          <div
-            className="row p-5 d-flex justify-content-center text-xxl-start text-center"
-          >
-            <h4 className="mb-4">CÔNG TY CỔ PHẦN XÂY DỰNG TÙNG DŨNG</h4>
-            <div className="address col-md-6 ">
-              <h6>Địa chỉ trụ sở: Số 57, đường số 4, KTDC Thới Nhựt 2, KV1, P. An Khánh, Q. Ninh Kiều, TPCT</h6>
-              <h6>Địa chỉ nhận thư: Hồ bơi Nam Long, Đ. Vũ Đình Liệu, KDC Nam Long,P. Hưng Thạnh, Q. Cái Răng, TPCT</h6>
-            </div>
-            <div className="contact col-md-3">
-              <h6>Điện thoại: 0917 72 72 69 (Mr. Bằng)</h6>
-              <h6>Email: tungdungcantho@gmail.com</h6>
-            </div>
+    <footer className="footer mt-5">
+      <Container fluid className="p-5">
+        <Row className="justify-content-center mb-4">
+          <Col xs={12} className="">
+            <h4>CÔNG TY CỔ PHẦN XÂY DỰNG TÙNG DŨNG</h4>
+          </Col>
+        </Row>
 
-            <div className="accountnumber col-md-3">
-              <h6>Số tài khoản:</h6>
-              <h6>112002684401 Vietinbank Tây Cần Thơ</h6>
-              <h6>796879 tại SeaBank CN Cần Thơ</h6>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+        <Row className="justify-content-between information">
+          {/* Company Info */}
+          <Col md={6} className="text-center text-md-start mb-4">
+            <p><FaHashtag /> Mã số thuế: 1801629377</p>
+            <p>
+              <FaLocationDot /> Địa chỉ: 57, đường số 4, khu tái định cư Thới Nhựt 2, khu vực 1,
+              Phường An Khánh, Quận Ninh Kiều, Thành phố Cần Thơ, Việt Nam
+            </p>
+            <p>
+              <IoPersonCircle /> Người đại diện: UNG THANH TÙNG (sinh năm 1977 - Sóc Trăng)
+            </p>
+          </Col>
+
+          {/* Contact Information */}
+          <Col md={3} className=" mb-4">
+            <h5>Liên hệ</h5>
+            <p><FaPhoneAlt /> Điện thoại: 0918944775</p>
+            <p><GrValidate /> Ngày hoạt động: Từ 20/02/2019</p>
+            <p>Email: tungdungcantho@gmail.com</p>
+          </Col>
+
+          {/* Bank Information */}
+          <Col md={3} className="text-md-start mb-4">
+            <h5>Thông tin tài khoản</h5>
+            <p>Số tài khoản:</p>
+            <p>112002684401 Vietinbank Tây Cần Thơ</p>
+            <p>796879 tại SeaBank CN Cần Thơ</p>
+          </Col>
+        </Row>
+
+        {/* Footer Bottom */}
+        <Row className="text-center mt-4">
+          <Col>
+            <p>&copy; 2024 CÔNG TY CỔ PHẦN XÂY DỰNG TÙNG DŨNG. All rights reserved.</p>
+          </Col>
+        </Row>
+      </Container>
+    </footer>
+  );
 }

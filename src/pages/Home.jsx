@@ -1,7 +1,6 @@
 import React from 'react'
 import ProductsContainer from '../components/Products';
 import ImageSlides from '../components/ImageSlides';
-import Info from '../components/Info';
 
 
 export default function Home() {
@@ -16,7 +15,6 @@ export default function Home() {
         height="600px" width='100%' interval={null}
       />
       <ProductsContainer />
-      <Info />
     </div>
   );
 }
