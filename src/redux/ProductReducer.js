@@ -5,6 +5,7 @@ const initialState = {
     filteredProducts: [],
     displayedCards: 8,
     showAll: false,
+    isButtonDisabled: false,
 };
 
 const productsSlice = createSlice({
@@ -21,8 +22,12 @@ const productsSlice = createSlice({
         setSearchTerm: (state, action) => {
             state.searchTerm = action.payload;
         },
+        setButtonDisabled: (state, action) => {
+            state.isButtonDisabled = action.payload;
+        },
     },
 });
 
-export const { setFilter, setShowAll, setSearchTerm } = productsSlice.actions;
+export const { setFilter, setShowAll, setSearchTerm, setButtonDisabled } =
+    productsSlice.actions;
 export default productsSlice.reducer;

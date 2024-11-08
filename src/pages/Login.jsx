@@ -143,7 +143,7 @@ export default function Login() {
                                 Đăng Nhập
                             </Button>
                             <Button
-                                variant="secondary"
+                                className='addtionalBtn'
                                 style={{ flex: 3 }}
                                 onClick={() => navigate('/SignUp')}
                             >

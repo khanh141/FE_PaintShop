@@ -267,7 +267,7 @@ const ProductDetail = () => {
           </div>
 
         </Col>
-        <Col xs={12} lg={7} className="productInformationb ">
+        <Col xs={12} lg={7} className="productInformation">
           <Row id="productName" className="productName my-2">{product.ten}</Row>
           <Row className="saleFigures my-2">
             <Col className="p-0">
