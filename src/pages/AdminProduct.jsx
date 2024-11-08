@@ -205,20 +205,20 @@ function AdminProduct() {
             <h1 className="text-center mb-5">Quản Lý Sản Phẩm</h1>
             <div>
                 <Button
-                    className="mt-4 rounded mb-2"
+                    className="mt-4 priColor mb-2"
                     onClick={() => setIsShowModalAddProduct(true)}
                 >
                     Thêm sản phẩm
                 </Button>
                 <Button
-                    className="mt-4 rounded mb-2 ms-3"
+                    className="mt-4 priColor mb-2 ms-3"
                     onClick={() => setIsShowAddProductDetailModal(true)}
                 >
                     Thêm chi tiết sản phẩm
                 </Button>
                 <div
                     style={{
-                        maxHeight: '80vh',
+                        maxHeight: '75vh',
                         overflowY: 'auto',
                         width: '100%',
                     }}
@@ -299,7 +299,7 @@ function AdminProduct() {
                                         <td>{prod.tenNhaSanXuat}</td>
                                         <td>
                                             <Button
-                                                className="rounded"
+                                                className="info"
                                                 variant="info"
                                                 onClick={() =>
                                                     handleProductDetailModal(
@@ -312,7 +312,7 @@ function AdminProduct() {
                                         </td>
                                         <td>
                                             <Button
-                                                className="rounded"
+                                                className="priColor"
                                                 variant="info"
                                                 onClick={() =>
                                                     handleUpdateProductClick(

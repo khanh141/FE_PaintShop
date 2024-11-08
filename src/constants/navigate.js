@@ -64,22 +64,22 @@ export const cardsData = [
         ],
     },
     {
-        title: 'Doanh Thu',
+        title: 'Nhập Hàng',
         color: {
             backGround: 'linear-gradient(180deg, #FF919D 0%, #FC929D 100%)',
             boxShadow: '0px 10px 20px 0px #FDC0C7',
         },
         barValue: 100,
         value: '1.000.000',
-        png: FaWarehouse,
+        png: MdFormatIndentIncrease,
         series: [
             {
-                name: 'Doanh thu',
+                name: 'Số lượng nhập',
             },
         ],
     },
     {
-        title: 'Chi Phí',
+        title: 'Xuất Hàng',
         color: {
             backGround:
                 'linear-gradient(rgb(248, 212, 154) -146.42%, rgb(255 202 113) -46.42%)',
@@ -87,10 +87,10 @@ export const cardsData = [
         },
         barValue: 100,
         value: '1.000.000',
-        png: MdAccountCircle,
+        png: MdFormatIndentDecrease,
         series: [
             {
-                name: 'Chi phí',
+                name: 'Phiếu xuất',
             },
         ],
     },
