@@ -1,234 +1,138 @@
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { Col, Row } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from '../redux/ProductReducer';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Row, Col, Button, Container } from 'react-bootstrap';
+import Card from './Card';
+import axios from 'axios';
+import Pagination from 'react-bootstrap/Pagination';
+import { setLoading, setSuccess } from '~/redux/AppSlice';
+import Loading from './Loading';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const ProductsContainer = () => {
+    const PRODUCTS_PER_PAGE = 15;
 
-function ModalExportForm({ show, onHide, onSubmit, sanPhamData }) {
-    const [quantity, setQuantity] = useState({});
-    const [thongTinKhach, setThongTinKhach] = useState({
-        sdt: '',
-        hoTen: '',
-        diaChi: '',
-    });
-    const [sanPhamMuaDtoList, setSanPhamMuaDtoList] = useState([
-        { maSanPham: '', chiTietSanPhamReq: { chiTietSanPham: '', soLuong: '' } },
-    ]);
-    const lyDo = 'muaHang';
+    const dispatch = useDispatch();
+    const products = useSelector((state) => state.products.filteredProducts);
+    const searchTerm = useSelector((state) => state.products.searchTerm); // Lấy searchTerm từ Redux
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
 
-    const handleSanPhamChange = (productIndex, e) => {
-        const selectedMaSanPham = e.target.value;
-        const selectedProduct = sanPhamData.data.find(
-            (sp) => sp.maSanPham === parseInt(selectedMaSanPham, 10)
-        );
+    const loadProducts = async () => {
+        try {
+            dispatch(setLoading(true))
+            const response = await axios.get(
+                'http://localhost:8080/sanPham/layTatCa'
+            );
+            dispatch(setFilter(response.data));
+            dispatch(setSuccess(true))
+        } catch (error) {
+            dispatch(setLoading(false))
+            console.error('Error loading products:', error);
+        }
+    };
+    const searchProducts = async () => {
+        if (searchTerm === '') {
+            loadProducts(); // Reload all products if search input is empty
+            return;
+        }
+        // Otherwise, perform the search
+        try {
+            dispatch(setLoading(true))
+            const response = await axios.get(
+                `http://localhost:8080/sanPham/timKiem?Searchreq=${searchTerm}`
+            );
+            if (response.data.length === 0) {
+                console.log("empty")
+                // toast.error("Không tìm thấy sản phẩm", {
+                //     position: 'top-right',
+                //     autoClose: 3000,
+                // });
+                return; // Stop further processing if no products found
+            }
+            dispatch(setFilter(response.data));
+            dispatch(setSuccess(true))
+        } catch (error) {
+            dispatch(setLoading(false))
+            console.error('Error searching products:', error);
+        }
+    };
+    useEffect(() => {
+        loadProducts();
+    }, [dispatch]);
+    useEffect(() => {
+        searchProducts();
+    }, [searchTerm]);
 
-        setSanPhamMuaDtoList((prevList) => {
-            const updatedList = [...prevList];
-            updatedList[productIndex] = {
-                ...updatedList[productIndex],
-                maSanPham: selectedMaSanPham,
-                chiTietSanPhamReq: {
-                    chiTietSanPham: '',
-                    soLuong: selectedProduct.soLuong,
-                    giaTien: selectedProduct
-                        ? selectedProduct.chiTietSanPhamResList[0].giaTien
-                        : '',
-                },
-            };
-            return updatedList;
-        });
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 600, behavior: 'smooth' }); // Smooth scroll to 600px from the top
     };
 
-    const handleDetailChange = (productIndex, value) => {
-        // Find the selected product and its detailed item
-        const selectedProduct = sanPhamMuaDtoList[productIndex];
-        const selectedSanPham = sanPhamData.data.find(
-            (sp) => sp.maSanPham === parseInt(selectedProduct.maSanPham, 10)
-        );
-        const selectedChiTiet = selectedSanPham?.chiTietSanPhamResList.find(
-            (ct) => ct.maChiTietSanPham === value
-        );
-        console.log(selectedSanPham)
-
-        // Update the state with selected chiTietSanPham, soLuong, and giaTien
-        setSanPhamMuaDtoList((prevList) => {
-            const updatedList = [...prevList];
-            updatedList[productIndex].chiTietSanPhamReq = {
-                ...updatedList[productIndex].chiTietSanPhamReq,
-                chiTietSanPham: value,
-                soLuong: selectedChiTiet ? selectedChiTiet.soLuong : 0, // Set soLuong if found
-                giaTien: selectedChiTiet ? selectedChiTiet.giaTien : 0,  // Set giaTien if found
-            };
-            return updatedList;
-        });
+    const renderPaginationItems = () => {
+        let items = [];
+        for (let number = 1; number <= totalPages; number++) {
+            items.push(
+                <Pagination.Item
+                    key={number}
+                    active={number === currentPage}
+                    onClick={() => handlePageChange(number)}
+                >
+                    {number}
+                </Pagination.Item>
+            );
+        }
+        return items;
     };
+    useEffect(() => {
+        window.scrollTo({ top: 600, behavior: 'smooth' });
+    })
 
-
-    const handleAddProduct = () => {
-        setSanPhamMuaDtoList([
-            ...sanPhamMuaDtoList,
-            { maSanPham: '', chiTietSanPhamReq: { chiTietSanPham: '', soLuong: '' } },
-        ]);
-    };
-
-    const handleRemoveProduct = (index) => {
-        setSanPhamMuaDtoList((prevList) => prevList.filter((_, i) => i !== index));
-    };
-
-    const handleChangeCustomer = (e) => {
-        const { name, value } = e.target;
-        setThongTinKhach((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSubmit({ thongTinKhach, sanPhamMuaDtoList, lyDo });
-    };
-
-    return (
-        <Modal
-            show={show}
-            onHide={onHide}
-            backdrop="static"
-            size="lg"
-            centered
-        >
-            <form onSubmit={handleSubmit}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Thêm phiếu xuất</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="addPhieuXuatForm">
-                    <Col>
-                        {/* Customer Information */}
-                        <Row className="thongTinKhach">
-                            <h5>Thông tin khách</h5>
-                            <div className="d-flex gap-2">
-                                <label className="w-100">
-                                    Số điện thoại khách
-                                    <input
-                                        required
-                                        type="text"
-                                        name="sdt"
-                                        value={thongTinKhach.sdt}
-                                        onChange={handleChangeCustomer}
-                                        placeholder="Số điện thoại"
-                                        className="w-100"
-                                    />
-                                </label>
-                                <label className="w-100">
-                                    Họ tên
-                                    <input
-                                        required
-                                        type="text"
-                                        name="hoTen"
-                                        value={thongTinKhach.hoTen}
-                                        onChange={handleChangeCustomer}
-                                        placeholder="Họ tên"
-                                        className="w-100"
-                                    />
-                                </label>
-                            </div>
-                            <div>
-                                <label className="w-100">
-                                    Địa chỉ
-                                    <input
-                                        required
-                                        type="text"
-                                        name="diaChi"
-                                        value={thongTinKhach.diaChi}
-                                        onChange={handleChangeCustomer}
-                                        placeholder="Địa chỉ"
-                                        className="w-100"
-                                    />
-                                </label>
-                            </div>
-                        </Row>
-
-                        {/* Products Selection */}
-                        <Row className="sanPhamMua">
-                            <h5 className="mt-2">Chọn sản phẩm mua</h5>
-                            {sanPhamMuaDtoList.map((product, productIndex) => (
-                                <div key={`${productIndex}-${product.maSanPham}`}>
-                                    <label className="w-100">
-                                        Tên sản phẩm
-                                        <select
-                                            required
-                                            value={product.maSanPham || ''}
-                                            onChange={(e) => handleSanPhamChange(productIndex, e)}
-                                            className="w-100"
-                                        >
-                                            <option value="">Chọn sản phẩm</option>
-                                            {sanPhamData.data.map((sp, index) => (
-                                                <option key={`${sp.maSanPham}-${index}`} value={sp.maSanPham}>
-                                                    {sp.ten}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </label>
-
-                                    <label className="w-100">
-                                        Chọn chi tiết sản phẩm
-                                        <select
-                                            required
-                                            value={product.chiTietSanPhamReq.chiTietSanPham || ''}
-                                            onChange={(e) => handleDetailChange(productIndex, e.target.value)}
-                                            className="w-100"
-                                        >
-                                            <option value="">Chọn chi tiết sản phẩm</option>
-                                            {sanPhamData.data
-                                                .find((sp) => sp.maSanPham === parseInt(product.maSanPham, 10))
-                                                ?.chiTietSanPhamResList.map((ct, index) => (
-                                                    <option key={`${ct.maChiTietSanPham}-${index}`} value={ct.maChiTietSanPham}>
-                                                        {`${ct.loaiBaoBi} - ${ct.mau} - ${ct.loaiDinhMucLyThuyet}`}
-                                                    </option>
-                                                ))}
-                                        </select>
-                                    </label>
-
-                                    <div className='d-flex align-item-center'>
-                                        {/* <span className='d-flex me-4 priColorText w-50'>
-                                            Số lượng trong kho:{' '}
-                                            {product.chiTietSanPhamReq.soLuong || 0}
-                                        </span> */}
-                                        {/* <span className='d-flex me-4 priColorText w-50'>
-                                            Số lượng trong kho:{' '}
-                                            {selectedProductQuantities[`${productIndex}-${product.chiTietSanPhamReq.chiTietSanPham}`] || 0}
-                                        </span> */}
-                                        <label className="w-100">
-                                            Số lượng xuất kho
-                                            <input
-                                                required
-                                                type="number"
-                                                min="1"
-                                                value={product.chiTietSanPhamReq.soLuong || ''}
-                                                onChange={(e) => handleDetailChange(productIndex, 'soLuong', e.target.value)}
-                                                placeholder="Số lượng"
-                                                className="w-100"
-                                            />
-                                        </label>
-                                    </div>
-                                    <Button
-                                        className="mt-3"
-                                        variant="danger"
-                                        onClick={() => handleRemoveProduct(productIndex)}
-                                    >
-                                        Xóa sản phẩm
-                                    </Button>
-                                    <hr />
-                                </div>
-                            ))}
-                        </Row>
-                        <Button variant="primary" onClick={handleAddProduct}>
-                            Thêm sản phẩm
-                        </Button>
-                    </Col>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={onHide}>Close</Button>
-                    <Button type="submit">Submit</Button>
-                </Modal.Footer>
-            </form>
-        </Modal>
+    const currentProducts = products.slice(
+        (currentPage - 1) * PRODUCTS_PER_PAGE,
+        currentPage * PRODUCTS_PER_PAGE
     );
-}
+    return (
+        <Container className="productList loading-container">
+            <Loading />
+            <Row>
+                {currentProducts?.map((product, index) => (
+                    <Col
+                        xs={6}
+                        sm={4}
+                        md={3}
+                        lg={2}
+                        key={index}
+                        className="cardCol p-1"
+                    >
+                        <Card
+                            id={product.maSanPham}
+                            image={product.hinhAnh}
+                            name={product.ten}
+                            type={product.loai}
+                            giatien={product.chiTietSanPhamResList[0]?.giaTien}
+                            soLuongDaBan={product.soLuongDaBan}
+                        />
+                    </Col>
+                ))}
+            </Row>
+            <Row className="justify-content-center mt-4">
+                <Pagination className="justify-content-center">
+                    <Pagination.Prev
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    />
+                    {renderPaginationItems()}
+                    <Pagination.Next
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    />
+                </Pagination>
+            </Row>
+            <ToastContainer />
+        </Container>
+    );
+};
 
-export default ModalExportForm;
+export default ProductsContainer;

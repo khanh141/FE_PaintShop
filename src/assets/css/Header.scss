@@ -13,8 +13,10 @@
 
     #input {
         opacity: 1 !important;
+        background-color: var(--white-color);
         &:focus {
-            box-shadow: none;
+            box-shadow: none !important;
+            border: solid 1px var(--primary-color);
         }
     }
     .container-fluid {

@@ -20,9 +20,13 @@ export default function NavigationBar() {
     const navbarHeight = '90px';
 
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn); // Use Redux state
+    const isButtonDisabled = useSelector((state) => state.products.isButtonDisabled);
 
     const handleSearch = () => {
         if (!searchTerm.trim()) return;
+        if (location.pathname !== '/') {
+            navigate("/");
+        }
         dispatch(setSearchTerm(searchTerm));
     };
 
@@ -79,7 +83,7 @@ export default function NavigationBar() {
                         <Row className="align-items-center w-100">
                             <Col
                                 xs={2}
-                                sm={4}
+                                sm={6}
                                 className="d-flex justify-content-center inputCol"
                             >
                                 <div className="input-group">
@@ -87,7 +91,7 @@ export default function NavigationBar() {
                                         id="input"
                                         type="text"
                                         className="form-control"
-                                        placeholder="Tìm kiếm theo tên"
+                                        placeholder="Tìm sản phẩm"
                                         value={searchTerm}
                                         onChange={(e) =>
                                             setSearchTermInput(e.target.value)
@@ -97,16 +101,18 @@ export default function NavigationBar() {
                                                 handleSearch();
                                             }
                                         }}
+                                        autoComplete='off'
                                     />
                                     <button
                                         className="btn btn-primary priColor"
                                         onClick={handleSearch}
+                                        disabled={isButtonDisabled}
                                     >
                                         Tìm kiếm
                                     </button>
                                 </div>
                             </Col>
-                            <Col xs={10} sm={8} className="d-flex linksCol">
+                            <Col xs={10} sm={6} className="d-flex linksCol">
                                 <Nav className="linksContainer">
                                     {quyen === 'nhanVien' ||
                                         quyen === 'quanTriVien' ? (

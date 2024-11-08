@@ -7,6 +7,7 @@
     --background-color: #f5f5f5;
     --text-color: #573e44;
     --ligh-primary-color: rgb(255, 185, 135);
+    --additional-button-color: rgb(0, 98, 0);
 }
 
 body {
@@ -24,6 +25,14 @@ body {
     .priColor {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
+        &:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+    }
+    .addtionalBtn {
+        background-color: var(--additional-button-color);
+        border-color: var(--additional-button-color);
         &:hover {
             background-color: var(--secondary-color);
             border-color: var(--secondary-color);
@@ -104,11 +113,13 @@ body {
         overflow: hidden;
     }
     .productList {
+        min-height: 340px;
         .cardCol {
             flex: 0 0 20%; // Each column takes 20% of the row
             max-width: 20%;
             .cardContainer {
                 .card {
+                    height: 323px;
                     border: none;
                     border-radius: 2px;
                     box-shadow: 1px 1px 2px var(--hover-gray-color),
@@ -116,10 +127,12 @@ body {
                         1px -1px 2px var(--hover-gray-color),
                         -1px -1px 2px var(--hover-gray-color);
                     overflow: hidden;
-                    img {
+                    .imgContainer {
                         width: 100%;
-                        height: 100%;
-                        object-fit: cover;
+                        height: 200px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
                     .card-body {
                         display: flex;
@@ -401,6 +414,137 @@ body {
             display: flex;
             justify-content: center;
             gap: 10px;
+        }
+    }
+    .SidebarContainer {
+        width: 250px;
+        height: 100vh;
+        background-color: #ffe0e0;
+        z-index: 10;
+        .sidebar {
+            padding-top: 3rem;
+            top: 0;
+            bottom: 0;
+            position: fixed;
+            background-color: #ffe0e0;
+            width: 240px;
+        }
+        .bars {
+            display: none;
+        }
+        .logo {
+            display: flex;
+            height: 5rem;
+            font-weight: bold;
+            font-size: 22px;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+            height: 4%;
+
+            > span > span {
+                color: var(--pink);
+            }
+
+            > img {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+        .menu {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: calc(100vh - 4rem);
+            overflow: hidden;
+
+            .menuItem {
+                display: flex;
+                align-items: center;
+                height: 2.5rem;
+                margin-left: 2rem;
+                position: relative;
+                transition: all 300ms ease;
+                border-radius: 0.7rem;
+                font-size: 14px;
+                gap: 10px;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: var(--ligh-primary-color);
+                }
+
+                &.active {
+                    background: var(--activeItem);
+                    margin-left: 0;
+                    transform: translateX(50px);
+                    background-color: var(--primary-color);
+                }
+            }
+
+            .bottomMenu {
+                display: flex;
+                flex-direction: column;
+                margin-top: auto;
+                margin-left: 32px;
+                padding-left: 16px;
+                gap: 10px;
+
+                span {
+                    font-size: 16px !important;
+                    svg {
+                        margin-right: 10px;
+                    }
+                    &:hover {
+                        color: var(--primary-color);
+                        transition: 0.2s ease-in-out;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        @media screen and (max-width: 1200px) {
+            .menuItem > span {
+                display: none;
+            }
+            .logo {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                z-index: 9;
+                background: #ffe0e0;
+                width: 55%;
+                padding-right: 1rem;
+                height: 100%;
+            }
+            .menuItem > span {
+                display: block;
+            }
+            .logo {
+                display: flex;
+            }
+            .menu .menuItem:last-child {
+                position: relative;
+                margin-top: 6rem;
+            }
+            .bars {
+                display: flex;
+                position: fixed;
+                top: 2rem;
+                left: 60%;
+                background: #ffe0e0;
+                padding: 10px;
+                border-radius: 10px;
+                z-index: 9;
+            }
+            .close {
+                left: -60%;
+            }
         }
     }
 }

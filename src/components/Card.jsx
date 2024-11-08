@@ -9,7 +9,10 @@ export default function Card({ id, image, name, type, giatien, soLuongDaBan }) {
     <div className="mt-3 cardContainer">
       <div className="card">
         <Link to={`/productDetail/${id}`} className="text-dark">
-          <img src={image || "https://picsum.photos/200/200"} alt={name} />
+          {/* <img src={image || "https://picsum.photos/200/200"} alt={name} /> */}
+          <div className="imgContainer">
+            <img style={{ width: '200px', height: '200px', objectFit: 'cover', objectPosition: 'center' }} src={`../../public/images/products/${image}.png`} alt={name} />
+          </div>
           <div className="card-body p-2">
             <span className="card-title h-30">{name}</span>
             <span className="price my-2">
