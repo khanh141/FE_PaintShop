@@ -82,9 +82,6 @@ function AdminExportForm() {
                 : [],
             lyDo: formData.lyDo,
         };
-        //    setIsShowModalAddProduct(false);
-        //console.log('Thong tin gui: ', dataToSend);
-
         mutation.mutate(dataToSend);
     };
 
