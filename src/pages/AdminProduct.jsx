@@ -36,16 +36,16 @@ function AdminProduct() {
         queryFn: () => getAllProducts(),
         staleTime: 1000 * 60 * 5,
     });
-
     const createMutation = useMutation({
         mutationKey: [KEYS.GET_ALL_PRODUCTS],
-        mutationFn: (data) => createProduct(data),
+        // mutationFn: ({ req, imageFile }) => { createProduct(req, imageFile) },
+        mutationFn: (formData) => { createProduct(formData) },
         onSuccess: () => {
             toast.success('Thêm sản phẩm thành công', {
                 position: 'top-right',
                 autoClose: 3000,
             });
-            queryClient.invalidateQueries([KEYS.GET_ALL_PRODUCTS]); // Tự động làm mới dữ liệu sau khi thêm sản phẩm mới
+            queryClient.invalidateQueries([KEYS.GET_ALL_PRODUCTS]);
             setIsShowModalAddProduct(false);
         },
         onError: (error) => {
@@ -138,12 +138,26 @@ function AdminProduct() {
         e.preventDefault();
 
         const formData = new FormData(e.target);
-        const data = {};
+        console.log(e.target)
+        // formData.append('Content-Type', 'multipart/form-data');
+        const req = {};
+        // let imageFile = null;
         formData.forEach((value, key) => {
-            Object.assign(data, { [key]: value });
+            // if (key === 'imageFile') {
+            //     imageFile = value;
+            // } else {
+            //     req[key] = value;
+            // }
+            if (key !== 'imageFile') {
+                req[key] = value;
+            }
         });
-        //  console.log(data);
-        createMutation.mutate(data);
+        const tmp = new FormData()
+        tmp.append('imageFile', formData.get('imageFile'));
+        tmp.append('req', JSON.stringify(req))
+
+        // createMutation.mutate({ req, imageFile });
+        createMutation.mutate(tmp);
     };
 
     const handleUpdateProductClick = (prod) => {
@@ -513,7 +527,7 @@ function AdminProduct() {
                     mauOptions={mauOptions}
                     dinhMucOptions={dinhMucOptions}
                     baoBiOptions={baoBiOptions}
-                    // onSubmit={handleRemoveProductDetail}
+                // onSubmit={handleRemoveProductDetail}
                 />
             </div>{' '}
             {/* <ToastContainer /> */}

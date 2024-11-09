@@ -13,7 +13,6 @@ function ModalAddProduct(props) {
             </option>
         ));
     };
-
     return (
         <Modal
             {...rest}
@@ -69,8 +68,9 @@ function ModalAddProduct(props) {
                         Hình ảnh
                         <input
                             required
-                            type="text"
-                            name="hinhAnh"
+                            type="file"
+                            accept=".png, .jpg, .jpeg"
+                            name="imageFile"
                             placeholder="Hình ảnh"
                         />
                     </label>
