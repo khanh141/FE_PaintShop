@@ -4,7 +4,6 @@ import styles from '../assets/css/ModalAddProduct.module.scss';
 
 function ModalAddProduct(props) {
     const { onSubmit, ...rest } = props;
-
     return (
         <Modal
             {...rest}
@@ -60,8 +59,9 @@ function ModalAddProduct(props) {
                         Hình ảnh
                         <input
                             required
-                            type="text"
-                            name="hinhAnh"
+                            type="file"
+                            accept=".png, .jpg, .jpeg"
+                            name="imageFile"
                             placeholder="Hình ảnh"
                         />
                     </label>
