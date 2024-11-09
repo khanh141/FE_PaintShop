@@ -3,7 +3,16 @@ import Modal from 'react-bootstrap/Modal';
 import styles from '../assets/css/ModalAddProduct.module.scss';
 
 function ModalAddProduct(props) {
-    const { onSubmit, ...rest } = props;
+    const { onSubmit, baoBiOptions, mauOptions, dinhMucOptions, ...rest } =
+        props;
+
+    const renderOptions = (options) => {
+        return options.map((option, index) => (
+            <option key={index} value={option}>
+                {option}
+            </option>
+        ));
+    };
 
     return (
         <Modal
@@ -76,30 +85,24 @@ function ModalAddProduct(props) {
                     </label>
                     <label>
                         Loại bao bì
-                        <input
-                            required
-                            type="text"
-                            name="loaiBaoBi"
-                            placeholder="Loại bao bì"
-                        />
+                        <select name="loaiBaoBi" required>
+                            <option value="">Chọn loại bao bì</option>
+                            {renderOptions(baoBiOptions)}
+                        </select>
                     </label>
                     <label>
                         Màu
-                        <input
-                            required
-                            type="text"
-                            name="mau"
-                            placeholder="Màu"
-                        />
+                        <select name="mau" required>
+                            <option value="">Chọn màu</option>
+                            {renderOptions(mauOptions)}
+                        </select>
                     </label>
                     <label>
                         Loại định mức lý thuyết
-                        <input
-                            required
-                            type="text"
-                            name="loaiDinhMucLyThuyet"
-                            placeholder="Loại định mức lý thuyết"
-                        />
+                        <select name="loaiDinhMucLyThuyet" required>
+                            <option value="">Chọn loại định mức</option>
+                            {renderOptions(dinhMucOptions)}
+                        </select>
                     </label>
                     <label>
                         Số thứ tự khu
@@ -128,15 +131,6 @@ function ModalAddProduct(props) {
                             placeholder="Số lượng"
                         />
                     </label>
-                    {/* <label>
-                        Mã nhân viên
-                        <input
-                            required
-                            type="text"
-                            name="maNhanVien"
-                            placeholder="Mã nhân viên"
-                        />
-                    </label> */}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={props.onHide} type="button">

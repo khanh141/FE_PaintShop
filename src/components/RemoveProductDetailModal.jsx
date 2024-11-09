@@ -32,55 +32,22 @@ const RemoveProductDetailModal = ({
             let response;
             if (loaiChiTiet === 'Bao bì') {
                 response = await deleteBaobi(loai);
-                if (response.status === 200) {
-                    toast.success('Xóa bao bì thành công', {
-                        position: 'top-right',
-                        autoClose: 3000,
-                    });
-                    onHide();
-                } else {
-                    toast.error('Xóa bao bì thất bại', {
-                        position: 'top-right',
-                        autoClose: 3000,
-                    });
-                }
             } else if (loaiChiTiet === 'Màu') {
                 response = await deleteMau(loai);
-                if (response.status === 200) {
-                    toast.success('Xóa màu thành công', {
-                        position: 'top-right',
-                        autoClose: 3000,
-                    });
-                    onHide();
-                } else {
-                    toast.error('Xóa màu thất bại', {
-                        position: 'top-right',
-                        autoClose: 3000,
-                    });
-                }
             } else {
                 response = await deleteDinhMucLyThuyet(loai);
-                if (response.status === 200) {
-                    toast.success('Xóa định mức lý thuyết thành công', {
-                        position: 'top-right',
-                        autoClose: 3000,
-                    });
-                    onHide();
-                } else {
-                    toast.error('Xóa định mức lý thuyết thất bại', {
-                        position: 'top-right',
-                        autoClose: 3000,
-                    });
-                }
+            }
+
+            if (response.status === 200) {
+                toast.success(`${loaiChiTiet} đã được xóa thành công`, {
+                    position: 'top-right',
+                    autoClose: 3000,
+                });
+                onHide(); // Đóng modal ngay sau khi thông báo thành công
             }
         } catch (error) {
             const errorMessage =
-                error.response &&
-                error.response.data &&
-                error.response.data.message
-                    ? error.response.data.message
-                    : loai + ' đang được sử dụng';
-
+                error.response?.data?.message || `${loai} đang được sử dụng`;
             toast.error(
                 `Lỗi khi xóa ${loaiChiTiet.toLowerCase()}: ${errorMessage}`,
                 {
@@ -168,7 +135,7 @@ const RemoveProductDetailModal = ({
                     Xác nhận xoá
                 </Button>
             </Modal.Footer>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </Modal>
     );
 };

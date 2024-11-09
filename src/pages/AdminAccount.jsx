@@ -5,12 +5,16 @@ import RegistrationModal from '~/components/RegistrationModal';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { KEYS } from '~/constants/keys';
 import { createAccountStaff, getAllAccount } from '~/services/account.service';
+import { useSelector } from 'react-redux';
 
 function AdminAccount() {
     const [isShowRegistrationModal, setIsShowRegistrationModal] =
         useState(false);
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [selectedProductDetails, setSelectedProductDetails] = useState(null);
+
+    const quyen = useSelector((state) => state.user.quyen);
+    console.log(quyen);
 
     const { data, isLoading } = useQuery({
         queryKey: [KEYS.GET_ALL_ACCOUNT],
@@ -67,12 +71,14 @@ function AdminAccount() {
                 Quản lý tài khoản
             </h1>
             <div>
-                <Button
-                    className="mt-4 rounded priColor"
-                    onClick={() => setIsShowRegistrationModal(true)}
-                >
-                    Thêm nhân viên
-                </Button>
+                {quyen !== 'nhanVien' && (
+                    <Button
+                        className="mt-4 rounded priColor"
+                        onClick={() => setIsShowRegistrationModal(true)}
+                    >
+                        Thêm nhân viên
+                    </Button>
+                )}
 
                 <div
                     style={{
@@ -280,16 +286,19 @@ function AdminAccount() {
                                                         padding: '8px',
                                                     }}
                                                 >
-                                                    <Button
-                                                        className="rounded me-2"
-                                                        variant="danger"
-                                                        style={{
-                                                            padding: '5px 10px',
-                                                            width: '150px',
-                                                        }}
-                                                    >
-                                                        Xóa tài khoản
-                                                    </Button>
+                                                    {quyen !== 'nhanVien' && (
+                                                        <Button
+                                                            className="rounded me-2"
+                                                            variant="danger"
+                                                            style={{
+                                                                padding:
+                                                                    '5px 10px',
+                                                                width: '150px',
+                                                            }}
+                                                        >
+                                                            Xóa tài khoản
+                                                        </Button>
+                                                    )}
                                                 </td>
                                             </tr>
                                         )
