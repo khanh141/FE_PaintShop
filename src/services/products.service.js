@@ -34,7 +34,12 @@ export const createProduct = async (formData) => {
     //         'Content-Type': 'multipart/form-data', // This is the correct content type
     //     },
     // });
-    return instance.postForm('/sanPham', formData);
+    //return instance.postForm('/sanPham', formData);
+    return instance.post('/sanPham', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
 };
 
 export const createPhieuXuat = async (data) => {
