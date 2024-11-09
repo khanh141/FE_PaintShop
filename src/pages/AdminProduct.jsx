@@ -98,7 +98,7 @@ function AdminProduct() {
 
     const createMauMutation = useMutation({
         mutationFn: (data) => addMau(data),
-        onSuccess: () => {
+        onSettled: () => {
             toast.success('Thêm màu thành công', {
                 position: 'top-right',
                 autoClose: 3000,
@@ -136,6 +136,7 @@ function AdminProduct() {
 
     const handleAddProduct = (e) => {
         e.preventDefault();
+
         const formData = new FormData(e.target);
         console.log(e.target)
         // formData.append('Content-Type', 'multipart/form-data');
@@ -151,7 +152,6 @@ function AdminProduct() {
                 req[key] = value;
             }
         });
-
         const tmp = new FormData()
         tmp.append('imageFile', formData.get('imageFile'));
         tmp.append('req', JSON.stringify(req))
@@ -188,8 +188,8 @@ function AdminProduct() {
             createDinhMucLyThuyetMutation.mutate(data);
         }
 
-        console.log(data);
-        console.log(productDetail);
+        // console.log(data);
+        // console.log(productDetail);
     };
 
     const handleSaveUpdatedProduct = (updatedProduct) => {
@@ -517,6 +517,9 @@ function AdminProduct() {
                     show={isShowModalAddProduct}
                     onHide={() => setIsShowModalAddProduct(false)}
                     onSubmit={handleAddProduct}
+                    mauOptions={mauOptions}
+                    dinhMucOptions={dinhMucOptions}
+                    baoBiOptions={baoBiOptions}
                 />
                 <RemoveProductDetailModal
                     show={isShowRemovePRoductDetailModal}
@@ -527,7 +530,7 @@ function AdminProduct() {
                 // onSubmit={handleRemoveProductDetail}
                 />
             </div>{' '}
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </Col>
     );
 }
