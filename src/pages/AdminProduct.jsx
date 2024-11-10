@@ -7,7 +7,7 @@ import { createProduct, getAllProducts, updateProduct } from '~/services'; // Im
 import UpdateProductModal from '~/components/UpdateProductModal';
 import ProductDetailModal from '~/components/ProductDetailModal ';
 import AddProductDetailModal from '~/components/AddProductDetailModal';
-import { ToastContainer } from 'react-toastify';
+//import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import {
     addBaobi,
@@ -37,10 +37,8 @@ function AdminProduct() {
         staleTime: 1000 * 60 * 5,
     });
     const createMutation = useMutation({
-        //mutationKey: [KEYS.GET_ALL_PRODUCTS],
-        // mutationFn: ({ req, imageFile }) => { createProduct(req, imageFile) },
         mutationFn: (formData) => {
-            createProduct(formData);
+            return createProduct(formData);
         },
         onSuccess: () => {
             toast.success('Thêm sản phẩm thành công', {
@@ -51,8 +49,11 @@ function AdminProduct() {
             setIsShowModalAddProduct(false);
         },
         onError: (error) => {
-            console.error(error);
-            toast.error('Thêm sản phẩm thất bại', {
+            console.error(error.response?.data);
+            // Kiểm tra và lấy thông báo lỗi từ phản hồi của backend
+            const errorMessage =
+                error.response?.data || 'Thêm sản phẩm thất bại';
+            toast.error(errorMessage, {
                 position: 'top-right',
                 autoClose: 3000,
             });
@@ -534,7 +535,7 @@ function AdminProduct() {
                     // onSubmit={handleRemoveProductDetail}
                 />
             </div>{' '}
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </Col>
     );
 }

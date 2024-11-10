@@ -23,18 +23,6 @@ export const getAllProducts = async () => {
 
 // export const createProduct = async (req, imageFile) => {
 export const createProduct = async (formData) => {
-    // const formData = new FormData();
-    // formData.append('req', JSON.stringify(req)); // Send the req object as a JSON string
-    // if (imageFile) {
-    //     formData.append('imageFile', imageFile); // Append the image file
-    // }
-
-    // return instance.post('/sanPham', formData, {
-    //     headers: {
-    //         'Content-Type': 'multipart/form-data', // This is the correct content type
-    //     },
-    // });
-    //return instance.postForm('/sanPham', formData);
     return instance.post('/sanPham', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',

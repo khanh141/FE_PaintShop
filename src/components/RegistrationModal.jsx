@@ -55,7 +55,7 @@ function RegistrationModal({ show, onHide, onSubmit }) {
             matKhau,
         };
         onSubmit(formData);
-        onHide(); // Close the modal after submission
+        // Close the modal after submission
     };
 
     return (

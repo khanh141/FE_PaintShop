@@ -48,7 +48,7 @@ function AdminImportForm() {
         },
         onError: (error) => {
             const errorMessage =
-                error.response?.data?.message || 'Thêm phiếu nhập thất bại';
+                error.response?.data || 'Thêm phiếu nhập thất bại';
             toast.error(errorMessage, {
                 position: 'top-right',
                 autoClose: 3000,

@@ -2,10 +2,11 @@ import { Button, Col, Modal, Table } from 'react-bootstrap';
 import OrderTables from '../components/Order';
 import { useState } from 'react';
 import RegistrationModal from '~/components/RegistrationModal';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { KEYS } from '~/constants/keys';
 import { createAccountStaff, getAllAccount } from '~/services/account.service';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function AdminAccount() {
     const [isShowRegistrationModal, setIsShowRegistrationModal] =
@@ -13,24 +14,50 @@ function AdminAccount() {
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [selectedProductDetails, setSelectedProductDetails] = useState(null);
 
+    const queryClient = useQueryClient();
+
     const quyen = useSelector((state) => state.user.quyen);
-    console.log(quyen);
+    // console.log(quyen);
 
     const { data, isLoading } = useQuery({
         queryKey: [KEYS.GET_ALL_ACCOUNT],
         queryFn: () => getAllAccount(),
-        staleTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60 * 5,
     });
-    console.log(data);
+    // console.log(data);
 
     const mutation = useMutation({
-        mutationKey: [KEYS.GET_ALL_ACCOUNT],
-        mutationFn: (data) => createAccountStaff(data),
+        // mutationKey: [KEYS.GET_ALL_ACCOUNT],
+        mutationFn: (data) => {
+            return createAccountStaff(data);
+        },
+
         onSuccess: () => {
+            toast.success('Thêm nhân viên thành công', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            queryClient.invalidateQueries([KEYS.GET_ALL_ACCOUNT]);
             setIsShowRegistrationModal(false);
         },
         onError: (error) => {
-            console.error(error);
+            const data = error.response?.data;
+            const msg = [];
+            if (typeof data === 'string') {
+                msg.push(data);
+            } else {
+                for (const [key, value] of Object.entries(data)) {
+                    msg.push(value);
+                }
+            }
+
+            // console.error(error);
+            // Lấy thông báo lỗi từ phản hồi của backend nếu có
+            const errorMessage = msg[0] || 'Tạo tài khoản thất bại';
+            toast.error(errorMessage, {
+                position: 'top-right',
+                autoClose: 3000,
+            });
         },
     });
 

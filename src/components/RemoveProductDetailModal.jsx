@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
     deleteBaobi,
@@ -47,7 +47,7 @@ const RemoveProductDetailModal = ({
             }
         } catch (error) {
             const errorMessage =
-                error.response?.data?.message || `${loai} đang được sử dụng`;
+                error.response?.data || `${loai} xóa không thành công!`;
             toast.error(
                 `Lỗi khi xóa ${loaiChiTiet.toLowerCase()}: ${errorMessage}`,
                 {
@@ -55,6 +55,7 @@ const RemoveProductDetailModal = ({
                     autoClose: 3000,
                 }
             );
+            onHide();
             console.error(
                 `Lỗi khi xóa ${loaiChiTiet.toLowerCase()}:`,
                 errorMessage
