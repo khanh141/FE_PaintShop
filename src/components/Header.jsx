@@ -136,14 +136,14 @@ export default function NavigationBar() {
                                     {quyen === 'nhanVien' ||
                                     quyen === 'quanTriVien' ? (
                                         <Nav.Item className="px-2">
-                                            <Link
+                                            <a
                                                 className="nav-link text-black fs-5"
-                                                to="/admin"
+                                                href="/admin"
                                             >
                                                 <span className="fs-6 fs-md-5">
                                                     Trang Quản Lý
                                                 </span>
-                                            </Link>
+                                            </a>
                                         </Nav.Item>
                                     ) : (
                                         <></>
