@@ -11,7 +11,7 @@ export default function Card({ id, image, name, type, giatien, soLuongDaBan }) {
         <Link to={`/productDetail/${id}`} className="text-dark">
           {/* <img src={image || "https://picsum.photos/200/200"} alt={name} /> */}
           <div className="imgContainer">
-            <img src={`../../public/images/products/${image}.png`} alt={name} />
+            <img src={`/images/products/${image}.png`} alt={name} />
           </div>
           <div className="card-body p-2">
             <span className="card-title h-30">{name}</span>
