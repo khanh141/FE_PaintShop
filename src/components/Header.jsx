@@ -33,6 +33,7 @@ export default function NavigationBar() {
             navigate('/');
         }
         dispatch(setSearchTerm(searchTerm));
+        setSearchTermInput('');
     };
 
     const handleLogout = async () => {
