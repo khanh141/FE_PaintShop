@@ -43,6 +43,13 @@ function Orders() {
         setDanhGia('');
     };
 
+    const translateTrangThai = (trangThai) => {
+        const translations = {
+            'Cho_Duyet': 'Chờ duyệt',
+        };
+        return translations[trangThai] || trangThai;
+    };
+
     const handleDanhGia = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -127,7 +134,7 @@ function Orders() {
                     <Row className="trangThaiDonHang mb-3 pe-0">
                         <Col className="d-flex justify-content-between">
                             <span>
-                                Trạng thái đơn hàng: {donHang.trangThai}
+                                Trạng thái đơn hàng: {translateTrangThai(donHang.trangThai)}
                             </span>
                             <span>
                                 Thời điểm mua:{' '}
@@ -240,11 +247,10 @@ function Orders() {
                         </Col>
                         <Col className="p-0">
                             <Button
-                                className={`btn ${
-                                    donHang?.danhGia && donHang?.soSao
-                                        ? 'sndColor'
-                                        : 'priColor'
-                                } btn-primary danhGiaBtn`}
+                                className={`btn ${donHang?.danhGia && donHang?.soSao
+                                    ? 'sndColor'
+                                    : 'priColor'
+                                    } btn-primary danhGiaBtn`}
                                 onClick={() => handleShowModal(donHang)}
                             >
                                 {donHang?.danhGia && donHang?.soSao
