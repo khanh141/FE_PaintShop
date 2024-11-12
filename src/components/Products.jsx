@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setButtonDisabled, setFilter } from '../redux/ProductReducer';
+import { setButtonDisabled, setFilter, setSearchTerm } from '../redux/ProductReducer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Row, Col, Button, Container, DropdownButton, Dropdown } from 'react-bootstrap';
 import Card from './Card';
@@ -65,7 +65,7 @@ const ProductsContainer = () => {
             return;
         }
         // todo: mo lai
-        // searchProducts();
+        searchProducts();
     }, [searchTerm]);
 
     useEffect(() => {

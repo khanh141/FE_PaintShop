@@ -101,7 +101,7 @@ export default function ShoppingCart() {
                 />
               </td>
               <td className='imageCol'>
-                <Image src={product.image} width={50} height={50} />
+                <Image src={`/images/products/${product.hinhAnh}.png`} width={50} height={50} />
               </td>
               <td className='tenCol'>
                 <div>
