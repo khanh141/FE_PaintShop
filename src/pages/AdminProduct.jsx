@@ -7,7 +7,6 @@ import { createProduct, getAllProducts, updateProduct } from '~/services'; // Im
 import UpdateProductModal from '~/components/UpdateProductModal';
 import ProductDetailModal from '~/components/ProductDetailModal ';
 import AddProductDetailModal from '~/components/AddProductDetailModal';
-//import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import {
     addBaobi,
@@ -532,10 +531,9 @@ function AdminProduct() {
                     mauOptions={mauOptions}
                     dinhMucOptions={dinhMucOptions}
                     baoBiOptions={baoBiOptions}
-                    // onSubmit={handleRemoveProductDetail}
+                // onSubmit={handleRemoveProductDetail}
                 />
             </div>{' '}
-            <ToastContainer />
         </Col>
     );
 }
