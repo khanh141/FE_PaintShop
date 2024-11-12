@@ -17,23 +17,23 @@ export default function PurchasePage() {
     const [hoTen, setHoTen] = useState('');
     const location = useLocation();
 
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        const status = params.get('status');
-        if (status === 'success') {
-            toast.success('Thanh toán thành công', {
-                position: 'top-right',
-                autoClose: 3000,
-            });
-        } else if (status === 'failed') {
-            toast.error('Thanh toán không thành công', {
-                position: 'top-right',
-                autoClose: 3000,
-            });
-        }
-        params.delete('status');
-        navigate({ search: params.toString() }, { replace: true });
-    }, [location.search, navigate]);
+    // useEffect(() => {
+    //     const params = new URLSearchParams(location.search);
+    //     const status = params.get('status');
+    //     if (status === 'success') {
+    //         toast.success('Thanh toán thành công', {
+    //             position: 'top-right',
+    //             autoClose: 3000,
+    //         });
+    //     } else if (status === 'failed') {
+    //         toast.error('Thanh toán không thành công', {
+    //             position: 'top-right',
+    //             autoClose: 3000,
+    //         });
+    //     }
+    //     params.delete('status');
+    //     navigate({ search: params.toString() }, { replace: true });
+    // }, [location.search, navigate]);
 
     const selectedProducts = products.filter((product) => product.isChecked);
     const calculateTotal = () => {
@@ -109,6 +109,7 @@ export default function PurchasePage() {
                 const amount = response.data;
                 const bankCode = 'NCB';
                 await handlePayByVNPay(amount, bankCode, token);
+
             } else if (selectedMethod === 'Tiền mặt') {
                 setShowInvoice(true);
                 toast.success('Đặt hàng thành công', {
@@ -176,6 +177,25 @@ export default function PurchasePage() {
         setShowInvoice(false);
         // navigate("/cart")
     };
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const status = params.get('status');
+        if (status === 'success') {
+            setShowInvoice(true); // Hiển thị hóa đơn
+            toast.success('Thanh toán thành công', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+        } else if (status === 'failed') {
+            toast.error('Thanh toán không thành công', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+        }
+        params.delete('status');
+        navigate({ search: params.toString() }, { replace: true });
+    }, [location.search, navigate]);
 
     return (
         <Container>
