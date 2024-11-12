@@ -1,15 +1,20 @@
 import React from 'react';
 import { Modal, Button, Table } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { setProfileActiveTab } from '~/redux/AppSlice';
 
 const InvoiceModal = ({ show, onHide, hoTen, diaChi, selectedProducts, total, onConfirm }) => {
+
+const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const handleCart = () =>{
     navigate('/cart');
   }
   const handleDonHang = () => {
     navigate('/profile');
-
+    dispatch(setProfileActiveTab(2));
   }
     return (
         <Modal show={show} onHide={onHide}>
