@@ -119,7 +119,7 @@ function AdminExportForm() {
                 className="mt-4 rounded priColor"
                 onClick={() => setIsShowModalAddProduct(true)}
             >
-                Tạo phiếu xuất
+                Xuất hàng
             </Button>
 
             <div

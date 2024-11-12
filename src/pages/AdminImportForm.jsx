@@ -107,7 +107,7 @@ function AdminImportForm() {
                     className="priColor"
                     onClick={() => setIsShowModalImportForm(true)}
                 >
-                    Nhập hàng đã có
+                    Nhập hàng
                 </Button>
 
                 <div
