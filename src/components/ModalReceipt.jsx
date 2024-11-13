@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useMemo}from 'react';
 import { Modal, Button, Table } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -14,8 +14,17 @@ const dispatch = useDispatch();
   }
   const handleDonHang = () => {
     navigate('/profile');
-    dispatch(setProfileActiveTab(2));
+    dispatch(setProfileActiveTab("2"));
   }
+
+  const calculateTotal = useMemo(() => {
+    return selectedProducts.reduce(
+        (total, product) =>
+            total + product.chiTietSanPham.giaTien * product.chiTietSanPham.soLuong,
+        0
+    );
+}, [selectedProducts])
+
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
@@ -58,7 +67,7 @@ const dispatch = useDispatch();
                     </tbody>
                 </Table>
                 <h4 className="text-end">
-                    Tổng cộng: {total.toLocaleString('vi-VN')} đ
+                    Tổng cộng: {calculateTotal.toLocaleString('vi-VN')} đ
                 </h4>
             </Modal.Body>
             <Modal.Footer>
