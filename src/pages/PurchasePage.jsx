@@ -12,37 +12,23 @@ export default function PurchasePage() {
     const [showOptions, setShowOptions] = useState(false);
     const [selectedMethod, setSelectedMethod] = useState('');
     const [showInvoice, setShowInvoice] = useState(false);
+    const [savedProducts, setSavedProducts] = useState([]);
     const navigate = useNavigate();
     const [diaChi, setDiaChi] = useState('');
     const [hoTen, setHoTen] = useState('');
     const location = useLocation();
 
-    // useEffect(() => {
-    //     const params = new URLSearchParams(location.search);
-    //     const status = params.get('status');
-    //     if (status === 'success') {
-    //         toast.success('Thanh toán thành công', {
-    //             position: 'top-right',
-    //             autoClose: 3000,
-    //         });
-    //     } else if (status === 'failed') {
-    //         toast.error('Thanh toán không thành công', {
-    //             position: 'top-right',
-    //             autoClose: 3000,
-    //         });
-    //     }
-    //     params.delete('status');
-    //     navigate({ search: params.toString() }, { replace: true });
-    // }, [location.search, navigate]);
-
+   
     const selectedProducts = products.filter((product) => product.isChecked);
     const calculateTotal = () => {
-        return selectedProducts.reduce(
+        const total = selectedProducts.reduce(
             (total, product) =>
                 total +
                 product.chiTietSanPham.giaTien * product.chiTietSanPham.soLuong,
             0
         );
+        localStorage.setItem('total', total);
+        return total;
     };
 
     const handleSelectMethod = (method) => {
@@ -72,6 +58,10 @@ export default function PurchasePage() {
             return acc;
         }, {});
 
+        setSavedProducts(selectedProducts);
+        localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+        
+        
         const phuongThucThanhToanDto = {
             loai:
                 selectedMethod === 'Chuyển khoản'
@@ -179,6 +169,11 @@ export default function PurchasePage() {
     };
 
     useEffect(() => {
+        const savedProductsData = localStorage.getItem('selectedProducts');
+        if (savedProductsData) {
+            setSavedProducts(JSON.parse(savedProductsData)); // Lấy dữ liệu từ localStorage
+        }
+
         const params = new URLSearchParams(location.search);
         const status = params.get('status');
         if (status === 'success') {
@@ -283,17 +278,17 @@ export default function PurchasePage() {
             >
                 Xác nhận mua hàng
             </Button>
-            {/* <ToastContainer /> */}
 
             <InvoiceModal // Use the InvoiceModal component
                 show={showInvoice}
                 onHide={() => setShowInvoice(false)}
                 hoTen={hoTen}
                 diaChi={diaChi}
-                selectedProducts={selectedProducts}
-                total={calculateTotal()}
+                selectedProducts={savedProducts.length > 0 ? savedProducts : selectedProducts}
+                total={localStorage.getItem('total')}
                 onConfirm={handleInvoiceConfirm}
             />
+            {/* <ToastContainer /> */}
         </Container>
     );
 }
