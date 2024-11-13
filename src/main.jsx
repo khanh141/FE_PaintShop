@@ -11,9 +11,8 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-            <ReactQueryDevtools initialIsOpen={false} />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
             <App />
         </QueryClientProvider>
-
     </Provider>
 );

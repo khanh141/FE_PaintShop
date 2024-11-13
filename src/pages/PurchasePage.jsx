@@ -109,7 +109,6 @@ export default function PurchasePage() {
                 const amount = response.data;
                 const bankCode = 'NCB';
                 await handlePayByVNPay(amount, bankCode, token);
-
             } else if (selectedMethod === 'Tiền mặt') {
                 setShowInvoice(true);
                 toast.success('Đặt hàng thành công', {
@@ -118,10 +117,11 @@ export default function PurchasePage() {
                 });
             }
         } catch (error) {
-            console.error('Error:', error);
-            toast.error('Đã xảy ra lỗi khi đặt hàng vui lòng thử lại', {
+            const errorMessage =
+                error.response?.data || 'Thêm sản phẩm thất bại';
+            toast.error(errorMessage, {
                 position: 'top-right',
-                autoClose: 2000,
+                autoClose: 3000,
             });
         }
     };

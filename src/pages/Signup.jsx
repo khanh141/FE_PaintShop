@@ -15,6 +15,7 @@ import { singup } from '~/services';
 import { useDispatch } from 'react-redux';
 import { setLoading, setSuccess } from '~/redux/AppSlice';
 import Loading from '~/components/Loading';
+import { toast } from 'react-toastify';
 
 export default function Signup() {
     const [tenDangNhap, setUsername] = useState('');
@@ -33,7 +34,7 @@ export default function Signup() {
 
     const handleSignup = async () => {
         try {
-            dispatch(setLoading(true))
+            dispatch(setLoading(true));
             await singup({
                 tenDangNhap,
                 matKhau,
@@ -42,24 +43,29 @@ export default function Signup() {
                 diaChi,
                 email,
             });
-            dispatch(setSuccess(true))
+            dispatch(setSuccess(true));
+            toast.success('Đăng ký thành công!', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
             navigate('/Login');
         } catch (error) {
-            dispatch(setLoading(false))
+            dispatch(setLoading(false));
             if (error.response && error.response.data) {
                 const errorList = Object.entries(error.response.data).reduce(
                     (acc, [key, message]) => ({ ...acc, [key]: message }),
                     {}
                 );
 
-                if (error.response.data === 'So dien thoai da duoc su dung') {
+                if (error.response.data === 'Số điện thoại đã được sử dụng') {
                     errorList.sdt = 'Số điện thoại đã được sử dụng.';
                 } else if (
-                    error.response.data === 'Ten nguoi dung da ton tai'
+                    error.response.data === 'Tên người dùng đã tồn tại'
                 ) {
                     errorList.tenDangNhap = 'Tên người dùng đã tồn tại.';
+                } else if (error.response.data === 'Email đã được sử dụng') {
+                    errorList.email = 'Email đã được sử dụng';
                 }
-
                 setErrors(errorList);
             } else {
                 console.error('An unknown error occurred:', error);
@@ -83,8 +89,9 @@ export default function Signup() {
             'Password must contain 1 or more special characters.':
                 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt.',
             'Email khong dung dinh dang': 'Email không đúng định dạng',
-            'So dien thoai da duoc su dung': 'Số điện thoại đã được sử dụng.',
-            'Ten nguoi dung da ton tai': 'Tên đăng nhập đã tồn tại.'
+            'Số điện thoại đã được sử dụng': 'Số điện thoại đã được sử dụng.',
+            'Tên người dùng đã tồn tại': 'Tên đăng nhập đã tồn tại.',
+            'Email đã được sử dụng': 'Email đã được sử dụng',
         };
         return error.split('-').map((msg) => translations[msg.trim()]);
     };
@@ -93,7 +100,7 @@ export default function Signup() {
     }, []);
 
     return (
-        <Container fluid className="signUpForm" id='loading-container'>
+        <Container fluid className="signUpForm" id="loading-container">
             <Loading />
             <Row className="mt-2 d-flex align-items-center justify-content-center">
                 <Col md={6}>
@@ -121,7 +128,13 @@ export default function Signup() {
                         </FloatingLabel>
                         {errors.tenDangNhap && (
                             <Alert className="mt-1" variant="danger">
-                                Tên đăng nhập phải có ít nhất 3 ký tự
+                                {errors.tenDangNhap ===
+                                'Ten dang nhap phai co IT NHAT 3 ky tu'
+                                    ? 'Tên đăng nhập phải có ít nhất 3 ký tự'
+                                    : errors.tenDangNhap ===
+                                      'Ten dang nhap khong duoc bo trong'
+                                    ? 'Tên đăng nhập không được bỏ trống'
+                                    : errors.tenDangNhap}
                             </Alert>
                         )}
                         <div className="password position-relative mt-4">
@@ -229,15 +242,14 @@ export default function Signup() {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </FloatingLabel>
-                        {errors.diaChi && (
+                        {errors.email && (
                             <Alert className="mt-1" variant="danger">
-                                {errors.sdt.includes('dang') &&
+                                {errors.email.includes('dang') &&
                                     'Email phải có định dạng `ten@gmail.com`'}
-                                {errors.sdt.includes('trong') &&
+                                {errors.email.includes('trong') &&
                                     'Email không được để trống'}
-                                {!errors.sdt.includes('10') &&
-                                    !errors.sdt.includes('trong') &&
-                                    errors.sdt}
+                                {errors.email.includes('dụng') &&
+                                    'Email đã được sử dụng'}
                             </Alert>
                         )}
                         <FloatingLabel label="Địa chỉ" className="mt-4">
@@ -265,7 +277,7 @@ export default function Signup() {
                             </Button>
 
                             <Button
-                                className='addtionalBtn'
+                                className="addtionalBtn"
                                 style={{ flex: 3 }}
                                 onClick={() => navigate('/Login')}
                             >
