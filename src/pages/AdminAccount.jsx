@@ -1,10 +1,13 @@
 import { Button, Col, Modal, Table } from 'react-bootstrap';
-import OrderTables from '../components/Order';
 import { useState } from 'react';
 import RegistrationModal from '~/components/RegistrationModal';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { KEYS } from '~/constants/keys';
-import { createAccountStaff, getAllAccount } from '~/services/account.service';
+import {
+    createAccountStaff,
+    deleteAccountStaff,
+    getAllAccount,
+} from '~/services/account.service';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -61,6 +64,20 @@ function AdminAccount() {
         },
     });
 
+    const mutationDelete = useMutation({
+        mutationFn: (tenDangNhap) => {
+            return deleteAccountStaff(tenDangNhap);
+        },
+        onSuccess: () => {
+            toast.success('Xóa tài khoản thành công', {
+                position: 'top-right',
+                autoClose: 3000,
+            });
+            queryClient.invalidateQueries([KEYS.GET_ALL_ACCOUNT]);
+            setIsShowRegistrationModal(false);
+        },
+    });
+
     const handleFormSubmit = (formdata) => {
         mutation.mutate(formdata);
     };
@@ -70,6 +87,14 @@ function AdminAccount() {
 
         setSelectedProductDetails(prod);
         setShowDetailModal(true);
+    };
+    const handleShowDeleteAccount = (prod) => {
+        const isConfirmed = window.confirm(
+            'Bạn có chắc chắn muốn xóa tài khoản này không?'
+        );
+        if (isConfirmed) {
+            mutationDelete.mutate(prod.tenDangNhap);
+        }
     };
 
     const handleCloseDetailModal = () => {
@@ -322,6 +347,11 @@ function AdminAccount() {
                                                                     '5px 10px',
                                                                 width: '150px',
                                                             }}
+                                                            onClick={() =>
+                                                                handleShowDeleteAccount(
+                                                                    prod
+                                                                )
+                                                            }
                                                         >
                                                             Xóa tài khoản
                                                         </Button>

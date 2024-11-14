@@ -11,3 +11,7 @@ export const createAccountStaff = async (data) => {
 export const Logout = async (token) => {
     return instance.post('/taiKhoan/dangXuat', { token });
 };
+
+export const deleteAccountStaff = async (tenDangNhap) => {
+    return instance.delete(`/taiKhoan/${tenDangNhap}`);
+};
