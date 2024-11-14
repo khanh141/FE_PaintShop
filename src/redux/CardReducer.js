@@ -107,6 +107,8 @@ const cardSlice = createSlice({
             }
         },
         removeProduct: (state, action) => {
+            console.log('Removing product with details:', action.payload);
+            console.log('Current cart state before removal:', state.products);
             state.products = state.products.filter(
                 (p) =>
                     !(
@@ -228,8 +230,10 @@ export const removeProductFromCart =
                 },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
+
             if (response.data === 'Xoa thanh cong ma san pham') {
-                dispatch(removeProduct(product)); // Directly remove the product
+                console.log('Removing product from cart in Redux:', product);
+                dispatch(removeProduct(product)); // Ensure full product object is passed here
             }
         } catch (error) {
             console.error('Error removing product from cart:', error);
