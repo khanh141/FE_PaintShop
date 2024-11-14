@@ -219,8 +219,18 @@ export const removeProductFromCart =
     (product, tenDangNhap) => async (dispatch) => {
         const token = localStorage.getItem('token');
         try {
-            dispatch(setProductQuantity({ product, soLuong: 1 }));
-            dispatch(decreaseProductQuantity(product, tenDangNhap));
+            const response = await axios.post(
+                'http://localhost:8080/gioHang/xoaSanPham',
+                {
+                    ...product.chiTietSanPham,
+                    maSanPham: product.maSanPham,
+                    tenDangNhap,
+                },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            if (response.data === 'Xoa thanh cong ma san pham') {
+                dispatch(removeProduct(product)); // Directly remove the product
+            }
         } catch (error) {
             console.error('Error removing product from cart:', error);
         }

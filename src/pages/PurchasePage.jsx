@@ -18,7 +18,7 @@ export default function PurchasePage() {
     const [hoTen, setHoTen] = useState('');
     const location = useLocation();
 
-   
+
     const selectedProducts = products.filter((product) => product.isChecked);
     const calculateTotal = () => {
         const total = selectedProducts.reduce(
@@ -60,8 +60,8 @@ export default function PurchasePage() {
 
         setSavedProducts(selectedProducts);
         localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
-        
-        
+
+
         const phuongThucThanhToanDto = {
             loai:
                 selectedMethod === 'Chuyển khoản'
@@ -207,7 +207,7 @@ export default function PurchasePage() {
                 <tbody>
                     {selectedProducts.length > 0 ? (
                         selectedProducts.map((product) => (
-                            <tr key={product.id}>
+                            <tr key={`${product.id}-sanPham`}>
                                 <td>{product.ten}</td>
                                 <td>
                                     {product.chiTietSanPham.giaTien.toLocaleString(

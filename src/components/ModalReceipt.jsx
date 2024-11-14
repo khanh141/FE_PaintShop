@@ -1,4 +1,4 @@
-import React ,{useMemo}from 'react';
+import React, { useMemo } from 'react';
 import { Modal, Button, Table } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -6,24 +6,24 @@ import { setProfileActiveTab } from '~/redux/AppSlice';
 
 const InvoiceModal = ({ show, onHide, hoTen, diaChi, selectedProducts, total, onConfirm }) => {
 
-const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-  const handleCart = () =>{
-    navigate('/cart');
-  }
-  const handleDonHang = () => {
-    navigate('/profile');
-    dispatch(setProfileActiveTab("2"));
-  }
+    const navigate = useNavigate();
+    const handleCart = () => {
+        navigate('/cart');
+    }
+    const handleDonHang = () => {
+        navigate('/profile');
+        dispatch(setProfileActiveTab("2"));
+    }
 
-  const calculateTotal = useMemo(() => {
-    return selectedProducts.reduce(
-        (total, product) =>
-            total + product.chiTietSanPham.giaTien * product.chiTietSanPham.soLuong,
-        0
-    );
-}, [selectedProducts])
+    const calculateTotal = useMemo(() => {
+        return selectedProducts.reduce(
+            (total, product) =>
+                total + product.chiTietSanPham.giaTien * product.chiTietSanPham.soLuong,
+            0
+        );
+    }, [selectedProducts])
 
     return (
         <Modal show={show} onHide={onHide}>
@@ -52,7 +52,7 @@ const dispatch = useDispatch();
                     </thead>
                     <tbody>
                         {selectedProducts.map((product) => (
-                            <tr key={product.id} className="text-center">
+                            <tr key={`${product.id}-sanPhamTrongDonHang`} className="text-center">
                                 <td>{product.ten}</td>
                                 <td style={{ whiteSpace: 'nowrap' }}>
                                     {product.chiTietSanPham.giaTien.toLocaleString('vi-VN')} đ
