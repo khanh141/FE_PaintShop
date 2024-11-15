@@ -125,7 +125,7 @@ function AdminAccount() {
             <div>
                 {quyen !== 'nhanVien' && (
                     <Button
-                        className="mt-4 rounded priColor"
+                        className="rounded priColor"
                         onClick={() => setIsShowRegistrationModal(true)}
                     >
                         Thêm nhân viên
@@ -133,8 +133,9 @@ function AdminAccount() {
                 )}
 
                 <div
+                    className="mt-4 "
                     style={{
-                        maxHeight: '80vh',
+                        maxHeight: '70vh',
                         overflowY: 'auto',
                         width: '100%',
                     }}
@@ -142,8 +143,8 @@ function AdminAccount() {
                     <Table
                         style={{
                             width: '100%',
-                            borderCollapse: 'collapse', // Đảm bảo các viền không bị trùng nhau
-                            marginTop: '20px',
+                            borderCollapse: 'collapse', // Xóa khoảng cách giữa các ô
+                            border: '1px solid #ddd', // Thêm đường viền xung quanh toàn bộ bảng
                         }}
                     >
                         <thead>
