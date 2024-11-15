@@ -101,207 +101,250 @@ function AdminOrder() {
                 </Col>
             </Form.Group>
 
-            <Table
+            <div
+                className="mt-4 "
                 style={{
+                    maxHeight: '70vh',
+                    overflowY: 'auto',
                     width: '100%',
-                    borderCollapse: 'collapse',
                 }}
             >
-                <thead>
-                    <tr>
-                        <th
-                            style={{
-                                padding: '12px 15px',
-                                textAlign: 'left',
-                                border: '1px solid #ddd',
-                                backgroundColor: '#f4f4f4',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            STT
-                        </th>
-                        <th
-                            style={{
-                                padding: '12px 15px',
-                                textAlign: 'left',
-                                border: '1px solid #ddd',
-                                backgroundColor: '#f4f4f4',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            Mã đơn hàng
-                        </th>
-                        <th
-                            style={{
-                                padding: '12px 15px',
-                                textAlign: 'left',
-                                border: '1px solid #ddd',
-                                backgroundColor: '#f4f4f4',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            Thời điểm
-                        </th>
-                        <th
-                            style={{
-                                padding: '12px 15px',
-                                textAlign: 'left',
-                                border: '1px solid #ddd',
-                                backgroundColor: '#f4f4f4',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            Trạng thái
-                        </th>
-                        <th
-                            style={{
-                                padding: '12px 15px',
-                                textAlign: 'left',
-                                border: '1px solid #ddd',
-                                backgroundColor: '#f4f4f4',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            Tổng tiền
-                        </th>
-                        <th
-                            style={{
-                                padding: '12px 15px',
-                                textAlign: 'left',
-                                border: '1px solid #ddd',
-                                backgroundColor: '#f4f4f4',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            Số sao
-                        </th>
-                        <th
-                            style={{
-                                padding: '12px 15px',
-                                textAlign: 'left',
-                                border: '1px solid #ddd',
-                                backgroundColor: '#f4f4f4',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            Đánh giá
-                        </th>
-                        <th
-                            style={{
-                                padding: '12px 15px',
-                                textAlign: 'left',
-                                border: '1px solid #ddd',
-                                backgroundColor: '#f4f4f4',
-                                fontWeight: 'bold',
-                            }}
-                        ></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {!isLoading &&
-                        filteredData?.map((prod, index) => (
-                            <tr
-                                key={index}
+                <Table
+                    style={{
+                        width: '100%',
+                        borderCollapse: 'collapse',
+                    }}
+                >
+                    <thead>
+                        <tr>
+                            <th
                                 style={{
-                                    backgroundColor:
-                                        index % 2 === 0 ? '#f9f9f9' : '#fff',
+                                    position: 'sticky',
+                                    top: 0,
+                                    backgroundColor: '#f0f0f0',
+                                    border: '1px solid #ddd',
+                                    padding: '10px 8px',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center',
+
+                                    borderRight: '2px solid #ddd', // Đường gạch giữa cột
                                 }}
                             >
-                                <td
+                                STT
+                            </th>
+                            <th
+                                style={{
+                                    position: 'sticky',
+                                    top: 0,
+                                    backgroundColor: '#f0f0f0',
+                                    border: '1px solid #ddd',
+                                    padding: '10px 8px',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center',
+
+                                    borderRight: '2px solid #ddd', // Đường gạch giữa cột
+                                }}
+                            >
+                                Mã đơn hàng
+                            </th>
+                            <th
+                                style={{
+                                    position: 'sticky',
+                                    top: 0,
+                                    backgroundColor: '#f0f0f0',
+                                    border: '1px solid #ddd',
+                                    padding: '10px 8px',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center',
+
+                                    borderRight: '2px solid #ddd', // Đường gạch giữa cột
+                                }}
+                            >
+                                Thời điểm
+                            </th>
+                            <th
+                                style={{
+                                    position: 'sticky',
+                                    top: 0,
+                                    backgroundColor: '#f0f0f0',
+                                    border: '1px solid #ddd',
+                                    padding: '10px 8px',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center',
+
+                                    borderRight: '2px solid #ddd', // Đường gạch giữa cột
+                                }}
+                            >
+                                Trạng thái
+                            </th>
+                            <th
+                                style={{
+                                    position: 'sticky',
+                                    top: 0,
+                                    backgroundColor: '#f0f0f0',
+                                    border: '1px solid #ddd',
+                                    padding: '10px 8px',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center',
+
+                                    borderRight: '2px solid #ddd', // Đường gạch giữa cột
+                                }}
+                            >
+                                Tổng tiền
+                            </th>
+                            <th
+                                style={{
+                                    position: 'sticky',
+                                    top: 0,
+                                    backgroundColor: '#f0f0f0',
+                                    border: '1px solid #ddd',
+                                    padding: '10px 8px',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center',
+
+                                    borderRight: '2px solid #ddd', // Đường gạch giữa cột
+                                }}
+                            >
+                                Số sao
+                            </th>
+                            <th
+                                style={{
+                                    position: 'sticky',
+                                    top: 0,
+                                    backgroundColor: '#f0f0f0',
+                                    border: '1px solid #ddd',
+                                    padding: '10px 8px',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center',
+
+                                    borderRight: '2px solid #ddd', // Đường gạch giữa cột
+                                }}
+                            >
+                                Đánh giá
+                            </th>
+                            <th
+                                style={{
+                                    position: 'sticky',
+                                    top: 0,
+                                    backgroundColor: '#f0f0f0',
+                                    border: '1px solid #ddd',
+                                    padding: '10px 8px',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center',
+
+                                    borderRight: '2px solid #ddd', // Đường gạch giữa cột
+                                }}
+                            ></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {!isLoading &&
+                            filteredData?.map((prod, index) => (
+                                <tr
+                                    key={index}
                                     style={{
-                                        padding: '12px 15px',
-                                        textAlign: 'left',
-                                        border: '1px solid #ddd',
+                                        backgroundColor:
+                                            index % 2 === 0
+                                                ? '#f9f9f9'
+                                                : '#fff',
                                     }}
                                 >
-                                    {index + 1}
-                                </td>
-                                <td
-                                    style={{
-                                        padding: '12px 15px',
-                                        textAlign: 'left',
-                                        border: '1px solid #ddd',
-                                    }}
-                                >
-                                    {prod.maDonHang}
-                                </td>
-                                <td
-                                    style={{
-                                        padding: '12px 15px',
-                                        textAlign: 'left',
-                                        border: '1px solid #ddd',
-                                    }}
-                                >
-                                    {formatDate(prod.thoiDiem)}
-                                </td>
-                                <td
-                                    style={{
-                                        padding: '12px 15px',
-                                        textAlign: 'left',
-                                        border: '1px solid #ddd',
-                                    }}
-                                >
-                                    {prod.trangThai === 'Cho_Duyet'
-                                        ? 'Chờ Duyệt'
-                                        : prod.trangThai}
-                                </td>
-                                <td
-                                    style={{
-                                        padding: '12px 15px',
-                                        textAlign: 'left',
-                                        border: '1px solid #ddd',
-                                    }}
-                                >
-                                    {prod.tongTien.toLocaleString()} VND
-                                </td>
-                                <td
-                                    style={{
-                                        padding: '12px 15px',
-                                        textAlign: 'left',
-                                        border: '1px solid #ddd',
-                                    }}
-                                >
-                                    {prod.soSao}
-                                </td>
-                                <td
-                                    style={{
-                                        padding: '12px 15px',
-                                        textAlign: 'left',
-                                        border: '1px solid #ddd',
-                                    }}
-                                >
-                                    {prod.danhGia}
-                                </td>
-                                <td>
-                                    <Button
-                                        className="rounded me-2"
-                                        variant="info"
-                                        onClick={() => approveOrder(prod)}
-                                        disabled={
-                                            prod.trangThai ===
-                                                'Đang Giao Hàng' ||
-                                            prod.trangThai === 'Hủy'
-                                        }
+                                    <td
+                                        style={{
+                                            padding: '12px 15px',
+                                            textAlign: 'left',
+                                            border: '1px solid #ddd',
+                                        }}
                                     >
-                                        Duyệt đơn
-                                    </Button>
-                                    <Button
-                                        className="rounded"
-                                        variant="danger"
-                                        onClick={() => cancelOrder(prod)}
-                                        disabled={
-                                            prod.trangThai ===
-                                                'Đang Giao Hàng' ||
-                                            prod.trangThai === 'Hủy'
-                                        }
+                                        {index + 1}
+                                    </td>
+                                    <td
+                                        style={{
+                                            padding: '12px 15px',
+                                            textAlign: 'left',
+                                            border: '1px solid #ddd',
+                                        }}
                                     >
-                                        Hủy
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
-                </tbody>
-            </Table>
+                                        {prod.maDonHang}
+                                    </td>
+                                    <td
+                                        style={{
+                                            padding: '12px 15px',
+                                            textAlign: 'left',
+                                            border: '1px solid #ddd',
+                                        }}
+                                    >
+                                        {formatDate(prod.thoiDiem)}
+                                    </td>
+                                    <td
+                                        style={{
+                                            padding: '12px 15px',
+                                            textAlign: 'left',
+                                            border: '1px solid #ddd',
+                                        }}
+                                    >
+                                        {prod.trangThai === 'Cho_Duyet'
+                                            ? 'Chờ Duyệt'
+                                            : prod.trangThai}
+                                    </td>
+                                    <td
+                                        style={{
+                                            padding: '12px 15px',
+                                            textAlign: 'left',
+                                            border: '1px solid #ddd',
+                                        }}
+                                    >
+                                        {prod.tongTien.toLocaleString()} VND
+                                    </td>
+                                    <td
+                                        style={{
+                                            padding: '12px 15px',
+                                            textAlign: 'left',
+                                            border: '1px solid #ddd',
+                                        }}
+                                    >
+                                        {prod.soSao}
+                                    </td>
+                                    <td
+                                        style={{
+                                            padding: '12px 15px',
+                                            textAlign: 'left',
+                                            border: '1px solid #ddd',
+                                        }}
+                                    >
+                                        {prod.danhGia}
+                                    </td>
+                                    <td>
+                                        <Button
+                                            className="rounded me-2"
+                                            variant="info"
+                                            onClick={() => approveOrder(prod)}
+                                            disabled={
+                                                prod.trangThai ===
+                                                    'Đang Giao Hàng' ||
+                                                prod.trangThai === 'Hủy'
+                                            }
+                                        >
+                                            Duyệt đơn
+                                        </Button>
+                                        <Button
+                                            className="rounded"
+                                            variant="danger"
+                                            onClick={() => cancelOrder(prod)}
+                                            disabled={
+                                                prod.trangThai ===
+                                                    'Đang Giao Hàng' ||
+                                                prod.trangThai === 'Hủy'
+                                            }
+                                        >
+                                            Hủy
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                    </tbody>
+                </Table>
+            </div>
         </Col>
     );
 }
