@@ -19,6 +19,8 @@ export default function ShoppingCart() {
   const { products, selectAll } = useSelector((state) => state.cart);
   const tenDangNhap = useSelector((state) => state.user.tenDangNhap);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
 
   const navigate = useNavigate();
 
@@ -59,15 +61,24 @@ export default function ShoppingCart() {
     }));
   };
 
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = () => setModalOpen(true);
-  const handleCloseModal = () => setModalOpen(false);
-
-  const handleConfirmRemove = (product) => {
-    dispatch(removeProductFromCart(product, tenDangNhap));
-    setModalOpen(false);
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
   };
+
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleConfirmRemove = () => {
+    if (selectedProduct) {
+      console.log("Product to remove:", selectedProduct);  // Confirm selected product
+      dispatch(removeProductFromCart(selectedProduct, tenDangNhap));
+      setIsModalOpen(false);
+      setSelectedProduct(null);  // Reset selectedProduct after removal
+    }
+  };
+
 
   return (
     <Container className='mt-4 cartContainer'>
@@ -146,7 +157,7 @@ export default function ShoppingCart() {
                   className="xoaSanPham"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleOpenModal();
+                    handleOpenModal(product);
                   }}
                 >
                   Xóa
